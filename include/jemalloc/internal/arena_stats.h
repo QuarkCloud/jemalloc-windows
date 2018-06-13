@@ -95,7 +95,7 @@ struct arena_stats_s {
 };
 
 static inline bool
-arena_stats_init(UNUSED tsdn_t *tsdn, arena_stats_t *arena_stats) {
+arena_stats_init(tsdn_t *tsdn, arena_stats_t *arena_stats) {
 	if (config_debug) {
 		for (size_t i = 0; i < sizeof(arena_stats_t); i++) {
 			assert(((char *)arena_stats)[i] == 0);
@@ -147,11 +147,11 @@ arena_stats_add_u64(tsdn_t *tsdn, arena_stats_t *arena_stats,
 #endif
 }
 
-UNUSED static inline void
+static inline void
 arena_stats_sub_u64(tsdn_t *tsdn, arena_stats_t *arena_stats,
     arena_stats_u64_t *p, uint64_t x) {
 #ifdef JEMALLOC_ATOMIC_U64
-	UNUSED uint64_t r = atomic_fetch_sub_u64(p, x, ATOMIC_RELAXED);
+	uint64_t r = atomic_fetch_sub_u64(p, x, ATOMIC_RELAXED);
 	assert(r - x <= r);
 #else
 	malloc_mutex_assert_owner(tsdn, &arena_stats->mtx);
@@ -201,7 +201,7 @@ static inline void
 arena_stats_sub_zu(tsdn_t *tsdn, arena_stats_t *arena_stats, atomic_zu_t *p,
     size_t x) {
 #ifdef JEMALLOC_ATOMIC_U64
-	UNUSED size_t r = atomic_fetch_sub_zu(p, x, ATOMIC_RELAXED);
+	size_t r = atomic_fetch_sub_zu(p, x, ATOMIC_RELAXED);
 	assert(r - x <= r);
 #else
 	malloc_mutex_assert_owner(tsdn, &arena_stats->mtx);

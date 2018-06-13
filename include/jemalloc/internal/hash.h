@@ -119,7 +119,7 @@ hash_x86_32(const void *key, int len, uint32_t seed) {
 	return h1;
 }
 
-UNUSED static inline void
+static inline void
 hash_x86_128(const void *key, const int len, uint32_t seed,
     uint64_t r_out[2]) {
 	const uint8_t * data = (const uint8_t *) key;
@@ -220,7 +220,7 @@ hash_x86_128(const void *key, const int len, uint32_t seed,
 	r_out[1] = (((uint64_t) h4) << 32) | h3;
 }
 
-UNUSED static inline void
+static inline void
 hash_x64_128(const void *key, const int len, const uint32_t seed,
     uint64_t r_out[2]) {
 	const uint8_t *data = (const uint8_t *) key;

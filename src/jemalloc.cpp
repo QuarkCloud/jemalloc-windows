@@ -23,11 +23,7 @@
 /* Data. */
 
 /* Runtime configuration options. */
-const char	*je_malloc_conf
-#ifndef _WIN32
-    JEMALLOC_ATTR(weak)
-#endif
-    ;
+const char	*je_malloc_conf ;
 bool	opt_abort =
 #ifdef JEMALLOC_DEBUG
     true
@@ -131,7 +127,6 @@ static malloc_mutex_t	init_lock = SRWLOCK_INIT;
 static malloc_mutex_t	init_lock;
 static bool init_lock_initialized = false;
 
-JEMALLOC_ATTR(constructor)
 static void __stdcall
 _init_init_lock(void) {
 	/*
@@ -2034,7 +2029,6 @@ je_malloc(size_t size) {
 }
 
 JEMALLOC_EXPORT int 
-JEMALLOC_ATTR(nonnull(1))
 je_posix_memalign(void **memptr, size_t alignment, size_t size) {
 	int ret;
 	static_opts_t sopts;
@@ -2072,10 +2066,8 @@ je_posix_memalign(void **memptr, size_t alignment, size_t size) {
 	return ret;
 }
 
-JEMALLOC_EXPORT  
-void *
-JEMALLOC_ATTR(malloc) JEMALLOC_ALLOC_SIZE(2)
-je_aligned_alloc(size_t alignment, size_t size) {
+JEMALLOC_EXPORT  void * je_aligned_alloc(size_t alignment, size_t size) 
+{
 	void *ret;
 
 	static_opts_t sopts;
@@ -2113,10 +2105,8 @@ je_aligned_alloc(size_t alignment, size_t size) {
 	return ret;
 }
 
-JEMALLOC_EXPORT  
-void *
-JEMALLOC_ATTR(malloc) JEMALLOC_ALLOC_SIZE2(1, 2)
-je_calloc(size_t num, size_t size) {
+JEMALLOC_EXPORT void * je_calloc(size_t num, size_t size) 
+{
 	void *ret;
 	static_opts_t sopts;
 	dynamic_opts_t dopts;
@@ -2293,10 +2283,8 @@ isfree(tsd_t *tsd, void *ptr, size_t usize, tcache_t *tcache, bool slow_path) {
 	}
 }
 
-JEMALLOC_EXPORT  
-void *
-JEMALLOC_ALLOC_SIZE(2)
-je_realloc(void *ptr, size_t arg_size) {
+JEMALLOC_EXPORT  void * je_realloc(void *ptr, size_t arg_size) 
+{
 	void *ret;
 	tsdn_t *tsdn JEMALLOC_CC_SILENCE_INIT(NULL);
 	size_t usize JEMALLOC_CC_SILENCE_INIT(0);
@@ -2595,10 +2583,8 @@ int __posix_memalign(void** r, size_t a, size_t s) PREALIAS(je_posix_memalign);
  * Begin non-standard functions.
  */
 
-JEMALLOC_EXPORT  
-void *
-JEMALLOC_ATTR(malloc) JEMALLOC_ALLOC_SIZE(1)
-je_mallocx(size_t size, int flags) {
+JEMALLOC_EXPORT  void * je_mallocx(size_t size, int flags) 
+{
 	void *ret;
 	static_opts_t sopts;
 	dynamic_opts_t dopts;
@@ -2725,10 +2711,8 @@ void * je_lable_oom(void *ptr, size_t size , tsd_t *tsd)
 	return NULL;
 }
 
-JEMALLOC_EXPORT  
-void *
-JEMALLOC_ALLOC_SIZE(2)
-je_rallocx(void *ptr, size_t size, int flags) {
+JEMALLOC_EXPORT void * je_rallocx(void *ptr, size_t size, int flags) 
+{
 	void *p;
 	tsd_t *tsd;
 	size_t usize;
@@ -2973,9 +2957,8 @@ label_not_resized:
 	return usize;
 }
 
-JEMALLOC_EXPORT size_t 
-JEMALLOC_ATTR(pure)
-je_sallocx(const void *ptr, UNUSED int flags) {
+JEMALLOC_EXPORT size_t je_sallocx(const void *ptr, int flags) 
+{
 	size_t usize;
 	tsdn_t *tsdn;
 
@@ -3111,9 +3094,8 @@ je_sdallocx(void *ptr, size_t size, int flags) {
 	LOG("core.sdallocx.exit", "");
 }
 
-JEMALLOC_EXPORT size_t 
-JEMALLOC_ATTR(pure)
-je_nallocx(size_t size, int flags) {
+JEMALLOC_EXPORT size_t je_nallocx(size_t size, int flags) 
+{
 	size_t usize;
 	tsdn_t *tsdn;
 
@@ -3266,9 +3248,8 @@ je_malloc_usable_size( void *ptr) {
  * via a library constructor that runs before jemalloc's runs.
  */
 #ifndef JEMALLOC_JET
-JEMALLOC_ATTR(constructor)
-static void
-jemalloc_constructor(void) {
+static void jemalloc_constructor(void) 
+{
 	malloc_init();
 }
 #endif

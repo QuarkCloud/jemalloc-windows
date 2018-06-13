@@ -1509,7 +1509,7 @@ static int
 epoch_ctl(tsd_t *tsd, const size_t *mib, size_t miblen, void *oldp,
     size_t *oldlenp, void *newp, size_t newlen) {
 	int ret;
-	UNUSED uint64_t newval;
+	uint64_t newval;
 
 	malloc_mutex_lock(tsd_tsdn(tsd), &ctl_mtx);
 	WRITE(newval, uint64_t);

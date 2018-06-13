@@ -23,7 +23,7 @@ large_palloc(tsdn_t *tsdn, arena_t *arena, size_t usize, size_t alignment,
 	size_t ausize;
 	extent_t *extent;
 	bool is_zeroed;
-	UNUSED bool idump JEMALLOC_CC_SILENCE_INIT(false);
+	bool idump JEMALLOC_CC_SILENCE_INIT(false);
 
 	assert(!tsdn_null(tsdn) || arena != NULL);
 

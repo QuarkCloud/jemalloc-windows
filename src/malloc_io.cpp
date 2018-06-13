@@ -602,9 +602,8 @@ malloc_vsnprintf(char *str, size_t size, const char *format, va_list ap) {
 	return i;
 }
 
-JEMALLOC_FORMAT_PRINTF(3, 4)
-size_t
-malloc_snprintf(char *str, size_t size, const char *format, ...) {
+size_t malloc_snprintf(char *str, size_t size, const char *format, ...) 
+{
 	size_t ret;
 	va_list ap;
 
@@ -615,9 +614,9 @@ malloc_snprintf(char *str, size_t size, const char *format, ...) {
 	return ret;
 }
 
-void
-malloc_vcprintf(void (*write_cb)(void *, const char *), void *cbopaque,
-    const char *format, va_list ap) {
+void malloc_vcprintf(void (*write_cb)(void *, const char *), void *cbopaque,
+    const char *format, va_list ap) 
+{
 	char buf[MALLOC_PRINTF_BUFSIZE];
 
 	if (write_cb == NULL) {
@@ -639,10 +638,8 @@ malloc_vcprintf(void (*write_cb)(void *, const char *), void *cbopaque,
  * Print to a callback function in such a way as to (hopefully) avoid memory
  * allocation.
  */
-JEMALLOC_FORMAT_PRINTF(3, 4)
-void
-malloc_cprintf(void (*write_cb)(void *, const char *), void *cbopaque,
-    const char *format, ...) {
+void malloc_cprintf(void (*write_cb)(void *, const char *), void *cbopaque,const char *format, ...) 
+{
 	va_list ap;
 
 	va_start(ap, format);
@@ -651,9 +648,8 @@ malloc_cprintf(void (*write_cb)(void *, const char *), void *cbopaque,
 }
 
 /* Print to stderr in such a way as to avoid memory allocation. */
-JEMALLOC_FORMAT_PRINTF(1, 2)
-void
-malloc_printf(const char *format, ...) {
+void malloc_printf(const char *format, ...) 
+{
 	va_list ap;
 
 	va_start(ap, format);

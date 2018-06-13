@@ -93,9 +93,8 @@ emitter_init(emitter_t *emitter, emitter_output_t emitter_output,
 }
 
 /* Internal convenience function.  Write to the emitter the given string. */
-JEMALLOC_FORMAT_PRINTF(2, 3)
-static inline void
-emitter_printf(emitter_t *emitter, const char *format, ...) {
+static inline void emitter_printf(emitter_t *emitter, const char *format, ...) 
+{
 	va_list ap;
 
 	va_start(ap, format);
@@ -104,9 +103,8 @@ emitter_printf(emitter_t *emitter, const char *format, ...) {
 }
 
 /* Write to the emitter the given string, but only in table mode. */
-JEMALLOC_FORMAT_PRINTF(2, 3)
-static inline void
-emitter_table_printf(emitter_t *emitter, const char *format, ...) {
+static inline void emitter_table_printf(emitter_t *emitter, const char *format, ...) 
+{
 	if (emitter->output == emitter_output_table) {
 		va_list ap;
 		va_start(ap, format);
