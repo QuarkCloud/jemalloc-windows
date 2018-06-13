@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)include&quot;;&quot;$(QUARK_ROOT)\include&quot;"
-				PreprocessorDefinitions="_DEBUG;_USRDLL;JEMALLOC_EXPORTS;JEMALLOC_NO_PRIVATE_NAMESPACE;_REENTRANT;_WINDLL;DLLEXPORT;JEMALLOC_DEBUG;JEMALLOC_NO_RENAME"
+				PreprocessorDefinitions="_DEBUG;_USRDLL;_WINDLL;DLLEXPORT;JEMALLOC_DEBUG"
 				IgnoreStandardIncludePath="true"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -307,14 +307,6 @@
 			>
 			<File
 				RelativePath="..\include\jemalloc\jemalloc.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\jemalloc\jemalloc_defs.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\jemalloc\jemalloc_macros.h"
 				>
 			</File>
 			<File

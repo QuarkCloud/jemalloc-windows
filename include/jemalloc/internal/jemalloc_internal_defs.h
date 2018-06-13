@@ -1,6 +1,6 @@
 /* include/jemalloc/internal/jemalloc_internal_defs.h.  Generated from jemalloc_internal_defs.h.in by configure.  */
-#ifndef JEMALLOC_INTERNAL_DEFS_H_
-#define JEMALLOC_INTERNAL_DEFS_H_
+#ifndef __JEMALLOC_INTERNAL_DEFS_H
+#define __JEMALLOC_INTERNAL_DEFS_H
 /*
  * If JEMALLOC_PREFIX is defined via --with-jemalloc-prefix, it will cause all
  * public APIs to be prefixed.  This makes it possible, with some care, to use
@@ -364,4 +364,4 @@
  */
 #define JEMALLOC_STRERROR_R_RETURNS_CHAR_WITH_GNU_SOURCE 
 
-#endif /* JEMALLOC_INTERNAL_DEFS_H_ */
+#endif /* __JEMALLOC_INTERNAL_DEFS_H */

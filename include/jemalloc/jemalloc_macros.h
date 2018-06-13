@@ -1,3 +1,7 @@
+
+#ifndef __JEMALLOC_MACROS_H
+#define __JEMALLOC_MACROS_H 1
+
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -120,3 +124,6 @@
 #  define JEMALLOC_RESTRICT_RETURN
 #  define JEMALLOC_ALLOCATOR
 #endif
+
+
+#endif  /** __JEMALLOC_MACROS_H */
