@@ -310,22 +310,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\jemalloc\jemalloc_mangle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\jemalloc\jemalloc_mangle_jet.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\jemalloc\jemalloc_protos_jet.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\jemalloc\jemalloc_rename.h"
-				>
-			</File>
-			<File
 				RelativePath="..\include\jemalloc\jemalloc_typedefs.h"
 				>
 			</File>
@@ -369,19 +353,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\include\jemalloc\internal\atomic_c11.h"
-					>
-				</File>
-				<File
 					RelativePath="..\include\jemalloc\internal\atomic_gcc_atomic.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\jemalloc\internal\atomic_gcc_sync.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\jemalloc\internal\atomic_msvc.h"
 					>
 				</File>
 				<File

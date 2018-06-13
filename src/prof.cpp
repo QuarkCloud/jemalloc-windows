@@ -1038,7 +1038,8 @@ prof_dump_write(bool propagate_err, const char *s) {
 }
 
 static bool
-prof_dump_printf(bool propagate_err, const char *format, ...) {
+prof_dump_printf(bool propagate_err, const char *format, ...) 
+{
 	bool ret;
 	va_list ap;
 	char buf[PROF_PRINTF_BUFSIZE];
