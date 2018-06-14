@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)include&quot;;&quot;$(QUARK_ROOT)\include&quot;"
-				PreprocessorDefinitions="_DEBUG;_USRDLL;_WINDLL;DLLEXPORT;JEMALLOC_DEBUG"
+				PreprocessorDefinitions="_DEBUG;_USRDLL;_WINDLL;JEMALLOC_EXPORT"
 				IgnoreStandardIncludePath="true"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -180,6 +180,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\atomic.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\background_thread.cpp"
 				>
 			</File>
@@ -306,11 +310,23 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\include\jemalloc\compile.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\jemalloc\defines.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\jemalloc\extent_hooks.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\jemalloc\jemalloc.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\jemalloc\jemalloc_typedefs.h"
+				RelativePath="..\include\jemalloc\mangle.h"
 				>
 			</File>
 			<Filter
@@ -350,10 +366,6 @@
 				</File>
 				<File
 					RelativePath="..\include\jemalloc\internal\atomic.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\jemalloc\internal\atomic_gcc_atomic.h"
 					>
 				</File>
 				<File

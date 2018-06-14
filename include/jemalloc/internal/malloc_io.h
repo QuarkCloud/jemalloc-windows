@@ -37,14 +37,14 @@ void malloc_write(const char *s);
  */
 size_t malloc_vsnprintf(char *str, size_t size, const char *format,
     va_list ap);
-JEMALLOC_EXPORT size_t __cdecl malloc_snprintf(char *str, size_t size, const char *format, ...);
+JEMALLOC_API size_t __cdecl malloc_snprintf(char *str, size_t size, const char *format, ...);
 /*
  * The caller can set write_cb and cbopaque to null to choose to print with the
  * je_malloc_message hook.
  */
-JEMALLOC_EXPORT void malloc_vcprintf(void (*write_cb)(void *, const char *), void *cbopaque, const char *format, va_list ap);
-JEMALLOC_EXPORT void malloc_cprintf(void (*write_cb)(void *, const char *), void *cbopaque,const char *format, ...) ;
-JEMALLOC_EXPORT void malloc_printf(const char *format, ...) ;
+JEMALLOC_API void malloc_vcprintf(void (*write_cb)(void *, const char *), void *cbopaque, const char *format, va_list ap);
+JEMALLOC_API void malloc_cprintf(void (*write_cb)(void *, const char *), void *cbopaque,const char *format, ...) ;
+JEMALLOC_API void malloc_printf(const char *format, ...) ;
 
 static inline ssize_t malloc_write_fd(int fd, const void *buf, size_t count) 
 {

@@ -29,7 +29,7 @@ static malloc_mutex_t	*postponed_mutexes = NULL;
  */
 
 #if defined(JEMALLOC_LAZY_LOCK) && !defined(_WIN32)
-JEMALLOC_EXPORT int
+JEMALLOC_API int
 pthread_create(pthread_t *__restrict thread,
     const pthread_attr_t *__restrict attr, void *(*start_routine)(void *),
     void *__restrict arg) {
@@ -40,7 +40,7 @@ pthread_create(pthread_t *__restrict thread,
 /******************************************************************************/
 
 #ifdef JEMALLOC_MUTEX_INIT_CB
-JEMALLOC_EXPORT int	_pthread_mutex_init_calloc_cb(pthread_mutex_t *mutex,
+JEMALLOC_API int	_pthread_mutex_init_calloc_cb(pthread_mutex_t *mutex,
     void *(calloc_cb)(size_t, size_t));
 #endif
 

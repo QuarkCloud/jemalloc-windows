@@ -1,6 +1,8 @@
-#ifndef JEMALLOC_INTERNAL_EXTERNS_H
-#define JEMALLOC_INTERNAL_EXTERNS_H
 
+#ifndef __JEMALLOC_INTERNAL_EXTERNS_H
+#define __JEMALLOC_INTERNAL_EXTERNS_H 1
+
+#include "jemalloc/extent_hooks.h"
 #include "jemalloc/internal/atomic.h"
 #include "jemalloc/internal/size_classes.h"
 #include "jemalloc/internal/tsd_types.h"
@@ -50,4 +52,4 @@ void jemalloc_postfork_parent(void);
 void jemalloc_postfork_child(void);
 bool malloc_initialized(void);
 
-#endif /* JEMALLOC_INTERNAL_EXTERNS_H */
+#endif /* __JEMALLOC_INTERNAL_EXTERNS_H */

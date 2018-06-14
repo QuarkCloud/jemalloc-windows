@@ -169,4 +169,4 @@ nstime_update_impl(nstime_t *time) {
 
 	return false;
 }
-JEMALLOC_EXPORT nstime_update_t *nstime_update = nstime_update_impl;
+JEMALLOC_API nstime_update_t *nstime_update = nstime_update_impl;

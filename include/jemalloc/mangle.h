@@ -1,3 +1,7 @@
+
+#ifndef __JEMALLOC_MANGLE_H
+#define __JEMALLOC_MANGLE_H 1
+
 /*
  * By default application code must explicitly refer to mangled symbol names,
  * so that it is possible to use jemalloc in conjunction with another allocator
@@ -32,3 +36,6 @@
 #  define memalign je_memalign
 #  define valloc je_valloc
 #endif
+
+
+#endif /** __JEMALLOC_MANGLE_H*/

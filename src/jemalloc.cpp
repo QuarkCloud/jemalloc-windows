@@ -2028,7 +2028,7 @@ je_malloc(size_t size) {
 	return ret;
 }
 
-JEMALLOC_EXPORT int 
+JEMALLOC_API int 
 je_posix_memalign(void **memptr, size_t alignment, size_t size) {
 	int ret;
 	static_opts_t sopts;
@@ -2066,7 +2066,7 @@ je_posix_memalign(void **memptr, size_t alignment, size_t size) {
 	return ret;
 }
 
-JEMALLOC_EXPORT  void * je_aligned_alloc(size_t alignment, size_t size) 
+JEMALLOC_API  void * je_aligned_alloc(size_t alignment, size_t size) 
 {
 	void *ret;
 
@@ -2105,7 +2105,7 @@ JEMALLOC_EXPORT  void * je_aligned_alloc(size_t alignment, size_t size)
 	return ret;
 }
 
-JEMALLOC_EXPORT void * je_calloc(size_t num, size_t size) 
+JEMALLOC_API void * je_calloc(size_t num, size_t size) 
 {
 	void *ret;
 	static_opts_t sopts;
@@ -2283,7 +2283,7 @@ isfree(tsd_t *tsd, void *ptr, size_t usize, tcache_t *tcache, bool slow_path) {
 	}
 }
 
-JEMALLOC_EXPORT  void * je_realloc(void *ptr, size_t arg_size) 
+JEMALLOC_API  void * je_realloc(void *ptr, size_t arg_size) 
 {
 	void *ret;
 	tsdn_t *tsdn JEMALLOC_CC_SILENCE_INIT(NULL);
@@ -2400,7 +2400,7 @@ JEMALLOC_EXPORT  void * je_realloc(void *ptr, size_t arg_size)
 	return ret;
 }
 
-JEMALLOC_EXPORT void 
+JEMALLOC_API void 
 je_free(void *ptr) {
 	LOG("core.free.entry", "ptr: %p", ptr);
 
@@ -2447,7 +2447,7 @@ je_free(void *ptr) {
  */
 
 #ifdef JEMALLOC_OVERRIDE_MEMALIGN
-JEMALLOC_EXPORT  
+JEMALLOC_API  
 void *
 JEMALLOC_ATTR(malloc)
 je_memalign(size_t alignment, size_t size) {
@@ -2487,7 +2487,7 @@ je_memalign(size_t alignment, size_t size) {
 #endif
 
 #ifdef JEMALLOC_OVERRIDE_VALLOC
-JEMALLOC_EXPORT  
+JEMALLOC_API  
 void *
 JEMALLOC_ATTR(malloc)
 je_valloc(size_t size) {
@@ -2535,9 +2535,9 @@ je_valloc(size_t size) {
  * passed an extra argument for the caller return address, which will be
  * ignored.
  */
-JEMALLOC_EXPORT void (*__free_hook)(void *ptr) = je_free;
-JEMALLOC_EXPORT void *(*__malloc_hook)(size_t size) = je_malloc;
-JEMALLOC_EXPORT void *(*__realloc_hook)(void *ptr, size_t size) = je_realloc;
+JEMALLOC_API void (*__free_hook)(void *ptr) = je_free;
+JEMALLOC_API void *(*__malloc_hook)(size_t size) = je_malloc;
+JEMALLOC_API void *(*__realloc_hook)(void *ptr, size_t size) = je_realloc;
 
 #  ifdef CPU_COUNT
 /*
@@ -2583,7 +2583,7 @@ int __posix_memalign(void** r, size_t a, size_t s) PREALIAS(je_posix_memalign);
  * Begin non-standard functions.
  */
 
-JEMALLOC_EXPORT  void * je_mallocx(size_t size, int flags) 
+JEMALLOC_API  void * je_mallocx(size_t size, int flags) 
 {
 	void *ret;
 	static_opts_t sopts;
@@ -2711,7 +2711,7 @@ void * je_lable_oom(void *ptr, size_t size , tsd_t *tsd)
 	return NULL;
 }
 
-JEMALLOC_EXPORT void * je_rallocx(void *ptr, size_t size, int flags) 
+JEMALLOC_API void * je_rallocx(void *ptr, size_t size, int flags) 
 {
 	void *p;
 	tsd_t *tsd;
@@ -2887,7 +2887,7 @@ ixallocx_prof(tsd_t *tsd, void *ptr, size_t old_usize, size_t size,
 	return usize;
 }
 
-JEMALLOC_EXPORT size_t 
+JEMALLOC_API size_t 
 je_xallocx(void *ptr, size_t size, size_t extra, int flags) {
 	tsd_t *tsd;
 	size_t usize, old_usize;
@@ -2957,7 +2957,7 @@ label_not_resized:
 	return usize;
 }
 
-JEMALLOC_EXPORT size_t je_sallocx(const void *ptr, int flags) 
+JEMALLOC_API size_t je_sallocx(const void *ptr, int flags) 
 {
 	size_t usize;
 	tsdn_t *tsdn;
@@ -2983,7 +2983,7 @@ JEMALLOC_EXPORT size_t je_sallocx(const void *ptr, int flags)
 	return usize;
 }
 
-JEMALLOC_EXPORT void 
+JEMALLOC_API void 
 je_dallocx(void *ptr, int flags) {
 	LOG("core.dallocx.entry", "ptr: %p, flags: %d", ptr, flags);
 
@@ -3044,7 +3044,7 @@ inallocx(tsdn_t *tsdn, size_t size, int flags) {
 	return usize;
 }
 
-JEMALLOC_EXPORT void 
+JEMALLOC_API void 
 je_sdallocx(void *ptr, size_t size, int flags) {
 	assert(ptr != NULL);
 	assert(malloc_initialized() || IS_INITIALIZER);
@@ -3094,7 +3094,7 @@ je_sdallocx(void *ptr, size_t size, int flags) {
 	LOG("core.sdallocx.exit", "");
 }
 
-JEMALLOC_EXPORT size_t je_nallocx(size_t size, int flags) 
+JEMALLOC_API size_t je_nallocx(size_t size, int flags) 
 {
 	size_t usize;
 	tsdn_t *tsdn;
@@ -3120,7 +3120,7 @@ JEMALLOC_EXPORT size_t je_nallocx(size_t size, int flags)
 	return usize;
 }
 
-JEMALLOC_EXPORT int 
+JEMALLOC_API int 
 je_mallctl(const char *name, void *oldp, size_t *oldlenp, void *newp,
     size_t newlen) {
 	int ret;
@@ -3142,7 +3142,7 @@ je_mallctl(const char *name, void *oldp, size_t *oldlenp, void *newp,
 	return ret;
 }
 
-JEMALLOC_EXPORT int 
+JEMALLOC_API int 
 je_mallctlnametomib(const char *name, size_t *mibp, size_t *miblenp) {
 	int ret;
 
@@ -3162,7 +3162,7 @@ je_mallctlnametomib(const char *name, size_t *mibp, size_t *miblenp) {
 	return ret;
 }
 
-JEMALLOC_EXPORT int 
+JEMALLOC_API int 
 je_mallctlbymib(const size_t *mib, size_t miblen, void *oldp, size_t *oldlenp,
   void *newp, size_t newlen) {
 	int ret;
@@ -3183,7 +3183,7 @@ je_mallctlbymib(const size_t *mib, size_t miblen, void *oldp, size_t *oldlenp,
 	return ret;
 }
 
-JEMALLOC_EXPORT void 
+JEMALLOC_API void 
 je_malloc_stats_print(void (*write_cb)(void *, const char *), void *cbopaque,
     const char *opts) {
 	tsdn_t *tsdn;
@@ -3197,7 +3197,7 @@ je_malloc_stats_print(void (*write_cb)(void *, const char *), void *cbopaque,
 	LOG("core.malloc_stats_print.exit", "");
 }
 
-JEMALLOC_EXPORT size_t 
+JEMALLOC_API size_t 
 je_malloc_usable_size( void *ptr) {
 	size_t ret;
 	tsdn_t *tsdn;
@@ -3258,7 +3258,7 @@ static void jemalloc_constructor(void)
 void
 jemalloc_prefork(void)
 #else
-JEMALLOC_EXPORT void
+JEMALLOC_API void
 _malloc_prefork(void)
 #endif
 {
@@ -3331,7 +3331,7 @@ _malloc_prefork(void)
 void
 jemalloc_postfork_parent(void)
 #else
-JEMALLOC_EXPORT void
+JEMALLOC_API void
 _malloc_postfork(void)
 #endif
 {

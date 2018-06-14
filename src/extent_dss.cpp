@@ -38,14 +38,9 @@ static atomic_p_t	dss_max;
 
 /******************************************************************************/
 
-static void *
-extent_dss_sbrk(intptr_t increment) {
-#ifdef JEMALLOC_DSS
+static void * extent_dss_sbrk(intptr_t increment) 
+{
 	return sbrk(increment);
-#else
-	not_implemented();
-	return NULL;
-#endif
 }
 
 dss_prec_t

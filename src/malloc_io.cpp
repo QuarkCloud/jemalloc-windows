@@ -73,7 +73,7 @@ wrtmessage(void *cbopaque, const char *s) {
 	malloc_write_fd(STDERR_FILENO, s, strlen(s));
 }
 
-JEMALLOC_EXPORT void	(*je_malloc_message)(void *, const char *s);
+JEMALLOC_API void	(*je_malloc_message)(void *, const char *s);
 
 /*
  * Wrapper around malloc_message() that avoids the need for

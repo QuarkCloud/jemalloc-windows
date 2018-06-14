@@ -1,3 +1,7 @@
+
+#ifndef __JEMALLOC_INTERNAL_ASSERT_H
+#define __JEMALLOC_INTERNAL_ASSERT_H 1
+
 #include "jemalloc/internal/malloc_io.h"
 #include "jemalloc/internal/util.h"
 
@@ -54,3 +58,6 @@
 	}								\
 } while (0)
 #endif
+
+
+#endif /** __JEMALLOC_INTERNAL_ASSERT_H */

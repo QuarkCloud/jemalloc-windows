@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_MACROS_H
-#define JEMALLOC_INTERNAL_MACROS_H
+
+#ifndef __JEMALLOC_INTERNAL_MACROS_H
+#define __JEMALLOC_INTERNAL_MACROS_H
 
 #  define JEMALLOC_ALWAYS_INLINE static inline
 
@@ -36,4 +37,4 @@
 #define JEMALLOC_VA_ARGS_HEAD(head, ...) head
 #define JEMALLOC_VA_ARGS_TAIL(head, ...) __VA_ARGS__
 
-#endif /* JEMALLOC_INTERNAL_MACROS_H */
+#endif /* __JEMALLOC_INTERNAL_MACROS_H */

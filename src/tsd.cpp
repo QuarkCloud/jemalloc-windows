@@ -17,7 +17,7 @@ __thread tsd_t JEMALLOC_TLS_MODEL tsd_tls = TSD_INITIALIZER;
 __thread bool JEMALLOC_TLS_MODEL tsd_initialized = false;
 bool tsd_booted = false;
 #elif (defined(JEMALLOC_TLS))
-tsd_t JEMALLOC_TLS_MODEL tsd_tls = TSD_INITIALIZER;
+tsd_t tsd_tls = TSD_INITIALIZER;
 pthread_key_t tsd_tsd;
 bool tsd_booted = false;
 #elif (defined(_WIN32))
@@ -317,7 +317,7 @@ malloc_tsd_dalloc(void *wrapper) {
 
 #if defined(JEMALLOC_MALLOC_THREAD_CLEANUP) || defined(_WIN32)
 #ifndef _WIN32
-JEMALLOC_EXPORT
+JEMALLOC_API
 #endif
 void
 _malloc_thread_cleanup(void) {

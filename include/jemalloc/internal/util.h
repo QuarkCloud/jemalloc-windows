@@ -36,11 +36,7 @@
 #  define unlikely(x) !!(x)
 #endif
 
-#if !defined(JEMALLOC_INTERNAL_UNREACHABLE)
-#  error JEMALLOC_INTERNAL_UNREACHABLE should have been defined by configure
-#endif
-
-#define unreachable() JEMALLOC_INTERNAL_UNREACHABLE()
+#define unreachable() 
 
 /* Set error code. */
 UTIL_INLINE void
