@@ -2,11 +2,7 @@
 #ifndef __JEMALLOC_INTERNAL_MACROS_H
 #define __JEMALLOC_INTERNAL_MACROS_H
 
-#  define JEMALLOC_ALWAYS_INLINE static inline
-
-#ifdef _MSC_VER
-#  define inline _inline
-#endif
+#define JEMALLOC_ALWAYS_INLINE static inline
 
 
 #define ZU(z)	((size_t)z)

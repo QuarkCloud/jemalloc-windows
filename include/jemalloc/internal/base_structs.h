@@ -1,5 +1,5 @@
-#ifndef JEMALLOC_INTERNAL_BASE_STRUCTS_H
-#define JEMALLOC_INTERNAL_BASE_STRUCTS_H
+#ifndef __JEMALLOC_INTERNAL_BASE_STRUCTS_H
+#define __JEMALLOC_INTERNAL_BASE_STRUCTS_H 1
 
 #include "jemalloc/internal/jemalloc_internal_types.h"
 #include "jemalloc/internal/mutex.h"
@@ -56,4 +56,4 @@ struct base_s {
 	size_t		n_thp;
 };
 
-#endif /* JEMALLOC_INTERNAL_BASE_STRUCTS_H */
+#endif /* __JEMALLOC_INTERNAL_BASE_STRUCTS_H */

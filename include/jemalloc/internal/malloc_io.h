@@ -6,6 +6,10 @@
 #include "../jemalloc.h"
 
 #  include <inttypes.h>
+#  include <sys/types.h>
+#  include <stdarg.h>
+#  include <unistd.h>
+
 #  define FMTd32 PRId32
 #  define FMTu32 PRIu32
 #  define FMTx32 PRIx32
@@ -17,6 +21,10 @@
 #  define FMTxPTR PRIxPTR
 //#endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Size of stack-allocated buffer passed to buferror(). */
 #define BUFERROR_BUF		64
 
@@ -27,16 +35,15 @@
 #define MALLOC_PRINTF_BUFSIZE	4096
 
 int buferror(int err, char *buf, size_t buflen);
-uintmax_t malloc_strtoumax(const char *restrict nptr, char **restrict endptr,
-    int base);
+uintmax_t malloc_strtoumax(const char *  nptr, char ** endptr,  int base);
 void malloc_write(const char *s);
 
 /*
  * malloc_vsnprintf() supports a subset of snprintf(3) that avoids floating
  * point math.
  */
-size_t malloc_vsnprintf(char *str, size_t size, const char *format,
-    va_list ap);
+size_t malloc_vsnprintf(char *str, size_t size, const char *format,va_list ap);
+
 JEMALLOC_API size_t __cdecl malloc_snprintf(char *str, size_t size, const char *format, ...);
 /*
  * The caller can set write_cb and cbopaque to null to choose to print with the
@@ -65,5 +72,9 @@ malloc_read_fd(int fd, void *buf, size_t count) {
 #endif
 	return (ssize_t)result;
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __JEMALLOC_INTERNAL_MALLOC_IO_H */

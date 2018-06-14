@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_TSD_H
-#define JEMALLOC_INTERNAL_TSD_H
+
+#ifndef __JEMALLOC_INTERNAL_TSD_H
+#define __JEMALLOC_INTERNAL_TSD_H 1
 
 #include "jemalloc/internal/arena_types.h"
 #include "jemalloc/internal/assert.h"
@@ -396,4 +397,4 @@ tsdn_rtree_ctx(tsdn_t *tsdn, rtree_ctx_t *fallback) {
 	return tsd_rtree_ctx(tsdn_tsd(tsdn));
 }
 
-#endif /* JEMALLOC_INTERNAL_TSD_H */
+#endif /* __JEMALLOC_INTERNAL_TSD_H */

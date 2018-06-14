@@ -1,5 +1,5 @@
-#ifndef JEMALLOC_INTERNAL_BASE_TYPES_H
-#define JEMALLOC_INTERNAL_BASE_TYPES_H
+#ifndef __JEMALLOC_INTERNAL_BASE_TYPES_H
+#define __JEMALLOC_INTERNAL_BASE_TYPES_H 1
 
 typedef struct base_block_s base_block_t;
 typedef struct base_s base_t;
@@ -30,4 +30,4 @@ typedef enum {
 	metadata_thp_mode_limit = 3
 } metadata_thp_mode_t;
 
-#endif /* JEMALLOC_INTERNAL_BASE_TYPES_H */
+#endif /* __JEMALLOC_INTERNAL_BASE_TYPES_H */

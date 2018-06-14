@@ -1,5 +1,9 @@
-#ifndef JEMALLOC_INTERNAL_UTIL_H
-#define JEMALLOC_INTERNAL_UTIL_H
+
+
+#ifndef __JEMALLOC_INTERNAL_UTIL_H
+#define __JEMALLOC_INTERNAL_UTIL_H 1
+
+#include <errno.h>
 
 #define UTIL_INLINE static inline
 
@@ -52,4 +56,4 @@ get_errno(void) {
 
 #undef UTIL_INLINE
 
-#endif /* JEMALLOC_INTERNAL_UTIL_H */
+#endif /* __JEMALLOC_INTERNAL_UTIL_H */

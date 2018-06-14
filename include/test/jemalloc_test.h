@@ -93,7 +93,7 @@ static const bool config_debug =
 #  ifdef JEMALLOC_STRESS_TESTLIB
 #    include "jemalloc/jemalloc_mangle_jet.h"
 #  else
-#    include "jemalloc/jemalloc_mangle.h"
+#    include "jemalloc/mangle.h"
 #  endif
 
 /******************************************************************************/

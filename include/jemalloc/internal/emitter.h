@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_EMITTER_H
-#define JEMALLOC_INTERNAL_EMITTER_H
+
+#ifndef __JEMALLOC_INTERNAL_EMITTER_H
+#define __JEMALLOC_INTERNAL_EMITTER_H 1
 
 #include "jemalloc/internal/ql.h"
 
@@ -60,13 +61,13 @@ struct emitter_row_s {
 	ql_head(emitter_col_t) cols;
 };
 
-static inline void
-emitter_row_init(emitter_row_t *row) {
+static inline void emitter_row_init(emitter_row_t *row) 
+{
 	ql_new(&row->cols);
 }
 
-static inline void
-emitter_col_init(emitter_col_t *col, emitter_row_t *row) {
+static inline void emitter_col_init(emitter_col_t *col, emitter_row_t *row) 
+{
 	ql_elm_new(col, link);
 	ql_tail_insert(&row->cols, col, link);
 }
@@ -82,9 +83,9 @@ struct emitter_s {
 	bool item_at_depth;
 };
 
-static inline void
-emitter_init(emitter_t *emitter, emitter_output_t emitter_output,
-    void (*write_cb)(void *, const char *), void *cbopaque) {
+static inline void emitter_init(emitter_t *emitter, emitter_output_t emitter_output,
+    void (*write_cb)(void *, const char *), void *cbopaque) 
+{
 	emitter->output = emitter_output;
 	emitter->write_cb = write_cb;
 	emitter->cbopaque = cbopaque;
@@ -113,9 +114,9 @@ static inline void emitter_table_printf(emitter_t *emitter, const char *format, 
 	}
 }
 
-static inline void
-emitter_gen_fmt(char *out_fmt, size_t out_size, const char *fmt_specifier,
-    emitter_justify_t justify, int width) {
+static inline void emitter_gen_fmt(char *out_fmt, size_t out_size, const char *fmt_specifier,
+    emitter_justify_t justify, int width) 
+{
 	size_t written;
 	if (justify == emitter_justify_none) {
 		written = malloc_snprintf(out_fmt, out_size,
@@ -138,9 +139,9 @@ emitter_gen_fmt(char *out_fmt, size_t out_size, const char *fmt_specifier,
  *
  * Width is ignored if justify is emitter_justify_none.
  */
-static inline void
-emitter_print_value(emitter_t *emitter, emitter_justify_t justify, int width,
-    emitter_type_t value_type, const void *value) {
+static inline void emitter_print_value(emitter_t *emitter, emitter_justify_t justify, int width,
+    emitter_type_t value_type, const void *value) 
+{
 	size_t str_written;
 #define BUF_SIZE 256
 #define FMT_SIZE 10
@@ -204,20 +205,20 @@ emitter_print_value(emitter_t *emitter, emitter_justify_t justify, int width,
 
 
 /* Internal functions.  In json mode, tracks nesting state. */
-static inline void
-emitter_nest_inc(emitter_t *emitter) {
+static inline void emitter_nest_inc(emitter_t *emitter) 
+{
 	emitter->nesting_depth++;
 	emitter->item_at_depth = false;
 }
 
-static inline void
-emitter_nest_dec(emitter_t *emitter) {
+static inline void emitter_nest_dec(emitter_t *emitter) 
+{
 	emitter->nesting_depth--;
 	emitter->item_at_depth = true;
 }
 
-static inline void
-emitter_indent(emitter_t *emitter) {
+static inline void emitter_indent(emitter_t *emitter) 
+{
 	int amount = emitter->nesting_depth;
 	const char *indent_str;
 	if (emitter->output == emitter_output_json) {
@@ -231,14 +232,14 @@ emitter_indent(emitter_t *emitter) {
 	}
 }
 
-static inline void
-emitter_json_key_prefix(emitter_t *emitter) {
+static inline void emitter_json_key_prefix(emitter_t *emitter) 
+{
 	emitter_printf(emitter, "%s\n", emitter->item_at_depth ? "," : "");
 	emitter_indent(emitter);
 }
 
-static inline void
-emitter_begin(emitter_t *emitter) {
+static inline void emitter_begin(emitter_t *emitter) 
+{
 	if (emitter->output == emitter_output_json) {
 		assert(emitter->nesting_depth == 0);
 		emitter_printf(emitter, "{");
@@ -249,8 +250,8 @@ emitter_begin(emitter_t *emitter) {
 	}
 }
 
-static inline void
-emitter_end(emitter_t *emitter) {
+static inline void emitter_end(emitter_t *emitter) 
+{
 	if (emitter->output == emitter_output_json) {
 		assert(emitter->nesting_depth == 1);
 		emitter_nest_dec(emitter);
@@ -262,11 +263,11 @@ emitter_end(emitter_t *emitter) {
  * Note emits a different kv pair as well, but only in table mode.  Omits the
  * note if table_note_key is NULL.
  */
-static inline void
-emitter_kv_note(emitter_t *emitter, const char *json_key, const char *table_key,
+static inline void emitter_kv_note(emitter_t *emitter, const char *json_key, const char *table_key,
     emitter_type_t value_type, const void *value,
     const char *table_note_key, emitter_type_t table_note_value_type,
-    const void *table_note_value) {
+    const void *table_note_value) 
+{
 	if (emitter->output == emitter_output_json) {
 		assert(emitter->nesting_depth > 0);
 		emitter_json_key_prefix(emitter);
@@ -289,32 +290,32 @@ emitter_kv_note(emitter_t *emitter, const char *json_key, const char *table_key,
 	emitter->item_at_depth = true;
 }
 
-static inline void
-emitter_kv(emitter_t *emitter, const char *json_key, const char *table_key,
-    emitter_type_t value_type, const void *value) {
+static inline void emitter_kv(emitter_t *emitter, const char *json_key, const char *table_key,
+    emitter_type_t value_type, const void *value) 
+{
 	emitter_kv_note(emitter, json_key, table_key, value_type, value, NULL,
 	    emitter_type_bool, NULL);
 }
 
-static inline void
-emitter_json_kv(emitter_t *emitter, const char *json_key,
-    emitter_type_t value_type, const void *value) {
+static inline void emitter_json_kv(emitter_t *emitter, const char *json_key,
+    emitter_type_t value_type, const void *value) 
+{
 	if (emitter->output == emitter_output_json) {
 		emitter_kv(emitter, json_key, NULL, value_type, value);
 	}
 }
 
-static inline void
-emitter_table_kv(emitter_t *emitter, const char *table_key,
-    emitter_type_t value_type, const void *value) {
+static inline void emitter_table_kv(emitter_t *emitter, const char *table_key,
+    emitter_type_t value_type, const void *value) 
+{
 	if (emitter->output == emitter_output_table) {
 		emitter_kv(emitter, NULL, table_key, value_type, value);
 	}
 }
 
-static inline void
-emitter_dict_begin(emitter_t *emitter, const char *json_key,
-    const char *table_header) {
+static inline void emitter_dict_begin(emitter_t *emitter, const char *json_key,
+    const char *table_header) 
+{
 	if (emitter->output == emitter_output_json) {
 		emitter_json_key_prefix(emitter);
 		emitter_printf(emitter, "\"%s\": {", json_key);
@@ -326,8 +327,8 @@ emitter_dict_begin(emitter_t *emitter, const char *json_key,
 	}
 }
 
-static inline void
-emitter_dict_end(emitter_t *emitter) {
+static inline void emitter_dict_end(emitter_t *emitter) 
+{
 	if (emitter->output == emitter_output_json) {
 		assert(emitter->nesting_depth > 0);
 		emitter_nest_dec(emitter);
@@ -339,36 +340,36 @@ emitter_dict_end(emitter_t *emitter) {
 	}
 }
 
-static inline void
-emitter_json_dict_begin(emitter_t *emitter, const char *json_key) {
+static inline void emitter_json_dict_begin(emitter_t *emitter, const char *json_key) 
+{
 	if (emitter->output == emitter_output_json) {
 		emitter_dict_begin(emitter, json_key, NULL);
 	}
 }
 
-static inline void
-emitter_json_dict_end(emitter_t *emitter) {
+static inline void emitter_json_dict_end(emitter_t *emitter) 
+{
 	if (emitter->output == emitter_output_json) {
 		emitter_dict_end(emitter);
 	}
 }
 
-static inline void
-emitter_table_dict_begin(emitter_t *emitter, const char *table_key) {
+static inline void emitter_table_dict_begin(emitter_t *emitter, const char *table_key) 
+{
 	if (emitter->output == emitter_output_table) {
 		emitter_dict_begin(emitter, NULL, table_key);
 	}
 }
 
-static inline void
-emitter_table_dict_end(emitter_t *emitter) {
+static inline void emitter_table_dict_end(emitter_t *emitter) 
+{
 	if (emitter->output == emitter_output_table) {
 		emitter_dict_end(emitter);
 	}
 }
 
-static inline void
-emitter_json_arr_begin(emitter_t *emitter, const char *json_key) {
+static inline void emitter_json_arr_begin(emitter_t *emitter, const char *json_key) 
+{
 	if (emitter->output == emitter_output_json) {
 		emitter_json_key_prefix(emitter);
 		emitter_printf(emitter, "\"%s\": [", json_key);
@@ -376,8 +377,8 @@ emitter_json_arr_begin(emitter_t *emitter, const char *json_key) {
 	}
 }
 
-static inline void
-emitter_json_arr_end(emitter_t *emitter) {
+static inline void emitter_json_arr_end(emitter_t *emitter) 
+{
 	if (emitter->output == emitter_output_json) {
 		assert(emitter->nesting_depth > 0);
 		emitter_nest_dec(emitter);
@@ -387,8 +388,8 @@ emitter_json_arr_end(emitter_t *emitter) {
 	}
 }
 
-static inline void
-emitter_json_arr_obj_begin(emitter_t *emitter) {
+static inline void emitter_json_arr_obj_begin(emitter_t *emitter) 
+{
 	if (emitter->output == emitter_output_json) {
 		emitter_json_key_prefix(emitter);
 		emitter_printf(emitter, "{");
@@ -396,8 +397,8 @@ emitter_json_arr_obj_begin(emitter_t *emitter) {
 	}
 }
 
-static inline void
-emitter_json_arr_obj_end(emitter_t *emitter) {
+static inline void emitter_json_arr_obj_end(emitter_t *emitter) 
+{
 	if (emitter->output == emitter_output_json) {
 		assert(emitter->nesting_depth > 0);
 		emitter_nest_dec(emitter);
@@ -407,9 +408,8 @@ emitter_json_arr_obj_end(emitter_t *emitter) {
 	}
 }
 
-static inline void
-emitter_json_arr_value(emitter_t *emitter, emitter_type_t value_type,
-    const void *value) {
+static inline void emitter_json_arr_value(emitter_t *emitter, emitter_type_t value_type,  const void *value) 
+{
 	if (emitter->output == emitter_output_json) {
 		emitter_json_key_prefix(emitter);
 		emitter_print_value(emitter, emitter_justify_none, -1,
@@ -417,8 +417,8 @@ emitter_json_arr_value(emitter_t *emitter, emitter_type_t value_type,
 	}
 }
 
-static inline void
-emitter_table_row(emitter_t *emitter, emitter_row_t *row) {
+static inline void emitter_table_row(emitter_t *emitter, emitter_row_t *row) 
+{
 	if (emitter->output != emitter_output_table) {
 		return;
 	}
@@ -430,4 +430,4 @@ emitter_table_row(emitter_t *emitter, emitter_row_t *row) {
 	emitter_table_printf(emitter, "\n");
 }
 
-#endif /* JEMALLOC_INTERNAL_EMITTER_H */
+#endif /* __JEMALLOC_INTERNAL_EMITTER_H */

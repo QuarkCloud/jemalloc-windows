@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_QL_H
-#define JEMALLOC_INTERNAL_QL_H
+
+#ifndef __JEMALLOC_INTERNAL_QL_H
+#define __JEMALLOC_INTERNAL_QL_H 1
 
 #include "jemalloc/internal/qr.h"
 
@@ -85,4 +86,4 @@ struct {								\
 #define ql_reverse_foreach(a_var, a_head, a_field)			\
 	qr_reverse_foreach((a_var), ql_first(a_head), a_field)
 
-#endif /* JEMALLOC_INTERNAL_QL_H */
+#endif /* __JEMALLOC_INTERNAL_QL_H */

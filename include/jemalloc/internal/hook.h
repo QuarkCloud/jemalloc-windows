@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_HOOK_H
-#define JEMALLOC_INTERNAL_HOOK_H
+
+#ifndef __JEMALLOC_INTERNAL_HOOK_H
+#define __JEMALLOC_INTERNAL_HOOK_H 1
 
 #include "jemalloc/internal/tsd.h"
 
@@ -160,4 +161,4 @@ void hook_invoke_dalloc(hook_dalloc_t type, void *address,
 void hook_invoke_expand(hook_expand_t type, void *address, size_t old_usize,
     size_t new_usize, uintptr_t result_raw, uintptr_t args_raw[4]);
 
-#endif /* JEMALLOC_INTERNAL_HOOK_H */
+#endif /* __JEMALLOC_INTERNAL_HOOK_H */

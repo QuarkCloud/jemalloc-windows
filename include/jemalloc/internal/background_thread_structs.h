@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_BACKGROUND_THREAD_STRUCTS_H
-#define JEMALLOC_INTERNAL_BACKGROUND_THREAD_STRUCTS_H
+
+#ifndef __JEMALLOC_INTERNAL_BACKGROUND_THREAD_STRUCTS_H
+#define __JEMALLOC_INTERNAL_BACKGROUND_THREAD_STRUCTS_H 1
 
 /* This file really combines "structs" and "types", but only transitionally. */
 
@@ -50,4 +51,4 @@ struct background_thread_stats_s {
 };
 typedef struct background_thread_stats_s background_thread_stats_t;
 
-#endif /* JEMALLOC_INTERNAL_BACKGROUND_THREAD_STRUCTS_H */
+#endif /* __JEMALLOC_INTERNAL_BACKGROUND_THREAD_STRUCTS_H */

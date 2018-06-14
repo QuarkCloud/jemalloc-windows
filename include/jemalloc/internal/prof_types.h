@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_PROF_TYPES_H
-#define JEMALLOC_INTERNAL_PROF_TYPES_H
+
+#ifndef __JEMALLOC_INTERNAL_PROF_TYPES_H
+#define __JEMALLOC_INTERNAL_PROF_TYPES_H 1
 
 typedef struct prof_bt_s prof_bt_t;
 typedef struct prof_accum_s prof_accum_t;
@@ -9,11 +10,8 @@ typedef struct prof_gctx_s prof_gctx_t;
 typedef struct prof_tdata_s prof_tdata_t;
 
 /* Option defaults. */
-#ifdef JEMALLOC_PROF
-#  define PROF_PREFIX_DEFAULT		"jeprof"
-#else
-#  define PROF_PREFIX_DEFAULT		""
-#endif
+#define PROF_PREFIX_DEFAULT		"jeprof"
+
 #define LG_PROF_SAMPLE_DEFAULT		19
 #define LG_PROF_INTERVAL_DEFAULT	-1
 
@@ -53,4 +51,4 @@ typedef struct prof_tdata_s prof_tdata_t;
 #define PROF_TDATA_STATE_PURGATORY	((prof_tdata_t *)(uintptr_t)2)
 #define PROF_TDATA_STATE_MAX		PROF_TDATA_STATE_PURGATORY
 
-#endif /* JEMALLOC_INTERNAL_PROF_TYPES_H */
+#endif /* __JEMALLOC_INTERNAL_PROF_TYPES_H */

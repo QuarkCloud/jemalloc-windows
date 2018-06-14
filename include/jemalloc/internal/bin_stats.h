@@ -1,5 +1,5 @@
-#ifndef JEMALLOC_INTERNAL_BIN_STATS_H
-#define JEMALLOC_INTERNAL_BIN_STATS_H
+#ifndef __JEMALLOC_INTERNAL_BIN_STATS_H
+#define __JEMALLOC_INTERNAL_BIN_STATS_H 1
 
 #include "jemalloc/internal/mutex_prof.h"
 
@@ -48,4 +48,4 @@ struct bin_stats_s {
 	mutex_prof_data_t mutex_data;
 };
 
-#endif /* JEMALLOC_INTERNAL_BIN_STATS_H */
+#endif /* __JEMALLOC_INTERNAL_BIN_STATS_H */

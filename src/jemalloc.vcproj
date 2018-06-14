@@ -653,10 +653,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\include\jemalloc\internal\tsd_win.h"
-					>
-				</File>
-				<File
 					RelativePath="..\include\jemalloc\internal\util.h"
 					>
 				</File>

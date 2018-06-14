@@ -1,5 +1,7 @@
-#ifndef JEMALLOC_INTERNAL_EXTENT_TYPES_H
-#define JEMALLOC_INTERNAL_EXTENT_TYPES_H
+
+
+#ifndef __JEMALLOC_INTERNAL_EXTENT_TYPES_H
+#define __JEMALLOC_INTERNAL_EXTENT_TYPES_H 1
 
 typedef struct extent_s extent_t;
 typedef struct extents_s extents_t;
@@ -14,4 +16,4 @@ typedef struct extents_s extents_t;
  */
 #define LG_EXTENT_MAX_ACTIVE_FIT_DEFAULT 6
 
-#endif /* JEMALLOC_INTERNAL_EXTENT_TYPES_H */
+#endif /* __JEMALLOC_INTERNAL_EXTENT_TYPES_H */

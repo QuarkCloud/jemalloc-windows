@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_BIT_UTIL_H
-#define JEMALLOC_INTERNAL_BIT_UTIL_H
+
+#ifndef __JEMALLOC_INTERNAL_BIT_UTIL_H
+#define __JEMALLOC_INTERNAL_BIT_UTIL_H 1
 
 #include "jemalloc/internal/assert.h"
 #include <builtin.h>
@@ -13,23 +14,23 @@
 #endif
 
 
-BIT_UTIL_INLINE unsigned
-ffs_llu(unsigned long long bitmap) {
+BIT_UTIL_INLINE unsigned ffs_llu(unsigned long long bitmap) 
+{
 	return JEMALLOC_INTERNAL_FFSLL(bitmap);
 }
 
-BIT_UTIL_INLINE unsigned
-ffs_lu(unsigned long bitmap) {
+BIT_UTIL_INLINE unsigned ffs_lu(unsigned long bitmap) 
+{
 	return JEMALLOC_INTERNAL_FFSL(bitmap);
 }
 
-BIT_UTIL_INLINE unsigned
-ffs_u(unsigned bitmap) {
+BIT_UTIL_INLINE unsigned ffs_u(unsigned bitmap) 
+{
 	return JEMALLOC_INTERNAL_FFS(bitmap);
 }
 
-BIT_UTIL_INLINE unsigned
-ffs_zu(size_t bitmap) {
+BIT_UTIL_INLINE unsigned ffs_zu(size_t bitmap) 
+{
 #if LG_SIZEOF_PTR == LG_SIZEOF_INT
 	return ffs_u(bitmap);
 #elif LG_SIZEOF_PTR == LG_SIZEOF_LONG
@@ -41,8 +42,8 @@ ffs_zu(size_t bitmap) {
 #endif
 }
 
-BIT_UTIL_INLINE unsigned
-ffs_u64(uint64_t bitmap) {
+BIT_UTIL_INLINE unsigned ffs_u64(uint64_t bitmap) 
+{
 #if LG_SIZEOF_LONG == 3
 	return ffs_lu(bitmap);
 #elif LG_SIZEOF_LONG_LONG == 3
@@ -52,8 +53,8 @@ ffs_u64(uint64_t bitmap) {
 #endif
 }
 
-BIT_UTIL_INLINE unsigned
-ffs_u32(uint32_t bitmap) {
+BIT_UTIL_INLINE unsigned ffs_u32(uint32_t bitmap) 
+{
 #if LG_SIZEOF_INT == 2
 	return ffs_u(bitmap);
 #else
@@ -119,4 +120,4 @@ lg_floor(size_t x) {
 
 #undef BIT_UTIL_INLINE
 
-#endif /* JEMALLOC_INTERNAL_BIT_UTIL_H */
+#endif /* __JEMALLOC_INTERNAL_BIT_UTIL_H */

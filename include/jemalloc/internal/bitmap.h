@@ -1,5 +1,5 @@
-#ifndef JEMALLOC_INTERNAL_BITMAP_H
-#define JEMALLOC_INTERNAL_BITMAP_H
+#ifndef __JEMALLOC_INTERNAL_BITMAP_H
+#define __JEMALLOC_INTERNAL_BITMAP_H 1
 
 #include "jemalloc/internal/arena_types.h"
 #include "jemalloc/internal/bit_util.h"
@@ -366,4 +366,4 @@ bitmap_unset(bitmap_t *bitmap, const bitmap_info_t *binfo, size_t bit) {
 #endif /* BITMAP_USE_TREE */
 }
 
-#endif /* JEMALLOC_INTERNAL_BITMAP_H */
+#endif /* __JEMALLOC_INTERNAL_BITMAP_H */

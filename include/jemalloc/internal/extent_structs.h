@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_EXTENT_STRUCTS_H
-#define JEMALLOC_INTERNAL_EXTENT_STRUCTS_H
+
+#ifndef __JEMALLOC_INTERNAL_EXTENT_STRUCTS_H
+#define __JEMALLOC_INTERNAL_EXTENT_STRUCTS_H 1
 
 #include "jemalloc/internal/atomic.h"
 #include "jemalloc/internal/bitmap.h"
@@ -216,4 +217,4 @@ struct extents_s {
 	bool			delay_coalesce;
 };
 
-#endif /* JEMALLOC_INTERNAL_EXTENT_STRUCTS_H */
+#endif /* __JEMALLOC_INTERNAL_EXTENT_STRUCTS_H */

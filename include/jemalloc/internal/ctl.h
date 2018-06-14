@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_CTL_H
-#define JEMALLOC_INTERNAL_CTL_H
+
+#ifndef __JEMALLOC_INTERNAL_CTL_H
+#define __JEMALLOC_INTERNAL_CTL_H 1
 
 #include "jemalloc/internal/jemalloc_internal_types.h"
 #include "jemalloc/internal/malloc_io.h"
@@ -128,4 +129,4 @@ void ctl_postfork_child(tsdn_t *tsdn);
 	}								\
 } while (0)
 
-#endif /* JEMALLOC_INTERNAL_CTL_H */
+#endif /* __JEMALLOC_INTERNAL_CTL_H */

@@ -1,5 +1,5 @@
-#ifndef JEMALLOC_INTERNAL_BACKGROUND_THREAD_EXTERNS_H
-#define JEMALLOC_INTERNAL_BACKGROUND_THREAD_EXTERNS_H
+#ifndef __JEMALLOC_INTERNAL_BACKGROUND_THREAD_EXTERNS_H
+#define __JEMALLOC_INTERNAL_BACKGROUND_THREAD_EXTERNS_H 1
 
 extern bool opt_background_thread;
 extern size_t opt_max_background_threads;
@@ -30,4 +30,4 @@ extern int pthread_create_wrapper(pthread_t *__restrict, const pthread_attr_t *,
 bool background_thread_boot0(void);
 bool background_thread_boot1(tsdn_t *tsdn);
 
-#endif /* JEMALLOC_INTERNAL_BACKGROUND_THREAD_EXTERNS_H */
+#endif /* __ */

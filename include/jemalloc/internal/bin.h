@@ -1,5 +1,5 @@
-#ifndef JEMALLOC_INTERNAL_BIN_H
-#define JEMALLOC_INTERNAL_BIN_H
+#ifndef __JEMALLOC_INTERNAL_BIN_H
+#define __JEMALLOC_INTERNAL_BIN_H 1
 
 #include "jemalloc/internal/extent_types.h"
 #include "jemalloc/internal/extent_structs.h"
@@ -103,4 +103,4 @@ bin_stats_merge(tsdn_t *tsdn, bin_stats_t *dst_bin_stats, bin_t *bin) {
 	malloc_mutex_unlock(tsdn, &bin->lock);
 }
 
-#endif /* JEMALLOC_INTERNAL_BIN_H */
+#endif /* __JEMALLOC_INTERNAL_BIN_H */

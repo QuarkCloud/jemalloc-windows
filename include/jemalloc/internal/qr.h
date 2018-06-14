@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_QR_H
-#define JEMALLOC_INTERNAL_QR_H
+
+#ifndef __JEMALLOC_INTERNAL_QR_H
+#define __JEMALLOC_INTERNAL_QR_H 1
 
 /* Ring definitions. */
 #define qr(a_type)							\
@@ -69,4 +70,4 @@ struct {								\
 	    (var) = (((var) != (a_qr))					\
 	    ? (var)->a_field.qre_prev : NULL))
 
-#endif /* JEMALLOC_INTERNAL_QR_H */
+#endif /* __JEMALLOC_INTERNAL_QR_H */

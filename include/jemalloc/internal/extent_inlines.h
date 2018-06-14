@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_EXTENT_INLINES_H
-#define JEMALLOC_INTERNAL_EXTENT_INLINES_H
+
+#ifndef __JEMALLOC_INTERNAL_EXTENT_INLINES_H
+#define __JEMALLOC_INTERNAL_EXTENT_INLINES_H 1
 
 #include "jemalloc/internal/mutex.h"
 #include "jemalloc/internal/mutex_pool.h"
@@ -430,4 +431,4 @@ extent_esnead_comp(const extent_t *a, const extent_t *b) {
 	return ret;
 }
 
-#endif /* JEMALLOC_INTERNAL_EXTENT_INLINES_H */
+#endif /* __JEMALLOC_INTERNAL_EXTENT_INLINES_H */

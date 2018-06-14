@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_EXTENT_EXTERNS_H
-#define JEMALLOC_INTERNAL_EXTENT_EXTERNS_H
+
+#ifndef __JEMALLOC_INTERNAL_EXTENT_EXTERNS_H
+#define __JEMALLOC_INTERNAL_EXTENT_EXTERNS_H 1
 
 #include "jemalloc/internal/mutex.h"
 #include "jemalloc/internal/mutex_pool.h"
@@ -70,4 +71,4 @@ bool extent_merge_wrapper(tsdn_t *tsdn, arena_t *arena,
 
 bool extent_boot(void);
 
-#endif /* JEMALLOC_INTERNAL_EXTENT_EXTERNS_H */
+#endif /* __JEMALLOC_INTERNAL_EXTENT_EXTERNS_H */

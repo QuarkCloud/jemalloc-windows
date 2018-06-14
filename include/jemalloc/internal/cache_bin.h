@@ -1,5 +1,5 @@
-#ifndef JEMALLOC_INTERNAL_CACHE_BIN_H
-#define JEMALLOC_INTERNAL_CACHE_BIN_H
+#ifndef __JEMALLOC_INTERNAL_CACHE_BIN_H
+#define __JEMALLOC_INTERNAL_CACHE_BIN_H 1
 
 #include "jemalloc/internal/ql.h"
 
