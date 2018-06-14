@@ -12,7 +12,7 @@
 #ifdef JEMALLOC_JET
 #  undef JEMALLOC_IS_MALLOC
 #  define JEMALLOC_N(n) jet_##n
-#  include "jemalloc/internal/public_namespace.h"
+//#  include "jemalloc/internal/public_namespace.h"
 #  define JEMALLOC_NO_RENAME
 #  include "../jemalloc.h"
 #  undef JEMALLOC_NO_RENAME
@@ -38,6 +38,7 @@
  * want the inclusion of hooks to happen early, so that we hook as much as
  * possible.
  */
+/**
 #ifndef JEMALLOC_NO_PRIVATE_NAMESPACE
 #  ifndef JEMALLOC_JET
 #    include "jemalloc/internal/private_namespace.h"
@@ -45,6 +46,7 @@
 //#    include "jemalloc/internal/private_namespace_jet.h"
 #  endif
 #endif
+*/
 #include "jemalloc/internal/test_hooks.h"
 
 #ifdef JEMALLOC_DEFINE_MADVISE_FREE

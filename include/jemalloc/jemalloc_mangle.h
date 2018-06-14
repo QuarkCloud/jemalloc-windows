@@ -32,35 +32,3 @@
 #  define memalign je_memalign
 #  define valloc je_valloc
 #endif
-
-/*
- * The je_* macros can be used as stable alternative names for the
- * public jemalloc API if JEMALLOC_NO_DEMANGLE is defined.  This is primarily
- * meant for use in jemalloc itself, but it can be used by application code to
- * provide isolation from the name mangling specified via --with-mangling
- * and/or --with-jemalloc-prefix.
- */
-#ifndef JEMALLOC_NO_DEMANGLE
-#  undef je_aligned_alloc
-#  undef je_calloc
-#  undef je_dallocx
-#  undef je_free
-#  undef je_mallctl
-#  undef je_mallctlbymib
-#  undef je_mallctlnametomib
-#  undef je_malloc
-#  undef je_malloc_conf
-#  undef je_malloc_message
-#  undef je_malloc_stats_print
-#  undef je_malloc_usable_size
-#  undef je_mallocx
-#  undef je_nallocx
-#  undef je_posix_memalign
-#  undef je_rallocx
-#  undef je_realloc
-#  undef je_sallocx
-#  undef je_sdallocx
-#  undef je_xallocx
-#  undef je_memalign
-#  undef je_valloc
-#endif

@@ -529,14 +529,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\include\jemalloc\internal\private_namespace.gen.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\jemalloc\internal\private_namespace.h"
-					>
-				</File>
-				<File
 					RelativePath="..\include\jemalloc\internal\prng.h"
 					>
 				</File>
@@ -558,14 +550,6 @@
 				</File>
 				<File
 					RelativePath="..\include\jemalloc\internal\prof_types.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\jemalloc\internal\public_namespace.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\jemalloc\internal\public_unnamespace.h"
 					>
 				</File>
 				<File

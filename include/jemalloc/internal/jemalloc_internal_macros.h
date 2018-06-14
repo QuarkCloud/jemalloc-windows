@@ -1,11 +1,8 @@
 #ifndef JEMALLOC_INTERNAL_MACROS_H
 #define JEMALLOC_INTERNAL_MACROS_H
 
-#ifdef JEMALLOC_DEBUG
 #  define JEMALLOC_ALWAYS_INLINE static inline
-#else
-#  define JEMALLOC_ALWAYS_INLINE JEMALLOC_ATTR(always_inline) static inline
-#endif
+
 #ifdef _MSC_VER
 #  define inline _inline
 #endif

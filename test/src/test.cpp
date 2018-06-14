@@ -64,7 +64,6 @@ test_is_reentrant() {
 	return reentrancy != non_reentrant;
 }
 
-JEMALLOC_FORMAT_PRINTF(1, 2)
 void
 test_skip(const char *format, ...) {
 	va_list ap;
@@ -76,7 +75,6 @@ test_skip(const char *format, ...) {
 	test_status = test_status_skip;
 }
 
-JEMALLOC_FORMAT_PRINTF(1, 2)
 void
 test_fail(const char *format, ...) {
 	va_list ap;

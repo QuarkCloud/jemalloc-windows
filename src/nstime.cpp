@@ -152,7 +152,7 @@ nstime_monotonic_impl(void) {
 	return NSTIME_MONOTONIC;
 #undef NSTIME_MONOTONIC
 }
-nstime_monotonic_t *JET_MUTABLE nstime_monotonic = nstime_monotonic_impl;
+nstime_monotonic_t * nstime_monotonic = nstime_monotonic_impl;
 
 static bool
 nstime_update_impl(nstime_t *time) {
@@ -169,4 +169,4 @@ nstime_update_impl(nstime_t *time) {
 
 	return false;
 }
-nstime_update_t *JET_MUTABLE nstime_update = nstime_update_impl;
+JEMALLOC_EXPORT nstime_update_t *nstime_update = nstime_update_impl;
