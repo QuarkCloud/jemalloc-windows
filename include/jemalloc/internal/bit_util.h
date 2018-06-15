@@ -3,7 +3,7 @@
 #define __JEMALLOC_INTERNAL_BIT_UTIL_H 1
 
 #include "jemalloc/internal/assert.h"
-#include <builtin.h>
+//#include <builtin.h>
 
 #define BIT_UTIL_INLINE static inline
 
