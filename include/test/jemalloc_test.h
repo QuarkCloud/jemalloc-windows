@@ -1,5 +1,8 @@
 
 
+#ifndef __JAMALL_TEST_H
+#define __JAMALL_TEST_H 1
+
 #include <limits.h>
 #ifndef SIZE_T_MAX
 #  define SIZE_T_MAX	SIZE_MAX
@@ -11,20 +14,10 @@
 #include <math.h>
 #include <string.h>
 
-#  include <pthread.h>
+#include <pthread.h>
 
 #include "test/jemalloc_test_defs.h"
 
-#ifdef JEMALLOC_OSSPIN
-#  include <libkern/OSAtomic.h>
-#endif
-
-#if defined(HAVE_ALTIVEC) && !defined(__APPLE__)
-#  include <altivec.h>
-#endif
-#ifdef HAVE_SSE2
-#  include <emmintrin.h>
-#endif
 
 /******************************************************************************/
 /*
@@ -156,3 +149,6 @@ static const bool config_debug =
 		not_implemented();					\
 	}								\
 } while (0)
+
+
+#endif /** __JAMALL_TEST_H */

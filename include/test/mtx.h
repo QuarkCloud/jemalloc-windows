@@ -15,7 +15,7 @@ typedef struct {
 #endif
 } mtx_t;
 
-bool	mtx_init(mtx_t *mtx);
-void	mtx_fini(mtx_t *mtx);
-void	mtx_lock(mtx_t *mtx);
-void	mtx_unlock(mtx_t *mtx);
+TESTAPI bool	mtx_init(mtx_t *mtx);
+TESTAPI void	mtx_fini(mtx_t *mtx);
+TESTAPI void	mtx_lock(mtx_t *mtx);
+TESTAPI void	mtx_unlock(mtx_t *mtx);

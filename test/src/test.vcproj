@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="stress"
-	ProjectGUID="{E30F55CC-B303-43D5-8C49-EDA90965E7D9}"
-	RootNamespace="stress"
+	Name="test"
+	ProjectGUID="{7612659E-0868-4733-8927-675DFC06D7D3}"
+	RootNamespace="test"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -20,7 +20,7 @@
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			ConfigurationType="2"
 			CharacterSet="0"
 			>
 			<Tool
@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)include&quot;;&quot;$(QUARK_ROOT)include&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;JEMALLOC_STRESS_TEST;JEMALLOC_MANGLE"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;TEST_EXPORTS;JEMALLOC_STRESS_TEST;JEMALLOC_MANGLE"
 				IgnoreStandardIncludePath="true"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -63,12 +63,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="jemallocd.lib"
-				OutputFile="$(SolutionDir)win32\$(ProjectName).exe"
+				OutputFile="$(SolutionDir)win32\$(ProjectName)d.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="$(SolutionDir)win32"
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -97,7 +95,7 @@
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			ConfigurationType="2"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -120,7 +118,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;TEST_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -140,7 +138,7 @@
 				Name="VCLinkerTool"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"
@@ -177,11 +175,43 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\main.cpp"
+				RelativePath=".\btalloc.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\microbench.cpp"
+				RelativePath=".\btalloc_0.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\btalloc_1.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\math.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\mq.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\mtx.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SFMT.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\test.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\thd.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\timer.cpp"
 				>
 			</File>
 		</Filter>
@@ -191,11 +221,99 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\..\include\test\btalloc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\extent_hooks.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\test\jemalloc_test.h"
 				>
 			</File>
 			<File
-				RelativePath=".\microbench.h"
+				RelativePath="..\..\include\test\jemalloc_test_defs.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\math.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\mq.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\mtx.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\SFMT-alti.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\SFMT-params.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\SFMT-params11213.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\SFMT-params1279.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\SFMT-params132049.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\SFMT-params19937.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\SFMT-params216091.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\SFMT-params2281.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\SFMT-params4253.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\SFMT-params44497.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\SFMT-params607.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\SFMT-params86243.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\SFMT-sse2.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\SFMT.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\test.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\thd.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\test\timer.h"
 				>
 			</File>
 		</Filter>

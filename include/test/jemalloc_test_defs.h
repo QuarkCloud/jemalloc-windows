@@ -8,3 +8,10 @@
  */
 /* #undef HAVE_SSE2 */
 /* #undef HAVE_ALTIVEC */
+
+#ifdef TEST_EXPORTS
+#define TESTAPI __declspec(dllexport)
+#else 
+#define TESTAPI __declspec(dllimport)
+#endif
+
