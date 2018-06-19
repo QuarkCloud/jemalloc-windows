@@ -27,7 +27,7 @@ struct background_thread_info_s {
 	malloc_mutex_t		mtx;
 	background_thread_state_t	state;
 	/* When true, it means no wakeup scheduled. */
-	atomic_b_t		indefinite_sleep;
+	atomic_u32_t		indefinite_sleep;
 	/* Next scheduled wakeup time (absolute time in ns). */
 	nstime_t		next_wakeup;
 	/*

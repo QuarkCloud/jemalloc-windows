@@ -107,9 +107,9 @@ tsd_force_recompute(tsdn_t *tsdn) {
 	malloc_mutex_lock(tsdn, &tsd_nominal_tsds_lock);
 	tsd_t *remote_tsd;
 	ql_foreach(remote_tsd, &tsd_nominal_tsds, TSD_MANGLE(link)) {
-		assert(atomic_load_u8(&remote_tsd->state, ATOMIC_RELAXED)
+		assert(atomic_load_u32(&remote_tsd->state, ATOMIC_RELAXED)
 		    <= tsd_state_nominal_max);
-		atomic_store_u8(&remote_tsd->state, tsd_state_nominal_recompute,
+		atomic_store_u32(&remote_tsd->state, tsd_state_nominal_recompute,
 		    ATOMIC_RELAXED);
 	}
 	malloc_mutex_unlock(tsdn, &tsd_nominal_tsds_lock);
@@ -166,7 +166,7 @@ tsd_slow_update(tsd_t *tsd) {
 	uint8_t old_state;
 	do {
 		uint8_t new_state = tsd_state_compute(tsd);
-		old_state = atomic_exchange_u8(&tsd->state, new_state,
+		old_state = atomic_exchange_u32(&tsd->state, new_state,
 		    ATOMIC_ACQUIRE);
 	} while (old_state == tsd_state_nominal_recompute);
 }
@@ -175,14 +175,14 @@ void
 tsd_state_set(tsd_t *tsd, uint8_t new_state) {
 	/* Only the tsd module can change the state *to* recompute. */
 	assert(new_state != tsd_state_nominal_recompute);
-	uint8_t old_state = atomic_load_u8(&tsd->state, ATOMIC_RELAXED);
+	uint32_t old_state = atomic_load_u32(&tsd->state, ATOMIC_RELAXED);
 	if (old_state > tsd_state_nominal_max) {
 		/*
 		 * Not currently in the nominal list, but it might need to be
 		 * inserted there.
 		 */
 		assert(!tsd_in_nominal_list(tsd));
-		atomic_store_u8(&tsd->state, new_state, ATOMIC_RELAXED);
+		atomic_store_u32(&tsd->state, new_state, ATOMIC_RELAXED);
 		if (new_state <= tsd_state_nominal_max) {
 			tsd_add_nominal(tsd);
 		}
@@ -195,7 +195,7 @@ tsd_state_set(tsd_t *tsd, uint8_t new_state) {
 		assert(tsd_in_nominal_list(tsd));
 		if (new_state > tsd_state_nominal_max) {
 			tsd_remove_nominal(tsd);
-			atomic_store_u8(&tsd->state, new_state, ATOMIC_RELAXED);
+			atomic_store_u32(&tsd->state, new_state, ATOMIC_RELAXED);
 		} else {
 			/*
 			 * This is the tricky case.  We're transitioning from

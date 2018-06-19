@@ -178,7 +178,7 @@ struct tsd_s {
 	 */
 
 	/* We manually limit the state to just a single byte. */
-	atomic_u8_t state;
+	atomic_u32_t state;
 #define O(n, t, nt)							\
 	t TSD_MANGLE(n);
 MALLOC_TSD

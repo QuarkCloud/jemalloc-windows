@@ -24,15 +24,15 @@ const char	*dss_prec_names[] = {
  * guarantee that sizeof(dss_prec_t) is the same as sizeof(unsigned), and we use
  * atomic operations to synchronize the setting.
  */
-static atomic_u_t	dss_prec_default = ATOMIC_INIT(
+static atomic_u32_t	dss_prec_default = ATOMIC_INIT(
     (unsigned)DSS_PREC_DEFAULT);
 
 /* Base address of the DSS. */
 static void		*dss_base;
 /* Atomic boolean indicating whether a thread is currently extending DSS. */
-static atomic_b_t	dss_extending;
+static atomic_u32_t	dss_extending;
 /* Atomic boolean indicating whether the DSS is exhausted. */
-static atomic_b_t	dss_exhausted;
+static atomic_u32_t	dss_exhausted;
 /* Atomic current upper limit on DSS addresses. */
 static atomic_p_t	dss_max;
 
@@ -50,7 +50,7 @@ extent_dss_prec_get(void) {
 	if (!have_dss) {
 		return dss_prec_disabled;
 	}
-	ret = (dss_prec_t)atomic_load_u(&dss_prec_default, ATOMIC_ACQUIRE);
+	ret = (dss_prec_t)atomic_load_u32(&dss_prec_default, ATOMIC_ACQUIRE);
 	return ret;
 }
 
@@ -59,7 +59,7 @@ extent_dss_prec_set(dss_prec_t dss_prec) {
 	if (!have_dss) {
 		return (dss_prec != dss_prec_disabled);
 	}
-	atomic_store_u(&dss_prec_default, (unsigned)dss_prec, ATOMIC_RELEASE);
+	atomic_store_u32(&dss_prec_default, (unsigned)dss_prec, ATOMIC_RELEASE);
 	return false;
 }
 
@@ -67,20 +67,20 @@ static void
 extent_dss_extending_start(void) {
 	spin_t spinner = SPIN_INITIALIZER;
 	while (true) {
-		bool expected = false;
-		if (atomic_compare_exchange_weak_b(&dss_extending, &expected,
-		    true, ATOMIC_ACQ_REL, ATOMIC_RELAXED)) {
+		uint32_t expected = 0;
+		if (atomic_compare_exchange_weak_u32(&dss_extending, &expected,
+		    1, ATOMIC_ACQ_REL, ATOMIC_RELAXED)) {
 			break;
 		}
 		spin_adaptive(&spinner);
 	}
 }
 
-static void
-extent_dss_extending_finish(void) {
-	assert(atomic_load_b(&dss_extending, ATOMIC_RELAXED));
+static void extent_dss_extending_finish(void) 
+{
+	assert(atomic_load_u32(&dss_extending, ATOMIC_RELAXED));
 
-	atomic_store_b(&dss_extending, false, ATOMIC_RELEASE);
+	atomic_store_u32(&dss_extending, false, ATOMIC_RELEASE);
 }
 
 static void *
@@ -124,7 +124,7 @@ extent_alloc_dss(tsdn_t *tsdn, arena_t *arena, void *new_addr, size_t size,
 	}
 
 	extent_dss_extending_start();
-	if (!atomic_load_b(&dss_exhausted, ATOMIC_ACQUIRE)) {
+	if (!atomic_load_u32(&dss_exhausted, ATOMIC_ACQUIRE)) {
 		/*
 		 * The loop is necessary to recover from races with other
 		 * threads that are using the DSS for something other than
@@ -210,8 +210,7 @@ extent_alloc_dss(tsdn_t *tsdn, arena_t *arena, void *new_addr, size_t size,
 			 */
 			if (dss_prev == (void *)-1) {
 				/* OOM. */
-				atomic_store_b(&dss_exhausted, true,
-				    ATOMIC_RELEASE);
+				atomic_store_u32(&dss_exhausted, true, ATOMIC_RELEASE);
 				goto label_oom;
 			}
 		}
@@ -257,8 +256,8 @@ extent_dss_boot(void) {
 	cassert(have_dss);
 
 	dss_base = extent_dss_sbrk(0);
-	atomic_store_b(&dss_extending, false, ATOMIC_RELAXED);
-	atomic_store_b(&dss_exhausted, dss_base == (void *)-1, ATOMIC_RELAXED);
+	atomic_store_u32(&dss_extending, false, ATOMIC_RELAXED);
+	atomic_store_u32(&dss_exhausted, dss_base == (void *)-1, ATOMIC_RELAXED);
 	atomic_store_p(&dss_max, dss_base, ATOMIC_RELAXED);
 }
 

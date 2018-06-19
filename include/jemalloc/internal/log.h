@@ -36,7 +36,7 @@
  */
 
 extern char log_var_names[JEMALLOC_LOG_VAR_BUFSIZE];
-extern atomic_b_t log_init_done;
+extern atomic_u32_t log_init_done;
 
 typedef struct log_var_s log_var_t;
 struct log_var_s {
@@ -44,7 +44,7 @@ struct log_var_s {
 	 * Lowest bit is "inited", second lowest is "enabled".  Putting them in
 	 * a single word lets us avoid any fences on weak architectures.
 	 */
-	atomic_u_t state;
+	atomic_u32_t state;
 	const char *name;
 };
 
@@ -64,7 +64,7 @@ unsigned log_var_update_state(log_var_t *log_var);
 /* We factor out the metadata management to allow us to test more easily. */
 #define log_do_begin(log_var)						\
 if (config_log) {							\
-	unsigned log_state = atomic_load_u(&(log_var).state,		\
+	unsigned log_state = atomic_load_u32(&(log_var).state,		\
 	    ATOMIC_RELAXED);						\
 	if (unlikely(log_state == LOG_NOT_INITIALIZED)) {		\
 		log_state = log_var_update_state(&(log_var));		\

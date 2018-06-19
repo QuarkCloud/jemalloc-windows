@@ -60,8 +60,8 @@ struct rtree_leaf_elm_s {
 	atomic_p_t	le_bits;
 #else
 	atomic_p_t	le_extent; /* (extent_t *) */
-	atomic_u_t	le_szind; /* (szind_t) */
-	atomic_b_t	le_slab; /* (bool) */
+	atomic_u32_t	le_szind; /* (szind_t) */
+	atomic_u32_t	le_slab; /* (bool) */
 #endif
 };
 
@@ -172,7 +172,7 @@ rtree_subkey(uintptr_t key, unsigned level) {
 JEMALLOC_ALWAYS_INLINE uintptr_t
 rtree_leaf_elm_bits_read(tsdn_t *tsdn, rtree_t *rtree, rtree_leaf_elm_t *elm,
     bool dependent) {
-	return (uintptr_t)atomic_load_p(&elm->le_bits, dependent
+	return (uintptr_t)atomic_load_ptr(&elm->le_bits, dependent
 	    ? ATOMIC_RELAXED : ATOMIC_ACQUIRE);
 }
 
@@ -227,7 +227,7 @@ rtree_leaf_elm_szind_read(tsdn_t *tsdn, rtree_t *rtree,
 	uintptr_t bits = rtree_leaf_elm_bits_read(tsdn, rtree, elm, dependent);
 	return rtree_leaf_elm_bits_szind_get(bits);
 #else
-	return (szind_t)atomic_load_u(&elm->le_szind, dependent ? ATOMIC_RELAXED
+	return (szind_t)atomic_load_u32(&elm->le_szind, dependent ? ATOMIC_RELAXED
 	    : ATOMIC_ACQUIRE);
 #endif
 }
@@ -239,8 +239,7 @@ rtree_leaf_elm_slab_read(tsdn_t *tsdn, rtree_t *rtree,
 	uintptr_t bits = rtree_leaf_elm_bits_read(tsdn, rtree, elm, dependent);
 	return rtree_leaf_elm_bits_slab_get(bits);
 #else
-	return atomic_load_b(&elm->le_slab, dependent ? ATOMIC_RELAXED :
-	    ATOMIC_ACQUIRE);
+	return (atomic_load_u32(&elm->le_slab, dependent ? ATOMIC_RELAXED : ATOMIC_ACQUIRE) != 0);
 #endif
 }
 
@@ -258,9 +257,8 @@ rtree_leaf_elm_extent_write(tsdn_t *tsdn, rtree_t *rtree,
 #endif
 }
 
-static inline void
-rtree_leaf_elm_szind_write(tsdn_t *tsdn, rtree_t *rtree,
-    rtree_leaf_elm_t *elm, szind_t szind) {
+static inline void rtree_leaf_elm_szind_write(tsdn_t *tsdn, rtree_t *rtree,   rtree_leaf_elm_t *elm, szind_t szind) 
+{
 	assert(szind <= NSIZES);
 
 #ifdef RTREE_LEAF_COMPACT
@@ -272,13 +270,13 @@ rtree_leaf_elm_szind_write(tsdn_t *tsdn, rtree_t *rtree,
 	    ((uintptr_t)rtree_leaf_elm_bits_slab_get(old_bits));
 	atomic_store_p(&elm->le_bits, (void *)bits, ATOMIC_RELEASE);
 #else
-	atomic_store_u(&elm->le_szind, szind, ATOMIC_RELEASE);
+    szind = atomic_load_u32(&elm->le_szind, ATOMIC_RELEASE);
 #endif
 }
 
 static inline void
-rtree_leaf_elm_slab_write(tsdn_t *tsdn, rtree_t *rtree,
-    rtree_leaf_elm_t *elm, bool slab) {
+rtree_leaf_elm_slab_write(tsdn_t *tsdn, rtree_t *rtree,rtree_leaf_elm_t *elm, bool slab) 
+{
 #ifdef RTREE_LEAF_COMPACT
 	uintptr_t old_bits = rtree_leaf_elm_bits_read(tsdn, rtree, elm,
 	    true);
@@ -287,7 +285,7 @@ rtree_leaf_elm_slab_write(tsdn_t *tsdn, rtree_t *rtree,
 	    (((uintptr_t)0x1 << LG_VADDR) - 1)) | ((uintptr_t)slab);
 	atomic_store_p(&elm->le_bits, (void *)bits, ATOMIC_RELEASE);
 #else
-	atomic_store_b(&elm->le_slab, slab, ATOMIC_RELEASE);
+	slab = (atomic_load_u32(&elm->le_slab, ATOMIC_RELEASE) != 0);
 #endif
 }
 

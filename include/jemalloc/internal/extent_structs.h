@@ -205,7 +205,7 @@ struct extents_s {
 	 * without holding the mutex can't assume anything about the rest of the
 	 * state of the extents_t).
 	 */
-	atomic_zu_t		npages;
+	atomic_u32_t		npages;
 
 	/* All stored extents must be in the same state. */
 	extent_state_t		state;

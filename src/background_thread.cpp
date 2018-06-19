@@ -16,7 +16,7 @@ size_t opt_max_background_threads = MAX_BACKGROUND_THREAD_LIMIT;
 /* Used for thread creation, termination and stats. */
 malloc_mutex_t background_thread_lock;
 /* Indicates global state.  Atomic because decay reads this w/o locking. */
-atomic_b_t background_thread_enabled_state;
+atomic_u32_t background_thread_enabled_state;
 size_t n_background_threads;
 size_t max_background_threads;
 /* Thread info per-index. */
@@ -125,7 +125,7 @@ arena_decay_compute_purge_interval_impl(tsdn_t *tsdn, arena_decay_t *decay,
 	}
 
 	uint64_t interval;
-	ssize_t decay_time = atomic_load_zd(&decay->time_ms, ATOMIC_RELAXED);
+	ssize_t decay_time = atomic_load_u32(&decay->time_ms, ATOMIC_RELAXED);
 	if (decay_time <= 0) {
 		/* Purging is eagerly done or disabled currently. */
 		interval = BACKGROUND_THREAD_INDEFINITE_SLEEP;
@@ -665,7 +665,7 @@ background_thread_interval_check(tsdn_t *tsdn, arena_t *arena,
 		goto label_done;
 	}
 
-	ssize_t decay_time = atomic_load_zd(&decay->time_ms, ATOMIC_RELAXED);
+	ssize_t decay_time = atomic_load_u32(&decay->time_ms, ATOMIC_RELAXED);
 	if (decay_time <= 0) {
 		/* Purging is eagerly done or disabled currently. */
 		goto label_done_unlock2;

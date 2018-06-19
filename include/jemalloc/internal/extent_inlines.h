@@ -171,22 +171,21 @@ extent_slab_data_get_const(const extent_t *extent) {
 	return &extent->e_slab_data;
 }
 
-static inline prof_tctx_t *
-extent_prof_tctx_get(const extent_t *extent) {
-	return (prof_tctx_t *)atomic_load_p(&extent->e_prof_tctx,
-	    ATOMIC_ACQUIRE);
+static inline prof_tctx_t *extent_prof_tctx_get(extent_t *extent) 
+{
+	return (prof_tctx_t *)atomic_load_p(&extent->e_prof_tctx,ATOMIC_ACQUIRE);
 }
 
-static inline void
-extent_arena_set(extent_t *extent, arena_t *arena) {
+static inline void extent_arena_set(extent_t *extent, arena_t *arena) 
+{
 	unsigned arena_ind = (arena != NULL) ? arena_ind_get(arena) : ((1U <<
 	    MALLOCX_ARENA_BITS) - 1);
 	extent->e_bits = (extent->e_bits & ~EXTENT_BITS_ARENA_MASK) |
 	    ((uint64_t)arena_ind << EXTENT_BITS_ARENA_SHIFT);
 }
 
-static inline void
-extent_addr_set(extent_t *extent, void *addr) {
+static inline void extent_addr_set(extent_t *extent, void *addr) 
+{
 	extent->e_addr = addr;
 }
 

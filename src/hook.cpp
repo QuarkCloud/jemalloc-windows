@@ -14,7 +14,7 @@ struct hooks_internal_s {
 
 seq_define(hooks_internal_t, hooks)
 
-static atomic_u_t nhooks = ATOMIC_INIT(0);
+static atomic_u32_t nhooks = ATOMIC_INIT(0);
 static seq_hooks_t hooks[HOOK_MAX];
 static malloc_mutex_t hooks_mu;
 
@@ -35,8 +35,8 @@ hook_install_locked(hooks_t *to_install) {
 			hooks_internal.hooks = *to_install;
 			hooks_internal.in_use = true;
 			seq_store_hooks(&hooks[i], &hooks_internal);
-			atomic_store_u(&nhooks,
-			    atomic_load_u(&nhooks, ATOMIC_RELAXED) + 1,
+			atomic_store_u32(&nhooks,
+			    atomic_load_u32(&nhooks, ATOMIC_RELAXED) + 1,
 			    ATOMIC_RELAXED);
 			return &hooks[i];
 		}
@@ -65,7 +65,7 @@ hook_remove_locked(seq_hooks_t *to_remove) {
 	assert(hooks_internal.in_use);
 	hooks_internal.in_use = false;
 	seq_store_hooks(to_remove, &hooks_internal);
-	atomic_store_u(&nhooks, atomic_load_u(&nhooks, ATOMIC_RELAXED) - 1,
+	atomic_store_u32(&nhooks, atomic_load_u32(&nhooks, ATOMIC_RELAXED) - 1,
 	    ATOMIC_RELAXED);
 }
 
@@ -138,7 +138,7 @@ hook_reentrantp() {
 }
 
 #define HOOK_PROLOGUE							\
-	if (likely(atomic_load_u(&nhooks, ATOMIC_RELAXED) == 0)) {	\
+	if (likely(atomic_load_u32(&nhooks, ATOMIC_RELAXED) == 0)) {	\
 		return;							\
 	}								\
 	bool *in_hook = hook_reentrantp();				\

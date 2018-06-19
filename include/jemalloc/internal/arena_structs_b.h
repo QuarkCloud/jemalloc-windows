@@ -27,7 +27,7 @@ struct arena_decay_s {
 	 * dirty pages until an equivalent set of unused dirty pages is purged
 	 * and/or reused.
 	 */
-	atomic_zd_t		time_ms;
+	atomic_u32_t		time_ms;
 	/* time / SMOOTHSTEP_NSTEPS. */
 	nstime_t		interval;
 	/*
@@ -88,7 +88,7 @@ struct arena_s {
 	 *
 	 * Synchronization: atomic.
 	 */
-	atomic_u_t		nthreads[2];
+	atomic_u32_t		nthreads[2];
 
 	/*
 	 * When percpu_arena is enabled, to amortize the cost of reading /
@@ -121,28 +121,28 @@ struct arena_s {
 	 *
 	 * Synchronization: atomic.
 	 */
-	atomic_zu_t		offset_state;
+	atomic_u32_t		offset_state;
 
 	/*
 	 * Extent serial number generator state.
 	 *
 	 * Synchronization: atomic.
 	 */
-	atomic_zu_t		extent_sn_next;
+	atomic_u32_t		extent_sn_next;
 
 	/*
 	 * Represents a dss_prec_t, but atomically.
 	 *
 	 * Synchronization: atomic.
 	 */
-	atomic_u_t		dss_prec;
+	atomic_u32_t		dss_prec;
 
 	/*
 	 * Number of pages in active extents.
 	 *
 	 * Synchronization: atomic.
 	 */
-	atomic_zu_t		nactive;
+	atomic_u32_t		nactive;
 
 	/*
 	 * Extant large allocations.

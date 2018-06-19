@@ -66,7 +66,7 @@ rtree_delete_subtree(tsdn_t *tsdn, rtree_t *rtree, rtree_node_elm_t *subtree,
 	if (level + 2 < RTREE_HEIGHT) {
 		for (size_t i = 0; i < nchildren; i++) {
 			rtree_node_elm_t *node =
-			    (rtree_node_elm_t *)atomic_load_p(&subtree[i].child,
+			    (rtree_node_elm_t *)atomic_load_ptr(&subtree[i].child,
 			    ATOMIC_RELAXED);
 			if (node != NULL) {
 				rtree_delete_subtree(tsdn, rtree, node, level +
@@ -76,7 +76,7 @@ rtree_delete_subtree(tsdn_t *tsdn, rtree_t *rtree, rtree_node_elm_t *subtree,
 	} else {
 		for (size_t i = 0; i < nchildren; i++) {
 			rtree_leaf_elm_t *leaf =
-			    (rtree_leaf_elm_t *)atomic_load_p(&subtree[i].child,
+			    (rtree_leaf_elm_t *)atomic_load_ptr(&subtree[i].child,
 			    ATOMIC_RELAXED);
 			if (leaf != NULL) {
 				rtree_leaf_dalloc(tsdn, rtree, leaf);

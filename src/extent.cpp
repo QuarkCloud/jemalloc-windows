@@ -96,8 +96,8 @@ const extent_hooks_t	extent_hooks_default = {
 };
 
 /* Used exclusively for gdump triggering. */
-static atomic_zu_t curpages;
-static atomic_zu_t highpages;
+static atomic_u32_t curpages;
+static atomic_u32_t highpages;
 
 /******************************************************************************/
 /*
@@ -289,7 +289,7 @@ extents_init(tsdn_t *tsdn, extents_t *extents, extent_state_t state,
 	}
 	bitmap_init(extents->bitmap, &extents_bitmap_info, true);
 	extent_list_init(&extents->lru);
-	atomic_store_zu(&extents->npages, 0, ATOMIC_RELAXED);
+	atomic_store_u32(&extents->npages, 0, ATOMIC_RELAXED);
 	extents->state = state;
 	extents->delay_coalesce = delay_coalesce;
 	return false;
@@ -302,7 +302,7 @@ extents_state_get(const extents_t *extents) {
 
 size_t
 extents_npages_get(extents_t *extents) {
-	return atomic_load_zu(&extents->npages, ATOMIC_RELAXED);
+	return atomic_load_u32(&extents->npages, ATOMIC_RELAXED);
 }
 
 static void
@@ -326,8 +326,8 @@ extents_insert_locked(tsdn_t *tsdn, extents_t *extents, extent_t *extent) {
 	 * a store.
 	 */
 	size_t cur_extents_npages =
-	    atomic_load_zu(&extents->npages, ATOMIC_RELAXED);
-	atomic_store_zu(&extents->npages, cur_extents_npages + npages,
+	    atomic_load_u32(&extents->npages, ATOMIC_RELAXED);
+	atomic_store_u32(&extents->npages, cur_extents_npages + npages,
 	    ATOMIC_RELAXED);
 }
 
@@ -351,9 +351,9 @@ extents_remove_locked(tsdn_t *tsdn, extents_t *extents, extent_t *extent) {
 	 * atomic operations for updating extents->npages.
 	 */
 	size_t cur_extents_npages =
-	    atomic_load_zu(&extents->npages, ATOMIC_RELAXED);
+	    atomic_load_u32(&extents->npages, ATOMIC_RELAXED);
 	assert(cur_extents_npages >= npages);
-	atomic_store_zu(&extents->npages,
+	atomic_store_u32(&extents->npages,
 	    cur_extents_npages - (size >> LG_PAGE), ATOMIC_RELAXED);
 }
 
@@ -548,7 +548,7 @@ extents_evict(tsdn_t *tsdn, arena_t *arena, extent_hooks_t **r_extent_hooks,
 			goto label_return;
 		}
 		/* Check the eviction limit. */
-		size_t extents_npages = atomic_load_zu(&extents->npages,
+		size_t extents_npages = atomic_load_u32(&extents->npages,
 		    ATOMIC_RELAXED);
 		if (extents_npages <= npages_min) {
 			extent = NULL;
@@ -706,10 +706,10 @@ extent_gdump_add(tsdn_t *tsdn, const extent_t *extent) {
 
 	if (opt_prof && extent_state_get(extent) == extent_state_active) {
 		size_t nadd = extent_size_get(extent) >> LG_PAGE;
-		size_t cur = atomic_fetch_add_zu(&curpages, nadd,
+		size_t cur = atomic_fetch_add_u32(&curpages, nadd,
 		    ATOMIC_RELAXED) + nadd;
-		size_t high = atomic_load_zu(&highpages, ATOMIC_RELAXED);
-		while (cur > high && !atomic_compare_exchange_weak_zu(
+		size_t high = atomic_load_u32(&highpages, ATOMIC_RELAXED);
+		while (cur > high && !atomic_compare_exchange_weak_u32(
 		    &highpages, &high, cur, ATOMIC_RELAXED, ATOMIC_RELAXED)) {
 			/*
 			 * Don't refresh cur, because it may have decreased
@@ -729,8 +729,8 @@ extent_gdump_sub(tsdn_t *tsdn, const extent_t *extent) {
 
 	if (opt_prof && extent_state_get(extent) == extent_state_active) {
 		size_t nsub = extent_size_get(extent) >> LG_PAGE;
-		assert(atomic_load_zu(&curpages, ATOMIC_RELAXED) >= nsub);
-		atomic_fetch_sub_zu(&curpages, nsub, ATOMIC_RELAXED);
+		assert(atomic_load_u32(&curpages, ATOMIC_RELAXED) >= nsub);
+		atomic_fetch_sub_u32(&curpages, nsub, ATOMIC_RELAXED);
 	}
 }
 
@@ -1168,7 +1168,7 @@ static void *
 extent_alloc_default_impl(tsdn_t *tsdn, arena_t *arena, void *new_addr,
     size_t size, size_t alignment, bool *zero, bool *commit) {
 	void *ret = extent_alloc_core(tsdn, arena, new_addr, size, alignment, zero,
-	    commit, (dss_prec_t)atomic_load_u(&arena->dss_prec,
+	    commit, (dss_prec_t)atomic_load_u32(&arena->dss_prec,
 	    ATOMIC_RELAXED));
 	if (have_madvise_huge && ret) {
 		pages_set_thp_state(ret, size);

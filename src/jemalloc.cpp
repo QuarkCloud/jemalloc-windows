@@ -81,7 +81,7 @@ malloc_mutex_t arenas_lock;
  */
 JEMALLOC_ALIGNED(CACHELINE)
 atomic_p_t		arenas[MALLOCX_ARENA_LIMIT];
-static atomic_u_t	narenas_total; /* Use narenas_total_*(). */
+static atomic_u32_t	narenas_total; /* Use narenas_total_*(). */
 static arena_t		*a0; /* arenas[0]; read-only after initialization. */
 unsigned		narenas_auto; /* Read-only after initialization. */
 
@@ -293,17 +293,17 @@ arena_set(unsigned ind, arena_t *arena) {
 
 static void
 narenas_total_set(unsigned narenas) {
-	atomic_store_u(&narenas_total, narenas, ATOMIC_RELEASE);
+	atomic_store_u32(&narenas_total, narenas, ATOMIC_RELEASE);
 }
 
 static void
 narenas_total_inc(void) {
-	atomic_fetch_add_u(&narenas_total, 1, ATOMIC_RELEASE);
+	atomic_fetch_add_u32(&narenas_total, 1, ATOMIC_RELEASE);
 }
 
 unsigned
 narenas_total_get(void) {
-	return atomic_load_u(&narenas_total, ATOMIC_ACQUIRE);
+	return atomic_load_u32(&narenas_total, ATOMIC_ACQUIRE);
 }
 
 /* Create a new arena and insert it into the arenas array at index ind. */
@@ -1221,7 +1221,7 @@ malloc_conf_init(void) {
 			malloc_abort_invalid_conf();
 		}
 	}
-	atomic_store_b(&log_init_done, true, ATOMIC_RELEASE);
+	atomic_store_u32(&log_init_done, true, ATOMIC_RELEASE);
 }
 
 static bool

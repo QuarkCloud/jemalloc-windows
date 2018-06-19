@@ -30,8 +30,8 @@ percpu_arena_mode_t opt_percpu_arena = PERCPU_ARENA_DEFAULT;
 ssize_t opt_dirty_decay_ms = DIRTY_DECAY_MS_DEFAULT;
 ssize_t opt_muzzy_decay_ms = MUZZY_DECAY_MS_DEFAULT;
 
-static atomic_zd_t dirty_decay_ms_default;
-static atomic_zd_t muzzy_decay_ms_default;
+static atomic_u32_t dirty_decay_ms_default;
+static atomic_u32_t muzzy_decay_ms_default;
 
 const uint64_t h_steps[SMOOTHSTEP_NSTEPS] = {
 #define STEP(step, h, x, y)			\
@@ -68,7 +68,7 @@ arena_basic_stats_merge(tsdn_t *tsdn, arena_t *arena, unsigned *nthreads,
 	*dss = dss_prec_names[arena_dss_prec_get(arena)];
 	*dirty_decay_ms = arena_dirty_decay_ms_get(arena);
 	*muzzy_decay_ms = arena_muzzy_decay_ms_get(arena);
-	*nactive += atomic_load_zu(&arena->nactive, ATOMIC_RELAXED);
+	*nactive += atomic_load_u32(&arena->nactive, ATOMIC_RELAXED);
 	*ndirty += extents_npages_get(&arena->extents_dirty);
 	*nmuzzy += extents_npages_get(&arena->extents_muzzy);
 }
@@ -118,7 +118,7 @@ arena_stats_merge(tsdn_t *tsdn, arena_t *arena, unsigned *nthreads,
 	arena_stats_accum_zu(&astats->internal, arena_internal_get(arena));
 	arena_stats_accum_zu(&astats->metadata_thp, metadata_thp);
 	arena_stats_accum_zu(&astats->resident, base_resident +
-	    (((atomic_load_zu(&arena->nactive, ATOMIC_RELAXED) +
+	    (((atomic_load_u32(&arena->nactive, ATOMIC_RELAXED) +
 	    extents_npages_get(&arena->extents_dirty) +
 	    extents_npages_get(&arena->extents_muzzy)) << LG_PAGE)));
 
@@ -151,7 +151,7 @@ arena_stats_merge(tsdn_t *tsdn, arena_t *arena, unsigned *nthreads,
 	arena_stats_unlock(tsdn, &arena->stats);
 
 	/* tcache_bytes counts currently cached bytes. */
-	atomic_store_zu(&astats->tcache_bytes, 0, ATOMIC_RELAXED);
+	atomic_store_u32(&astats->tcache_bytes, 0, ATOMIC_RELAXED);
 	malloc_mutex_lock(tsdn, &arena->tcache_ql_mtx);
 	cache_bin_array_descriptor_t *descriptor;
 	ql_foreach(descriptor, &arena->cache_bin_array_descriptor_ql, link) {
@@ -276,13 +276,13 @@ arena_slab_reg_dalloc(extent_t *slab, arena_slab_data_t *slab_data, void *ptr) {
 
 static void
 arena_nactive_add(arena_t *arena, size_t add_pages) {
-	atomic_fetch_add_zu(&arena->nactive, add_pages, ATOMIC_RELAXED);
+	atomic_fetch_add_u32(&arena->nactive, add_pages, ATOMIC_RELAXED);
 }
 
 static void
 arena_nactive_sub(arena_t *arena, size_t sub_pages) {
-	assert(atomic_load_zu(&arena->nactive, ATOMIC_RELAXED) >= sub_pages);
-	atomic_fetch_sub_zu(&arena->nactive, sub_pages, ATOMIC_RELAXED);
+	assert(atomic_load_u32(&arena->nactive, ATOMIC_RELAXED) >= sub_pages);
+	atomic_fetch_sub_u32(&arena->nactive, sub_pages, ATOMIC_RELAXED);
 }
 
 static void
@@ -422,12 +422,12 @@ arena_extent_ralloc_large_expand(tsdn_t *tsdn, arena_t *arena, extent_t *extent,
 
 static ssize_t
 arena_decay_ms_read(arena_decay_t *decay) {
-	return atomic_load_zd(&decay->time_ms, ATOMIC_RELAXED);
+	return atomic_load_u32(&decay->time_ms, ATOMIC_RELAXED);
 }
 
 static void
 arena_decay_ms_write(arena_decay_t *decay, ssize_t decay_ms) {
-	atomic_store_zd(&decay->time_ms, decay_ms, ATOMIC_RELAXED);
+	atomic_store_u32(&decay->time_ms, decay_ms, ATOMIC_RELAXED);
 }
 
 static void
@@ -1035,7 +1035,7 @@ arena_reset(tsd_t *tsd, arena_t *arena) {
 		malloc_mutex_unlock(tsd_tsdn(tsd), &bin->lock);
 	}
 
-	atomic_store_zu(&arena->nactive, 0, ATOMIC_RELAXED);
+	atomic_store_u32(&arena->nactive, 0, ATOMIC_RELAXED);
 }
 
 static void
@@ -1686,7 +1686,7 @@ arena_ralloc(tsdn_t *tsdn, arena_t *arena, void *ptr, size_t oldsize,
 
 dss_prec_t
 arena_dss_prec_get(arena_t *arena) {
-	return (dss_prec_t)atomic_load_u(&arena->dss_prec, ATOMIC_ACQUIRE);
+	return (dss_prec_t)atomic_load_u32(&arena->dss_prec, ATOMIC_ACQUIRE);
 }
 
 bool
@@ -1694,13 +1694,13 @@ arena_dss_prec_set(arena_t *arena, dss_prec_t dss_prec) {
 	if (!have_dss) {
 		return (dss_prec != dss_prec_disabled);
 	}
-	atomic_store_u(&arena->dss_prec, (unsigned)dss_prec, ATOMIC_RELEASE);
+	atomic_store_u32(&arena->dss_prec, (unsigned)dss_prec, ATOMIC_RELEASE);
 	return false;
 }
 
 ssize_t
 arena_dirty_decay_ms_default_get(void) {
-	return atomic_load_zd(&dirty_decay_ms_default, ATOMIC_RELAXED);
+	return atomic_load_u32(&dirty_decay_ms_default, ATOMIC_RELAXED);
 }
 
 bool
@@ -1708,13 +1708,13 @@ arena_dirty_decay_ms_default_set(ssize_t decay_ms) {
 	if (!arena_decay_ms_valid(decay_ms)) {
 		return true;
 	}
-	atomic_store_zd(&dirty_decay_ms_default, decay_ms, ATOMIC_RELAXED);
+	atomic_store_u32(&dirty_decay_ms_default, decay_ms, ATOMIC_RELAXED);
 	return false;
 }
 
 ssize_t
 arena_muzzy_decay_ms_default_get(void) {
-	return atomic_load_zd(&muzzy_decay_ms_default, ATOMIC_RELAXED);
+	return atomic_load_u32(&muzzy_decay_ms_default, ATOMIC_RELAXED);
 }
 
 bool
@@ -1722,7 +1722,7 @@ arena_muzzy_decay_ms_default_set(ssize_t decay_ms) {
 	if (!arena_decay_ms_valid(decay_ms)) {
 		return true;
 	}
-	atomic_store_zd(&muzzy_decay_ms_default, decay_ms, ATOMIC_RELAXED);
+	atomic_store_u32(&muzzy_decay_ms_default, decay_ms, ATOMIC_RELAXED);
 	return false;
 }
 
@@ -1755,22 +1755,22 @@ arena_retain_grow_limit_get_set(tsd_t *tsd, arena_t *arena, size_t *old_limit,
 
 unsigned
 arena_nthreads_get(arena_t *arena, bool internal) {
-	return atomic_load_u(&arena->nthreads[internal], ATOMIC_RELAXED);
+	return atomic_load_u32(&arena->nthreads[internal], ATOMIC_RELAXED);
 }
 
 void
 arena_nthreads_inc(arena_t *arena, bool internal) {
-	atomic_fetch_add_u(&arena->nthreads[internal], 1, ATOMIC_RELAXED);
+	atomic_fetch_add_u32(&arena->nthreads[internal], 1, ATOMIC_RELAXED);
 }
 
 void
 arena_nthreads_dec(arena_t *arena, bool internal) {
-	atomic_fetch_sub_u(&arena->nthreads[internal], 1, ATOMIC_RELAXED);
+	atomic_fetch_sub_u32(&arena->nthreads[internal], 1, ATOMIC_RELAXED);
 }
 
 size_t
 arena_extent_sn_next(arena_t *arena) {
-	return atomic_fetch_add_zu(&arena->extent_sn_next, 1, ATOMIC_RELAXED);
+	return atomic_fetch_add_u32(&arena->extent_sn_next, 1, ATOMIC_RELAXED);
 }
 
 arena_t *
@@ -1793,8 +1793,8 @@ arena_new(tsdn_t *tsdn, unsigned ind, extent_hooks_t *extent_hooks) {
 		goto label_error;
 	}
 
-	atomic_store_u(&arena->nthreads[0], 0, ATOMIC_RELAXED);
-	atomic_store_u(&arena->nthreads[1], 0, ATOMIC_RELAXED);
+	atomic_store_u32(&arena->nthreads[0], 0, ATOMIC_RELAXED);
+	atomic_store_u32(&arena->nthreads[1], 0, ATOMIC_RELAXED);
 	arena->last_thd = NULL;
 
 	if (config_stats) {
@@ -1824,16 +1824,16 @@ arena_new(tsdn_t *tsdn, unsigned ind, extent_hooks_t *extent_hooks) {
 		 * cost of test repeatability.  For debug builds, instead use a
 		 * deterministic seed.
 		 */
-		atomic_store_zu(&arena->offset_state, config_debug ? ind :
+		atomic_store_u32(&arena->offset_state, config_debug ? ind :
 		    (size_t)(uintptr_t)arena, ATOMIC_RELAXED);
 	}
 
-	atomic_store_zu(&arena->extent_sn_next, 0, ATOMIC_RELAXED);
+	atomic_store_u32(&arena->extent_sn_next, 0, ATOMIC_RELAXED);
 
-	atomic_store_u(&arena->dss_prec, (unsigned)extent_dss_prec_get(),
+	atomic_store_u32(&arena->dss_prec, (unsigned)extent_dss_prec_get(),
 	    ATOMIC_RELAXED);
 
-	atomic_store_zu(&arena->nactive, 0, ATOMIC_RELAXED);
+	atomic_store_u32(&arena->nactive, 0, ATOMIC_RELAXED);
 
 	extent_list_init(&arena->large);
 	if (malloc_mutex_init(&arena->large_mtx, "arena_large",
@@ -2017,8 +2017,8 @@ void
 arena_postfork_child(tsdn_t *tsdn, arena_t *arena) {
 	unsigned i;
 
-	atomic_store_u(&arena->nthreads[0], 0, ATOMIC_RELAXED);
-	atomic_store_u(&arena->nthreads[1], 0, ATOMIC_RELAXED);
+	atomic_store_u32(&arena->nthreads[0], 0, ATOMIC_RELAXED);
+	atomic_store_u32(&arena->nthreads[1], 0, ATOMIC_RELAXED);
 	if (tsd_arena_get(tsdn_tsd(tsdn)) == arena) {
 		arena_nthreads_inc(arena, false);
 	}

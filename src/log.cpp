@@ -4,7 +4,7 @@
 #include "jemalloc/internal/log.h"
 
 char log_var_names[JEMALLOC_LOG_VAR_BUFSIZE];
-atomic_b_t log_init_done = ATOMIC_INIT(false);
+atomic_u32_t log_init_done = ATOMIC_INIT(false);
 
 /*
  * Returns true if we were able to pick out a segment.  Fills in r_segment_end
@@ -52,7 +52,7 @@ log_var_update_state(log_var_t *log_var) {
 	 * If log_init done is false, we haven't parsed the malloc conf yet.  To
 	 * avoid log-spew, we default to not displaying anything.
 	 */
-	if (!atomic_load_b(&log_init_done, ATOMIC_ACQUIRE)) {
+	if (!atomic_load_u32(&log_init_done, ATOMIC_ACQUIRE)) {
 		return LOG_INITIALIZED_NOT_ENABLED;
 	}
 
@@ -62,13 +62,13 @@ log_var_update_state(log_var_t *log_var) {
 		assert(segment_end < log_var_names + JEMALLOC_LOG_VAR_BUFSIZE);
 		if (log_var_matches_segment(segment_begin, segment_end,
 		    log_var_begin, log_var_end)) {
-			atomic_store_u(&log_var->state, LOG_ENABLED,
+			atomic_store_u32(&log_var->state, LOG_ENABLED,
 			    ATOMIC_RELAXED);
 			return LOG_ENABLED;
 		}
 		if (*segment_end == '\0') {
 			/* Hit the end of the segment string with no match. */
-			atomic_store_u(&log_var->state,
+			atomic_store_u32(&log_var->state,
 			    LOG_INITIALIZED_NOT_ENABLED, ATOMIC_RELAXED);
 			return LOG_INITIALIZED_NOT_ENABLED;
 		}
