@@ -1,6 +1,7 @@
-#include "test/jemalloc_test.h"
 
+#include "test/jemalloc_test.h"
 #include "jemalloc/internal/seq.h"
+#include "unit.h"
 
 typedef struct data_s data_t;
 struct data_s {
@@ -88,7 +89,8 @@ TEST_BEGIN(test_seq_simple) {
 }
 TEST_END
 
-int main(void) {
+int test_seq(void) 
+{
 	return test_no_reentrancy(
 	    test_seq_simple,
 	    test_seq_threaded);

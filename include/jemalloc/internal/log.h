@@ -1,9 +1,11 @@
-#ifndef JEMALLOC_INTERNAL_LOG_H
-#define JEMALLOC_INTERNAL_LOG_H
+
+#ifndef __JEMALLOC_INTERNAL_LOG_H
+#define __JEMALLOC_INTERNAL_LOG_H 1
 
 #include "jemalloc/internal/atomic.h"
 #include "jemalloc/internal/malloc_io.h"
 #include "jemalloc/internal/mutex.h"
+#include "jemalloc/compile.h"
 
 #ifdef JEMALLOC_LOG
 #  define JEMALLOC_LOG_VAR_BUFSIZE 1000
@@ -34,9 +36,10 @@
  * as a debugging interface, to let us keep around some of our printf-debugging
  * statements.
  */
+__BEGIN_DECLS
 
-extern char log_var_names[JEMALLOC_LOG_VAR_BUFSIZE];
-extern atomic_u32_t log_init_done;
+extern JEMALLOC_API char log_var_names[JEMALLOC_LOG_VAR_BUFSIZE];
+extern JEMALLOC_API atomic_u32_t log_init_done;
 
 typedef struct log_var_s log_var_t;
 struct log_var_s {
@@ -59,7 +62,7 @@ struct log_var_s {
  * accurate; if logging is done before logging has finished initializing, then
  * we default to doing the safe thing by logging everything).
  */
-unsigned log_var_update_state(log_var_t *log_var);
+JEMALLOC_API unsigned log_var_update_state(log_var_t *log_var);
 
 /* We factor out the metadata management to allow us to test more easily. */
 #define log_do_begin(log_var)						\
@@ -112,4 +115,6 @@ do {									\
 	log_do_end(log_var)						\
 } while (0)
 
-#endif /* JEMALLOC_INTERNAL_LOG_H */
+__END_DECLS
+
+#endif /* __JEMALLOC_INTERNAL_LOG_H */

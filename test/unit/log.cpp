@@ -1,6 +1,7 @@
-#include "test/jemalloc_test.h"
 
+#include "test/jemalloc_test.h"
 #include "jemalloc/internal/log.h"
+#include "unit.h"
 
 static void
 expect_no_logging(const char *names) {
@@ -30,7 +31,7 @@ expect_no_logging(const char *names) {
 
 TEST_BEGIN(test_log_disabled) {
 	test_skip_if(!config_log);
-	atomic_store_b(&log_init_done, true, ATOMIC_RELAXED);
+	atomic_store_u32(&log_init_done, 1, ATOMIC_RELAXED);
 	expect_no_logging("");
 	expect_no_logging("abc");
 	expect_no_logging("a.b.c");
@@ -42,7 +43,7 @@ TEST_END
 
 TEST_BEGIN(test_log_enabled_direct) {
 	test_skip_if(!config_log);
-	atomic_store_b(&log_init_done, true, ATOMIC_RELAXED);
+	atomic_store_u32(&log_init_done, 1, ATOMIC_RELAXED);
 	log_var_t log_l1 = LOG_VAR_INIT("l1");
 	log_var_t log_l1_a = LOG_VAR_INIT("l1.a");
 	log_var_t log_l2 = LOG_VAR_INIT("l2");
@@ -84,7 +85,7 @@ TEST_END
 
 TEST_BEGIN(test_log_enabled_indirect) {
 	test_skip_if(!config_log);
-	atomic_store_b(&log_init_done, true, ATOMIC_RELAXED);
+	atomic_store_u32(&log_init_done, 1, ATOMIC_RELAXED);
 	strcpy(log_var_names, "l0|l1|abc|l2.b|def");
 
 	/* On. */
@@ -134,7 +135,7 @@ TEST_END
 
 TEST_BEGIN(test_log_enabled_global) {
 	test_skip_if(!config_log);
-	atomic_store_b(&log_init_done, true, ATOMIC_RELAXED);
+	atomic_store_u32(&log_init_done, 1, ATOMIC_RELAXED);
 	strcpy(log_var_names, "abc|.|def");
 
 	log_var_t log_l1 = LOG_VAR_INIT("l1");
@@ -156,7 +157,7 @@ TEST_END
 
 TEST_BEGIN(test_logs_if_no_init) {
 	test_skip_if(!config_log);
-	atomic_store_b(&log_init_done, false, ATOMIC_RELAXED);
+	atomic_store_u32(&log_init_done, 0, ATOMIC_RELAXED);
 
 	log_var_t l = LOG_VAR_INIT("definitely.not.enabled");
 
@@ -181,8 +182,8 @@ TEST_BEGIN(test_log_only_format_string) {
 }
 TEST_END
 
-int
-main(void) {
+int test_log(void) 
+{
 	return test(
 	    test_log_disabled,
 	    test_log_enabled_direct,

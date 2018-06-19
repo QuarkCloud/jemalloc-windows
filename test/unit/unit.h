@@ -11,6 +11,9 @@ int test_nstime() ;
 int test_ql() ;
 int test_qr() ;
 int test_rb() ;
+int test_hash() ;
+int test_log() ;
+int test_seq()  ;
 
 __END_DECLS
 

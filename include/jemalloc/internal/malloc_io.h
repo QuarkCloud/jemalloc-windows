@@ -34,15 +34,15 @@ extern "C" {
  */
 #define MALLOC_PRINTF_BUFSIZE	4096
 
-int buferror(int err, char *buf, size_t buflen);
-uintmax_t malloc_strtoumax(const char *  nptr, char ** endptr,  int base);
-void malloc_write(const char *s);
+JEMALLOC_API int buferror(int err, char *buf, size_t buflen);
+JEMALLOC_API uintmax_t malloc_strtoumax(const char *  nptr, char ** endptr,  int base);
+JEMALLOC_API void malloc_write(const char *s);
 
 /*
  * malloc_vsnprintf() supports a subset of snprintf(3) that avoids floating
  * point math.
  */
-size_t malloc_vsnprintf(char *str, size_t size, const char *format,va_list ap);
+JEMALLOC_API size_t malloc_vsnprintf(char *str, size_t size, const char *format,va_list ap);
 
 JEMALLOC_API size_t __cdecl malloc_snprintf(char *str, size_t size, const char *format, ...);
 /*

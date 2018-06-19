@@ -4,7 +4,7 @@
 #include "jemalloc/internal/log.h"
 
 char log_var_names[JEMALLOC_LOG_VAR_BUFSIZE];
-atomic_u32_t log_init_done = ATOMIC_INIT(false);
+atomic_u32_t log_init_done = ATOMIC_INIT(0);
 
 /*
  * Returns true if we were able to pick out a segment.  Fills in r_segment_end
@@ -57,8 +57,8 @@ log_var_update_state(log_var_t *log_var) {
 	}
 
 	while (true) {
-		const char *segment_end = log_var_extract_segment(
-		    segment_begin);
+		const char *segment_end = log_var_extract_segment(segment_begin);
+
 		assert(segment_end < log_var_names + JEMALLOC_LOG_VAR_BUFSIZE);
 		if (log_var_matches_segment(segment_begin, segment_end,
 		    log_var_begin, log_var_end)) {

@@ -29,6 +29,7 @@
 
 #include "test/jemalloc_test.h"
 #include "jemalloc/internal/hash.h"
+#include "unit.h"
 
 typedef enum {
 	hash_variant_x86_32,
@@ -44,6 +45,7 @@ hash_variant_bits(hash_variant_t variant) {
 	case hash_variant_x64_128: return 128;
 	default: not_reached();
 	}
+    return 0 ;
 }
 
 static const char *
@@ -54,6 +56,7 @@ hash_variant_string(hash_variant_t variant) {
 	case hash_variant_x64_128: return "hash_x64_128";
 	default: not_reached();
 	}
+    return NULL ;
 }
 
 #define KEY_SIZE	256
@@ -164,8 +167,8 @@ TEST_BEGIN(test_hash_x64_128) {
 }
 TEST_END
 
-int
-main(void) {
+int test_hash() 
+{
 	return test(
 	    test_hash_x86_32,
 	    test_hash_x86_128,

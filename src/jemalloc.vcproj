@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)include&quot;;&quot;$(QUARK_ROOT)\include&quot;"
-				PreprocessorDefinitions="_DEBUG;_USRDLL;_WINDLL;JEMALLOC_EXPORT"
+				PreprocessorDefinitions="_DEBUG;_USRDLL;_WINDLL;JEMALLOC_EXPORT;JEMALLOC_LOG"
 				IgnoreStandardIncludePath="true"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"

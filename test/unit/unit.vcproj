@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)include&quot;;&quot;$(QUARK_ROOT)include&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;JEMALLOC_UNIT_TEST"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;JEMALLOC_UNIT_TEST;JEMALLOC_LOG"
 				IgnoreStandardIncludePath="true"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -175,6 +175,14 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\hash.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\log.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
@@ -192,6 +200,10 @@
 			</File>
 			<File
 				RelativePath=".\rb.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\seq.cpp"
 				>
 			</File>
 			<File
