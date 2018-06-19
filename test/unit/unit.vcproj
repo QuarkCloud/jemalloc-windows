@@ -179,6 +179,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\nstime.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ql.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\qr.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\rb.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\zero.cpp"
 				>
 			</File>

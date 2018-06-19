@@ -1,4 +1,6 @@
+
 #include "test/jemalloc_test.h"
+#include "unit.h"
 
 #define BILLION	UINT64_C(1000000000)
 
@@ -230,8 +232,8 @@ TEST_BEGIN(test_nstime_update) {
 }
 TEST_END
 
-int
-main(void) {
+int test_nstime(void) 
+{
 	return test(
 	    test_nstime_init,
 	    test_nstime_init2,

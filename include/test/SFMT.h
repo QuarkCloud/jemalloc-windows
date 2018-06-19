@@ -63,23 +63,27 @@
  * unsigned int and 64-bit unsigned int in hexadecimal format.
  */
 
-#ifndef SFMT_H
-#define SFMT_H
+#ifndef __JEMALLOC_TEST_SFMT_H
+#define __JEMALLOC_TEST_SFMT_H 1
+
+#include "test/jemalloc_test_defs.h"
+
+__BEGIN_DECLS
 
 typedef struct sfmt_s sfmt_t;
 
-uint32_t gen_rand32(sfmt_t *ctx);
-uint32_t gen_rand32_range(sfmt_t *ctx, uint32_t limit);
-uint64_t gen_rand64(sfmt_t *ctx);
-uint64_t gen_rand64_range(sfmt_t *ctx, uint64_t limit);
-void fill_array32(sfmt_t *ctx, uint32_t *array, int size);
-void fill_array64(sfmt_t *ctx, uint64_t *array, int size);
-sfmt_t *init_gen_rand(uint32_t seed);
-sfmt_t *init_by_array(uint32_t *init_key, int key_length);
-void fini_gen_rand(sfmt_t *ctx);
-const char *get_idstring(void);
-int get_min_array_size32(void);
-int get_min_array_size64(void);
+TESTAPI uint32_t gen_rand32(sfmt_t *ctx);
+TESTAPI uint32_t gen_rand32_range(sfmt_t *ctx, uint32_t limit);
+TESTAPI uint64_t gen_rand64(sfmt_t *ctx);
+TESTAPI uint64_t gen_rand64_range(sfmt_t *ctx, uint64_t limit);
+TESTAPI void fill_array32(sfmt_t *ctx, uint32_t *array, int size);
+TESTAPI void fill_array64(sfmt_t *ctx, uint64_t *array, int size);
+TESTAPI sfmt_t *init_gen_rand(uint32_t seed);
+TESTAPI sfmt_t *init_by_array(uint32_t *init_key, int key_length);
+TESTAPI void fini_gen_rand(sfmt_t *ctx);
+TESTAPI const char *get_idstring(void);
+TESTAPI int get_min_array_size32(void);
+TESTAPI int get_min_array_size64(void);
 
 /* These real versions are due to Isaku Wada */
 /** generates a random number on [0,1]-real-interval */
@@ -143,4 +147,7 @@ static inline double genrand_res53_mix(sfmt_t *ctx) {
     y = gen_rand32(ctx);
     return to_res53_mix(x, y);
 }
-#endif
+
+__END_DECLS
+
+#endif /** __JEMALLOC_TEST_SFMT_H*/

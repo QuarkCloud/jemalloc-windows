@@ -1,3 +1,9 @@
+
+#ifndef __JEMALL_TEST_H
+#define __JEMALL_TEST_H 1
+
+#include <builtin.h>
+
 #define ASSERT_BUFSIZE	256
 
 #define assert_cmp(t, a, b, cmp, neg_cmp, pri, ...) do {		\
@@ -336,3 +342,6 @@ TESTAPI test_status_t	p_test_no_malloc_init(test_t *t, ...);
 TESTAPI void	p_test_init(const char *name);
 TESTAPI void	p_test_fini(void);
 TESTAPI void	p_test_fail(const char *prefix, const char *message);
+
+
+#endif /** __JEMALL_TEST_H */

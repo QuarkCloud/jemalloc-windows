@@ -1,6 +1,6 @@
 #include "test/jemalloc_test.h"
-
 #include "jemalloc/internal/qr.h"
+#include "unit.h"
 
 /* Number of ring entries, in [2..26]. */
 #define NENTRIES 9
@@ -232,8 +232,8 @@ TEST_BEGIN(test_qr_meld_split) {
 }
 TEST_END
 
-int
-main(void) {
+int test_qr() 
+{
 	return test(
 	    test_qr_one,
 	    test_qr_after_insert,

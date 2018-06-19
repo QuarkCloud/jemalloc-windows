@@ -1,6 +1,6 @@
 #include "test/jemalloc_test.h"
-
 #include "jemalloc/internal/rb.h"
+#include "unit.h"
 
 #define rbtn_black_height(a_type, a_field, a_rbt, r_height) do {	\
 	a_type *rbp_bh_t;						\
@@ -347,9 +347,13 @@ TEST_BEGIN(test_rb_random) {
 }
 TEST_END
 
-int
-main(void) {
+int test_rb()
+{
+/**
 	return test(
 	    test_rb_empty,
 	    test_rb_random);
+*/
+    return test(test_rb_random);
+
 }

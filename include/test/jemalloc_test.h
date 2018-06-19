@@ -24,7 +24,7 @@
  * For unit tests, expose all public and private interfaces.
  */
 #ifdef JEMALLOC_UNIT_TEST
-#  define JEMALLOC_JET
+//#  define JEMALLOC_JET
 #  define JEMALLOC_MANGLE
 #  include "jemalloc/internal/jemalloc_preamble.h"
 #  include "jemalloc/internal/jemalloc_internal_includes.h"
