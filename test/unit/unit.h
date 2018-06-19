@@ -1,6 +1,6 @@
 
-#ifndef __JEMALLOC_TEST_MICROBENCH_H
-#define __JEMALLOC_TEST_MICROBENCH_H 1
+#ifndef __JEMALLOC_TEST_UNIT_H
+#define __JEMALLOC_TEST_UNIT_H 1
 
 #include "test/jemalloc_test.h"
 
@@ -28,4 +28,5 @@ void malloc_nallocx_free(void) ;
 
 __END_DECLS
 
-#endif /** __JEMALLOC_TEST_MICROBENCH_H */
+
+#endif /**__JEMALLOC_TEST_UNIT_H*/
