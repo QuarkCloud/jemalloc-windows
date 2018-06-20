@@ -3,7 +3,7 @@
 #include "jemalloc/internal/jemalloc_internal_externs.h"
 #include "jemalloc/internal/tsd_types.h"
 #include "jemalloc/mangle.h"
-#include "unit.h"
+#include "unit_test.h"
 
 rtree_node_alloc_t *rtree_node_alloc_orig;
 rtree_node_dalloc_t *rtree_node_dalloc_orig;

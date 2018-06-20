@@ -1,7 +1,7 @@
 
 #include "test/jemalloc_test.h"
 #include "jemalloc/internal/seq.h"
-#include "unit.h"
+#include "unit_test.h"
 
 typedef struct data_s data_t;
 struct data_s {

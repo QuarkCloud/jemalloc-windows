@@ -2,7 +2,7 @@
 #include "test/jemalloc_test.h"
 #include "jemalloc/jemalloc.h"
 #include "jemalloc/mangle.h"
-#include "unit.h"
+#include "unit_test.h"
 
 
 static void test_zero(size_t sz_min, size_t sz_max) 

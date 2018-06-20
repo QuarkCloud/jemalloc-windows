@@ -1,6 +1,6 @@
 #include "test/jemalloc_test.h"
 #include "jemalloc/internal/qr.h"
-#include "unit.h"
+#include "unit_test.h"
 
 /* Number of ring entries, in [2..26]. */
 #define NENTRIES 9

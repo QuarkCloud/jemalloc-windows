@@ -1,6 +1,6 @@
 #include "test/jemalloc_test.h"
-
 #include "jemalloc/internal/div.h"
+#include "unit_test.h"
 
 TEST_BEGIN(test_div_exhaustive) {
 	for (size_t divisor = 2; divisor < 1000 * 1000; ++divisor) {
@@ -22,8 +22,8 @@ TEST_BEGIN(test_div_exhaustive) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_div()
+{
 	return test_no_reentrancy(
 	    test_div_exhaustive);
 }

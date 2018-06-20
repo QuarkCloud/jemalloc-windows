@@ -1,5 +1,5 @@
 
-#include "unit.h"
+#include "unit_test.h"
 
 
 int main(int argc , char * argv[])
@@ -15,6 +15,11 @@ int main(int argc , char * argv[])
     //f_test_math() ;
     /**f_test_rtree() ;*/
     //f_test_size_classes() ;
-    f_test_atomic() ;
+    //f_test_atomic() ;
+    //f_test_spin() ;
+    //f_test_ticker() ;
+    //f_test_bit_util() ;
+    //f_test_bitmap() ;
+    //f_test_div() ;
     return 0 ;
 }

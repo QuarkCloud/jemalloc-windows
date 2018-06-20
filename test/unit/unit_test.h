@@ -1,6 +1,6 @@
 
-#ifndef __JEMALLOC_TEST_UNIT_H
-#define __JEMALLOC_TEST_UNIT_H 1
+#ifndef __JEMALLOC_TEST_UNIT_TEST_H
+#define __JEMALLOC_TEST_UNIT_TEST_H 1
 
 #include <quark_compile.h>
 
@@ -18,7 +18,12 @@ int f_test_math() ;
 int f_test_rtree() ;
 int f_test_size_classes() ;
 int f_test_atomic() ;
+int f_test_spin() ;
+int f_test_ticker() ;
+int f_test_bit_util() ;
+int f_test_bitmap() ;
+int f_test_div() ;
 
 __END_DECLS
 
-#endif /**__JEMALLOC_TEST_UNIT_H*/
+#endif /**__JEMALLOC_TEST_UNIT_TEST_H*/

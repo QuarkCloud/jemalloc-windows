@@ -1,7 +1,7 @@
 
 #include "test/jemalloc_test.h"
 #include "jemalloc/internal/log.h"
-#include "unit.h"
+#include "unit_test.h"
 
 static void
 expect_no_logging(const char *names) {

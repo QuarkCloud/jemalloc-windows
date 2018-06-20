@@ -1,5 +1,5 @@
 #include "test/jemalloc_test.h"
-#include "unit.h"
+#include "unit_test.h"
 
 /*
  * We *almost* have consistent short names (e.g. "u32" for uint32_t, "b" for

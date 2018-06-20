@@ -1,9 +1,11 @@
+
 #ifndef __JEMALLOC_INTERNAL_BITMAP_H
 #define __JEMALLOC_INTERNAL_BITMAP_H 1
 
 #include "jemalloc/internal/arena_types.h"
 #include "jemalloc/internal/bit_util.h"
 #include "jemalloc/internal/size_classes.h"
+#include "jemalloc/compile.h"
 
 typedef unsigned long bitmap_t;
 #define LG_SIZEOF_BITMAP	LG_SIZEOF_LONG
@@ -168,9 +170,9 @@ typedef struct bitmap_info_s {
 #endif /* BITMAP_USE_TREE */
 } bitmap_info_t;
 
-void bitmap_info_init(bitmap_info_t *binfo, size_t nbits);
-void bitmap_init(bitmap_t *bitmap, const bitmap_info_t *binfo, bool fill);
-size_t bitmap_size(const bitmap_info_t *binfo);
+JEMALLOC_API void bitmap_info_init(bitmap_info_t *binfo, size_t nbits);
+JEMALLOC_API void bitmap_init(bitmap_t *bitmap, const bitmap_info_t *binfo, bool fill);
+JEMALLOC_API size_t bitmap_size(const bitmap_info_t *binfo);
 
 static inline bool
 bitmap_full(bitmap_t *bitmap, const bitmap_info_t *binfo) {

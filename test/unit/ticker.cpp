@@ -1,6 +1,6 @@
 #include "test/jemalloc_test.h"
-
 #include "jemalloc/internal/ticker.h"
+#include "unit_test.h"
 
 TEST_BEGIN(test_ticker_tick) {
 #define NREPS 2
@@ -64,8 +64,8 @@ TEST_BEGIN(test_ticker_copy) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_ticker()
+{
 	return test(
 	    test_ticker_tick,
 	    test_ticker_ticks,

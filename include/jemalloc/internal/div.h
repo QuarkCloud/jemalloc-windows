@@ -3,6 +3,7 @@
 #define __JEMALLOC_INTERNAL_DIV_H 1
 
 #include "jemalloc/internal/assert.h"
+#include "jemalloc/compile.h"
 
 /*
  * This module does the division that computes the index of a region in a slab,
@@ -19,7 +20,7 @@ struct div_info_s {
 	size_t d;
 };
 
-void div_init(div_info_t *div_info, size_t divisor);
+JEMALLOC_API void div_init(div_info_t *div_info, size_t divisor);
 
 static inline size_t div_compute(div_info_t *div_info, size_t n) 
 {

@@ -1,5 +1,5 @@
 #include "test/jemalloc_test.h"
-#include "unit.h"
+#include "unit_test.h"
 
 #define MAX_REL_ERR 1.0e-9
 #define MAX_ABS_ERR 1.0e-9

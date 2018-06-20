@@ -1,6 +1,6 @@
 
 #include "test/jemalloc_test.h"
-#include "unit.h"
+#include "unit_test.h"
 
 #define BILLION	UINT64_C(1000000000)
 

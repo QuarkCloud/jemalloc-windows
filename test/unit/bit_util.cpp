@@ -1,6 +1,6 @@
 #include "test/jemalloc_test.h"
-
 #include "jemalloc/internal/bit_util.h"
+#include "unit_test.h"
 
 #define TEST_POW2_CEIL(t, suf, pri) do {				\
 	unsigned i, pow2;						\
@@ -48,8 +48,8 @@ TEST_BEGIN(test_pow2_ceil_zu) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_bit_util()
+{
 	return test(
 	    test_pow2_ceil_u64,
 	    test_pow2_ceil_u32,

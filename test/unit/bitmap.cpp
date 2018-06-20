@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
 
 #define NBITS_TAB \
     NB( 1) \
@@ -419,8 +420,8 @@ TEST_BEGIN(test_bitmap_xfu) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_bitmap()
+{
 	return test(
 	    test_bitmap_initializer,
 	    test_bitmap_size,

@@ -179,6 +179,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\bit_util.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\bitmap.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\div.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\hash.cpp"
 				>
 			</File>
@@ -223,6 +235,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\spin.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ticker.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\zero.cpp"
 				>
 			</File>
@@ -233,7 +253,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\unit.h"
+				RelativePath=".\unit_test.h"
 				>
 			</File>
 		</Filter>
