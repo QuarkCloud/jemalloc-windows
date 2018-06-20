@@ -1,4 +1,6 @@
 #include "test/jemalloc_test.h"
+#include "jemalloc/mangle.h"
+#include "unit_test.h"
 
 #define NSENDERS	3
 #define NMSGS		100000
@@ -80,8 +82,8 @@ TEST_BEGIN(test_mq_threaded) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_mq()
+{
 	return test(
 	    test_mq_basic,
 	    test_mq_threaded);

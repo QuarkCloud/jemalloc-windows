@@ -1,4 +1,6 @@
 #include "test/jemalloc_test.h"
+#include "jemalloc/mangle.h"
+#include "unit_test.h"
 
 /*
  * If we're e.g. in debug mode, we *never* enter the fast path, and so shouldn't
@@ -131,7 +133,7 @@ TEST_END
 
 typedef struct {
 	atomic_u32_t phase;
-	atomic_b_t error;
+	atomic_u32_t error;
 } global_slow_data_t;
 
 static void *
@@ -145,7 +147,7 @@ thd_start_global_slow(void *arg) {
 	 * No global slowness has happened yet; there was an error if we were
 	 * originally fast but aren't now.
 	 */
-	atomic_store_b(&data->error, originally_fast && !tsd_fast(tsd),
+	atomic_store_u32(&data->error, originally_fast && !tsd_fast(tsd),
 	    ATOMIC_SEQ_CST);
 	atomic_store_u32(&data->phase, 1, ATOMIC_SEQ_CST);
 
@@ -153,14 +155,14 @@ thd_start_global_slow(void *arg) {
 	while (atomic_load_u32(&data->phase, ATOMIC_SEQ_CST) != 2) {
 	}
 	free(mallocx(1, 0));
-	atomic_store_b(&data->error, tsd_fast(tsd), ATOMIC_SEQ_CST);
+    atomic_store_u32(&data->error, tsd_fast(tsd) ? 1 : 0, ATOMIC_SEQ_CST);
 	atomic_store_u32(&data->phase, 3, ATOMIC_SEQ_CST);
 
 	/* PHASE 4 */
 	while (atomic_load_u32(&data->phase, ATOMIC_SEQ_CST) != 4) {
 	}
 	free(mallocx(1, 0));
-	atomic_store_b(&data->error, tsd_fast(tsd), ATOMIC_SEQ_CST);
+    atomic_store_u32(&data->error, tsd_fast(tsd) ? 1 : 0, ATOMIC_SEQ_CST);
 	atomic_store_u32(&data->phase, 5, ATOMIC_SEQ_CST);
 
 	/* PHASE 6 */
@@ -168,7 +170,7 @@ thd_start_global_slow(void *arg) {
 	}
 	free(mallocx(1, 0));
 	/* Only one decrement so far. */
-	atomic_store_b(&data->error, tsd_fast(tsd), ATOMIC_SEQ_CST);
+    atomic_store_u32(&data->error, tsd_fast(tsd) ? 1 : 0, ATOMIC_SEQ_CST);
 	atomic_store_u32(&data->phase, 7, ATOMIC_SEQ_CST);
 
 	/* PHASE 8 */
@@ -179,7 +181,7 @@ thd_start_global_slow(void *arg) {
 	 * Both decrements happened; we should be fast again (if we ever
 	 * were)
 	 */
-	atomic_store_b(&data->error, originally_fast && !tsd_fast(tsd),
+    atomic_store_u32(&data->error, (originally_fast && !tsd_fast(tsd)) ? 1 : 0,
 	    ATOMIC_SEQ_CST);
 	atomic_store_u32(&data->phase, 9, ATOMIC_SEQ_CST);
 
@@ -206,7 +208,7 @@ TEST_BEGIN(test_tsd_global_slow) {
 		 * Spin-wait.
 		 */
 	}
-	assert_false(atomic_load_b(&data.error, ATOMIC_SEQ_CST), "");
+	assert_false(atomic_load_u32(&data.error, ATOMIC_SEQ_CST) != 0, "");
 	tsd_global_slow_inc(tsd_tsdn(tsd));
 	free(mallocx(1, 0));
 	assert_false(tsd_fast(tsd), "");
@@ -215,7 +217,7 @@ TEST_BEGIN(test_tsd_global_slow) {
 	/* PHASE 3 */
 	while (atomic_load_u32(&data.phase, ATOMIC_SEQ_CST) != 3) {
 	}
-	assert_false(atomic_load_b(&data.error, ATOMIC_SEQ_CST), "");
+	assert_false(atomic_load_u32(&data.error, ATOMIC_SEQ_CST) != 0 , "");
 	/* Increase again, so that we can test multiple fast/slow changes. */
 	tsd_global_slow_inc(tsd_tsdn(tsd));
 	atomic_store_u32(&data.phase, 4, ATOMIC_SEQ_CST);
@@ -225,7 +227,7 @@ TEST_BEGIN(test_tsd_global_slow) {
 	/* PHASE 5 */
 	while (atomic_load_u32(&data.phase, ATOMIC_SEQ_CST) != 5) {
 	}
-	assert_false(atomic_load_b(&data.error, ATOMIC_SEQ_CST), "");
+	assert_false(atomic_load_u32(&data.error, ATOMIC_SEQ_CST) != 0, "");
 	tsd_global_slow_dec(tsd_tsdn(tsd));
 	atomic_store_u32(&data.phase, 6, ATOMIC_SEQ_CST);
 	/* We only decreased once; things should still be slow. */
@@ -235,7 +237,7 @@ TEST_BEGIN(test_tsd_global_slow) {
 	/* PHASE 7 */
 	while (atomic_load_u32(&data.phase, ATOMIC_SEQ_CST) != 7) {
 	}
-	assert_false(atomic_load_b(&data.error, ATOMIC_SEQ_CST), "");
+	assert_false(atomic_load_u32(&data.error, ATOMIC_SEQ_CST)!= 0, "");
 	tsd_global_slow_dec(tsd_tsdn(tsd));
 	atomic_store_u32(&data.phase, 8, ATOMIC_SEQ_CST);
 	/* We incremented and then decremented twice; we should be fast now. */
@@ -245,14 +247,14 @@ TEST_BEGIN(test_tsd_global_slow) {
 	/* PHASE 9 */
 	while (atomic_load_u32(&data.phase, ATOMIC_SEQ_CST) != 9) {
 	}
-	assert_false(atomic_load_b(&data.error, ATOMIC_SEQ_CST), "");
+	assert_false(atomic_load_u32(&data.error, ATOMIC_SEQ_CST)!= 0, "");
 
 	thd_join(thd, NULL);
 }
 TEST_END
 
-int
-main(void) {
+int f_test_tsd(void) 
+{
 	/* Ensure tsd bootstrapped. */
 	if (nallocx(1, 0) == 0) {
 		malloc_printf("Initialization error");

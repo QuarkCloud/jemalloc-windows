@@ -203,6 +203,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\emitter.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\hash.cpp"
 				>
 			</File>
@@ -219,7 +223,31 @@
 				>
 			</File>
 			<File
+				RelativePath=".\mq.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\mtx.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\nstime.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\pack.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\pages.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ph.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\prng.cpp"
 				>
 			</File>
 			<File
@@ -247,11 +275,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\smoothstep.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\spin.cpp"
 				>
 			</File>
 			<File
+				RelativePath=".\stats.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ticker.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tsd.cpp"
 				>
 			</File>
 			<File

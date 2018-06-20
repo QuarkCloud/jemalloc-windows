@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
 
 static const uint64_t smoothstep_tab[] = {
 #define STEP(step, h, x, y)			\
@@ -93,8 +94,8 @@ TEST_BEGIN(test_smoothstep_slope) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_smoothstep(void) 
+{
 	return test(
 	    test_smoothstep_integral,
 	    test_smoothstep_monotonic,

@@ -1,6 +1,6 @@
 #include "test/jemalloc_test.h"
-
 #include "jemalloc/internal/ph.h"
+#include "unit_test.h"
 
 typedef struct node_s node_t;
 
@@ -310,8 +310,8 @@ TEST_BEGIN(test_ph_random) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_ph(void) 
+{
 	return test(
 	    test_ph_empty,
 	    test_ph_random);

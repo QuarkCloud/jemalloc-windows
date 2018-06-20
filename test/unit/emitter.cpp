@@ -1,5 +1,6 @@
 #include "test/jemalloc_test.h"
 #include "jemalloc/internal/emitter.h"
+#include "unit_test.h"
 
 /*
  * This is so useful for debugging and feature work, we'll leave printing
@@ -400,8 +401,8 @@ TEST_BEGIN(test_table_row) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_emitter()
+{
 	return test_no_reentrancy(
 	    test_dict,
 	    test_table_printf,

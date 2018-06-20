@@ -1,4 +1,6 @@
 #include "test/jemalloc_test.h"
+#include "jemalloc/mangle.h"
+#include "unit_test.h"
 
 TEST_BEGIN(test_stats_summary) {
 	size_t sz, allocated, active, resident, mapped;
@@ -355,8 +357,8 @@ TEST_BEGIN(test_stats_arenas_lextents) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_stats(void) 
+{
 	return test_no_reentrancy(
 	    test_stats_summary,
 	    test_stats_large,

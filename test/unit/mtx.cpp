@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
 
 #define NTHREADS	2
 #define NINCRS		2000000
@@ -49,8 +50,8 @@ TEST_BEGIN(test_mtx_race) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_mtx()
+{
 	return test(
 	    test_mtx_basic,
 	    test_mtx_race);

@@ -26,6 +26,16 @@ int f_test_div() ;
 int f_test_base() ;
 int f_test_decay() ;
 int f_test_a0() ;
+int f_test_emitter() ;
+int f_test_mq() ;
+int f_test_mtx() ;
+int f_test_pack() ;
+int f_test_pages() ;
+int f_test_ph() ;
+int f_test_prng() ;
+int f_test_tsd() ;
+int f_test_smoothstep()  ;
+int f_test_stats()  ;
 
 __END_DECLS
 

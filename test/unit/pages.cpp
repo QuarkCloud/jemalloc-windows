@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
 
 TEST_BEGIN(test_pages_huge) {
 	size_t alloc_size;
@@ -22,8 +23,8 @@ TEST_BEGIN(test_pages_huge) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_pages(void) 
+{
 	return test(
 	    test_pages_huge);
 }

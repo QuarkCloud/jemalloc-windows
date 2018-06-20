@@ -24,5 +24,15 @@ int main(int argc , char * argv[])
     //f_test_base() ;
     /**f_test_decay() ;*/
     /**f_test_a0() ; */
+    //f_test_emitter() ;
+    /**f_test_mq() ;*/
+    //f_test_mtx() ;
+    /**f_test_pack() ; */
+    //f_test_pages() ;
+    /**f_test_ph() ; */
+    //f_test_prng() ;
+    /**f_test_tsd() ; */
+    //f_test_smoothstep()  ;
+    f_test_stats()  ;
     return 0 ;
 }

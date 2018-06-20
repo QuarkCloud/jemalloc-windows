@@ -1,5 +1,8 @@
-#ifndef JEMALLOC_INTERNAL_PAGES_EXTERNS_H
-#define JEMALLOC_INTERNAL_PAGES_EXTERNS_H
+
+#ifndef __JEMALLOC_INTERNAL_PAGES_EXTERNS_H
+#define __JEMALLOC_INTERNAL_PAGES_EXTERNS_H 1
+
+#include "jemalloc/compile.h"
 
 /* Page size.  LG_PAGE is determined by the configure script. */
 #ifdef PAGE_MASK
@@ -68,21 +71,21 @@ typedef enum {
 } thp_mode_t;
 
 #define THP_MODE_DEFAULT thp_mode_default
-extern thp_mode_t opt_thp;
-extern thp_mode_t init_system_thp_mode; /* Initial system wide state. */
-extern const char *thp_mode_names[];
+extern JEMALLOC_API thp_mode_t opt_thp;
+extern JEMALLOC_API thp_mode_t init_system_thp_mode; /* Initial system wide state. */
+extern JEMALLOC_API const char *thp_mode_names[];
 
-void *pages_map(void *addr, size_t size, size_t alignment, bool *commit);
-void pages_unmap(void *addr, size_t size);
-bool pages_commit(void *addr, size_t size);
-bool pages_decommit(void *addr, size_t size);
-bool pages_purge_lazy(void *addr, size_t size);
-bool pages_purge_forced(void *addr, size_t size);
-bool pages_huge(void *addr, size_t size);
-bool pages_nohuge(void *addr, size_t size);
-bool pages_dontdump(void *addr, size_t size);
-bool pages_dodump(void *addr, size_t size);
-bool pages_boot(void);
-void pages_set_thp_state (void *ptr, size_t size);
+JEMALLOC_API void *pages_map(void *addr, size_t size, size_t alignment, bool *commit);
+JEMALLOC_API void pages_unmap(void *addr, size_t size);
+JEMALLOC_API bool pages_commit(void *addr, size_t size);
+JEMALLOC_API bool pages_decommit(void *addr, size_t size);
+JEMALLOC_API bool pages_purge_lazy(void *addr, size_t size);
+JEMALLOC_API bool pages_purge_forced(void *addr, size_t size);
+JEMALLOC_API bool pages_huge(void *addr, size_t size);
+JEMALLOC_API bool pages_nohuge(void *addr, size_t size);
+JEMALLOC_API bool pages_dontdump(void *addr, size_t size);
+JEMALLOC_API bool pages_dodump(void *addr, size_t size);
+JEMALLOC_API bool pages_boot(void);
+JEMALLOC_API void pages_set_thp_state (void *ptr, size_t size);
 
-#endif /* JEMALLOC_INTERNAL_PAGES_EXTERNS_H */
+#endif /* __JEMALLOC_INTERNAL_PAGES_EXTERNS_H */

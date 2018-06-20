@@ -1,4 +1,10 @@
-void	mq_nanosleep(unsigned ns);
+
+#ifndef __JEMALLOC_TEST_MQ_H
+#define __JEMALLOC_TEST_MQ_H 1
+
+#include "test/jemalloc_test_defs.h"
+
+TESTAPI void mq_nanosleep(unsigned ns);
 
 /*
  * Simple templated message queue implementation that relies on only mutexes for
@@ -105,3 +111,5 @@ a_prefix##put(a_mq_type *mq, a_mq_msg_type *msg) {			\
 	mq->count++;							\
 	mtx_unlock(&mq->lock);						\
 }
+
+#endif /** __JEMALLOC_TEST_MQ_H */

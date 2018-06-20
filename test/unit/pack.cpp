@@ -1,4 +1,6 @@
 #include "test/jemalloc_test.h"
+#include "jemalloc/mangle.h"
+#include "unit_test.h"
 
 /*
  * Size class that is a divisor of the page size, ideally 4+ regions per run.
@@ -159,8 +161,8 @@ TEST_BEGIN(test_pack) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_pack(void) 
+{
 	return test(
 	    test_pack);
 }

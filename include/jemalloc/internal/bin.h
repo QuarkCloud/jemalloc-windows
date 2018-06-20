@@ -5,6 +5,7 @@
 #include "jemalloc/internal/extent_structs.h"
 #include "jemalloc/internal/mutex.h"
 #include "jemalloc/internal/bin_stats.h"
+#include "jemalloc/compile.h"
 
 /*
  * A bin contains a set of extents that are currently being used for slab
@@ -48,7 +49,7 @@ struct bin_info_s {
 	bitmap_info_t		bitmap_info;
 };
 
-extern const bin_info_t bin_infos[NBINS];
+extern JEMALLOC_API const bin_info_t bin_infos[NBINS];
 
 
 typedef struct bin_s bin_t;
@@ -79,12 +80,12 @@ struct bin_s {
 };
 
 /* Initializes a bin to empty.  Returns true on error. */
-bool bin_init(bin_t *bin);
+JEMALLOC_API bool bin_init(bin_t *bin);
 
 /* Forking. */
-void bin_prefork(tsdn_t *tsdn, bin_t *bin);
-void bin_postfork_parent(tsdn_t *tsdn, bin_t *bin);
-void bin_postfork_child(tsdn_t *tsdn, bin_t *bin);
+JEMALLOC_API void bin_prefork(tsdn_t *tsdn, bin_t *bin);
+JEMALLOC_API void bin_postfork_parent(tsdn_t *tsdn, bin_t *bin);
+JEMALLOC_API void bin_postfork_child(tsdn_t *tsdn, bin_t *bin);
 
 /* Stats. */
 static inline void
