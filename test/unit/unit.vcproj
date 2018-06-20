@@ -175,7 +175,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\a0.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\atomic.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\base.cpp"
 				>
 			</File>
 			<File
@@ -184,6 +192,10 @@
 			</File>
 			<File
 				RelativePath=".\bitmap.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\decay.cpp"
 				>
 			</File>
 			<File

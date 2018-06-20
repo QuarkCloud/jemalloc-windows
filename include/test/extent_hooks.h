@@ -1,7 +1,8 @@
-/*
- * Boilerplate code used for testing extent hooks via interception and
- * passthrough.
- */
+
+#ifndef __JEMALLOC_TEST_EXTENT_HOOKS_H
+#define __JEMALLOC_TEST_EXTENT_HOOKS_H 1
+
+#include "jemalloc/mangle.h"
 
 static void	*extent_alloc_hook(extent_hooks_t *extent_hooks, void *new_addr,
     size_t size, size_t alignment, bool *zero, bool *commit,
@@ -279,11 +280,13 @@ extent_merge_hook(extent_hooks_t *extent_hooks, void *addr_a, size_t size_a,
 	return err;
 }
 
-static void
-extent_hooks_prep(void) {
+static void extent_hooks_prep(void) 
+{
 	size_t sz;
 
 	sz = sizeof(default_hooks);
 	assert_d_eq(mallctl("arena.0.extent_hooks", (void *)&default_hooks, &sz,
 	    NULL, 0), 0, "Unexpected mallctl() error");
 }
+
+#endif  /** __JEMALLOC_TEST_EXTENT_HOOKS_H */

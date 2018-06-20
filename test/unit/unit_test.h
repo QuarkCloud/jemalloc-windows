@@ -23,6 +23,9 @@ int f_test_ticker() ;
 int f_test_bit_util() ;
 int f_test_bitmap() ;
 int f_test_div() ;
+int f_test_base() ;
+int f_test_decay() ;
+int f_test_a0() ;
 
 __END_DECLS
 

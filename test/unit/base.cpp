@@ -1,6 +1,6 @@
 #include "test/jemalloc_test.h"
-
 #include "test/extent_hooks.h"
+#include "unit_test.h"
 
 static extent_hooks_t hooks_null = {
 	extent_alloc_hook,
@@ -225,8 +225,8 @@ TEST_BEGIN(test_base_hooks_not_null) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_base()
+{
 	return test(
 	    test_base_hooks_default,
 	    test_base_hooks_null,

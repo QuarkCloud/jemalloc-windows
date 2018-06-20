@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
 
 TEST_BEGIN(test_a0) {
 	void *p;
@@ -9,8 +10,9 @@ TEST_BEGIN(test_a0) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_a0()
+{
 	return test_no_malloc_init(
 	    test_a0);
 }
+

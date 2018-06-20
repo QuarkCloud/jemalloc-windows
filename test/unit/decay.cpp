@@ -1,6 +1,7 @@
 #include "test/jemalloc_test.h"
-
 #include "jemalloc/internal/ticker.h"
+#include "jemalloc/mangle.h"
+#include "unit_test.h"
 
 static nstime_monotonic_t *nstime_monotonic_orig;
 static nstime_update_t *nstime_update_orig;
@@ -588,12 +589,15 @@ TEST_BEGIN(test_decay_never) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_decay()
+{
+/**
 	return test(
 	    test_decay_ticks,
 	    test_decay_ticker,
 	    test_decay_nonmonotonic,
 	    test_decay_now,
 	    test_decay_never);
+*/
+	return test(test_decay_ticks);
 }

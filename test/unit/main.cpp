@@ -21,5 +21,8 @@ int main(int argc , char * argv[])
     //f_test_bit_util() ;
     //f_test_bitmap() ;
     //f_test_div() ;
+    //f_test_base() ;
+    /**f_test_decay() ;*/
+    /**f_test_a0() ; */
     return 0 ;
 }
