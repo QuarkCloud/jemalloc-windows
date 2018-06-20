@@ -1,4 +1,6 @@
 #include "test/jemalloc_test.h"
+#include "unit.h"
+#include "jemalloc/mangle.h"
 
 static size_t
 get_max_size_class(void) {
@@ -174,8 +176,8 @@ TEST_BEGIN(test_overflow) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_size_classes(void) 
+{
 	return test(
 	    test_size_classes,
 	    test_psize_classes,

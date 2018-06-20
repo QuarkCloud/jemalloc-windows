@@ -1,7 +1,9 @@
-#ifdef JEMALLOC_INTERNAL_TSD_GENERIC_H
-#error This file should be included only once, by tsd.h.
-#endif
-#define JEMALLOC_INTERNAL_TSD_GENERIC_H
+
+
+#ifndef __JEMALLOC_INTERNAL_TSD_GENERIC_H
+#define __JEMALLOC_INTERNAL_TSD_GENERIC_H 1
+
+#include "jemalloc/compile.h"
 
 typedef struct tsd_init_block_s tsd_init_block_t;
 struct tsd_init_block_s {
@@ -18,14 +20,14 @@ typedef struct {
 	tsd_t val;
 } tsd_wrapper_t;
 
-void *tsd_init_check_recursion(tsd_init_head_t *head,
+JEMALLOC_API void *tsd_init_check_recursion(tsd_init_head_t *head,
     tsd_init_block_t *block);
-void tsd_init_finish(tsd_init_head_t *head, tsd_init_block_t *block);
+JEMALLOC_API void tsd_init_finish(tsd_init_head_t *head, tsd_init_block_t *block);
 
-extern pthread_key_t tsd_tsd;
-extern tsd_init_head_t tsd_init_head;
-extern tsd_wrapper_t tsd_boot_wrapper;
-extern bool tsd_booted;
+extern JEMALLOC_API pthread_key_t tsd_tsd;
+extern JEMALLOC_API tsd_init_head_t tsd_init_head;
+extern JEMALLOC_API tsd_wrapper_t tsd_boot_wrapper;
+extern JEMALLOC_API bool tsd_booted;
 
 /* Initialization/cleanup. */
 JEMALLOC_ALWAYS_INLINE void
@@ -155,3 +157,5 @@ tsd_set(tsd_t *val) {
 	}
 	wrapper->initialized = true;
 }
+
+#endif /** __JEMALLOC_INTERNAL_TSD_GENERIC_H */

@@ -1,5 +1,7 @@
-#ifndef JEMALLOC_INTERNAL_RTREE_CTX_H
-#define JEMALLOC_INTERNAL_RTREE_CTX_H
+#ifndef __JEMALLOC_INTERNAL_RTREE_CTX_H
+#define __JEMALLOC_INTERNAL_RTREE_CTX_H 1
+
+#include "jemalloc/compile.h"
 
 /*
  * Number of leafkey/leaf pairs to cache in L1 and L2 level respectively.  Each
@@ -45,6 +47,6 @@ struct rtree_ctx_s {
 	rtree_ctx_cache_elm_t	l2_cache[RTREE_CTX_NCACHE_L2];
 };
 
-void rtree_ctx_data_init(rtree_ctx_t *ctx);
+JEMALLOC_API void rtree_ctx_data_init(rtree_ctx_t *ctx);
 
-#endif /* JEMALLOC_INTERNAL_RTREE_CTX_H */
+#endif /* __JEMALLOC_INTERNAL_RTREE_CTX_H */

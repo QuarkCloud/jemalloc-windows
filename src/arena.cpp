@@ -236,9 +236,9 @@ arena_slab_reg_alloc(extent_t *slab, const bin_info_t *bin_info) {
 	return ret;
 }
 
-#ifndef JEMALLOC_JET
+//#ifndef JEMALLOC_JET
 static
-#endif
+//#endif
 size_t
 arena_slab_regind(extent_t *slab, szind_t binind, const void *ptr) {
 	size_t diff, regind;

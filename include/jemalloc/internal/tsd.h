@@ -12,6 +12,7 @@
 #include "jemalloc/internal/tcache_structs.h"
 #include "jemalloc/internal/util.h"
 #include "jemalloc/internal/witness.h"
+#include "jemalloc/compile.h"
 
 /*
  * Thread-Specific-Data layout
@@ -48,17 +49,17 @@
  * (never touched unless config_debug) at the end of tcache, so we place them
  * there to avoid breaking the cachelines and possibly paging in an extra page.
  */
-#ifdef JEMALLOC_JET
+//#ifdef JEMALLOC_JET
 typedef void (*test_callback_t)(int *);
 #  define MALLOC_TSD_TEST_DATA_INIT 0x72b65c10
 #  define MALLOC_TEST_TSD \
     O(test_data,		int,			int)		\
     O(test_callback,		test_callback_t,	int)
 #  define MALLOC_TEST_TSD_INITIALIZER , MALLOC_TSD_TEST_DATA_INIT, NULL
-#else
-#  define MALLOC_TEST_TSD
-#  define MALLOC_TEST_TSD_INITIALIZER
-#endif
+//#else
+//#  define MALLOC_TEST_TSD
+//#  define MALLOC_TEST_TSD_INITIALIZER
+//#endif
 
 /* Various uses of this struct need it to be a named type. */
 typedef ql_elm(tsd_t) tsd_link_t;
@@ -104,23 +105,23 @@ typedef ql_elm(tsd_t) tsd_link_t;
     MALLOC_TEST_TSD_INITIALIZER						\
 }
 
-void *malloc_tsd_malloc(size_t size);
-void malloc_tsd_dalloc(void *wrapper);
-void malloc_tsd_cleanup_register(bool (*f)(void));
-tsd_t *malloc_tsd_boot0(void);
-void malloc_tsd_boot1(void);
-void tsd_cleanup(void *arg);
-tsd_t *tsd_fetch_slow(tsd_t *tsd, bool internal);
-void tsd_state_set(tsd_t *tsd, uint8_t new_state);
-void tsd_slow_update(tsd_t *tsd);
+JEMALLOC_API void *malloc_tsd_malloc(size_t size);
+JEMALLOC_API void malloc_tsd_dalloc(void *wrapper);
+JEMALLOC_API void malloc_tsd_cleanup_register(bool (*f)(void));
+JEMALLOC_API tsd_t *malloc_tsd_boot0(void);
+JEMALLOC_API void malloc_tsd_boot1(void);
+JEMALLOC_API void tsd_cleanup(void *arg);
+JEMALLOC_API tsd_t *tsd_fetch_slow(tsd_t *tsd, bool internal);
+JEMALLOC_API void tsd_state_set(tsd_t *tsd, uint8_t new_state);
+JEMALLOC_API void tsd_slow_update(tsd_t *tsd);
 
 /*
  * Call ..._inc when your module wants to take all threads down the slow paths,
  * and ..._dec when it no longer needs to.
  */
-void tsd_global_slow_inc(tsdn_t *tsdn);
-void tsd_global_slow_dec(tsdn_t *tsdn);
-bool tsd_global_slow();
+JEMALLOC_API void tsd_global_slow_inc(tsdn_t *tsdn);
+JEMALLOC_API void tsd_global_slow_dec(tsdn_t *tsdn);
+JEMALLOC_API bool tsd_global_slow();
 
 enum {
 	/* Common case --> jnz. */
@@ -227,12 +228,8 @@ tsdn_tsd(tsdn_t *tsdn) {
  * header files to avoid cluttering this file.  They define tsd_boot0,
  * tsd_boot1, tsd_boot, tsd_booted_get, tsd_get_allocates, tsd_get, and tsd_set.
  */
-#ifdef JEMALLOC_MALLOC_THREAD_CLEANUP
-#include "jemalloc/internal/tsd_malloc_thread_cleanup.h"
-#elif (defined(JEMALLOC_TLS))
+#if (defined(JEMALLOC_TLS))
 #include "jemalloc/internal/tsd_tls.h"
-#elif (defined(_WIN32))
-#include "jemalloc/internal/tsd_win.h"
 #else
 #include "jemalloc/internal/tsd_generic.h"
 #endif

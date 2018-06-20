@@ -909,7 +909,7 @@ prof_sample_threshold_update(prof_tdata_t *tdata) {
 #endif
 }
 
-#ifdef JEMALLOC_JET
+//#ifdef JEMALLOC_JET
 static prof_tdata_t *
 prof_tdata_count_iter(prof_tdata_tree_t *tdatas, prof_tdata_t *tdata,
     void *arg) {
@@ -952,7 +952,7 @@ prof_bt_count(void) {
 
 	return bt_count;
 }
-#endif
+//#endif
 
 static int
 prof_dump_open_impl(bool propagate_err, const char *filename) {
@@ -1666,7 +1666,7 @@ prof_dump(tsd_t *tsd, bool propagate_err, const char *filename,
 	return false;
 }
 
-#ifdef JEMALLOC_JET
+//#ifdef JEMALLOC_JET
 void
 prof_cnt_all(uint64_t *curobjs, uint64_t *curbytes, uint64_t *accumobjs,
     uint64_t *accumbytes) {
@@ -1711,7 +1711,7 @@ prof_cnt_all(uint64_t *curobjs, uint64_t *curbytes, uint64_t *accumobjs,
 		*accumbytes = prof_tdata_merge_iter_arg.cnt_all.accumbytes;
 	}
 }
-#endif
+//#endif
 
 #define DUMP_FILENAME_BUFSIZE	(PATH_MAX + 1)
 #define VSEQ_INVALID		UINT64_C(0xffffffffffffffff)

@@ -26,9 +26,9 @@ void arena_stats_merge(tsdn_t *tsdn, arena_t *arena, unsigned *nthreads,
     bin_stats_t *bstats, arena_stats_large_t *lstats);
 void arena_extents_dirty_dalloc(tsdn_t *tsdn, arena_t *arena,
     extent_hooks_t **r_extent_hooks, extent_t *extent);
-#ifdef JEMALLOC_JET
+
 size_t arena_slab_regind(extent_t *slab, szind_t binind, const void *ptr);
-#endif
+
 extent_t *arena_extent_alloc_large(tsdn_t *tsdn, arena_t *arena,
     size_t usize, size_t alignment, bool *zero);
 void arena_extent_dalloc_large_prep(tsdn_t *tsdn, arena_t *arena,

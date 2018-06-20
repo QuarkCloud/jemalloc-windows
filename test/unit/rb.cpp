@@ -347,7 +347,7 @@ TEST_BEGIN(test_rb_random) {
 }
 TEST_END
 
-int test_rb()
+int f_test_rb()
 {
 /**
 	return test(

@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "unit.h"
 
 #define MAX_REL_ERR 1.0e-9
 #define MAX_ABS_ERR 1.0e-9
@@ -378,8 +379,8 @@ TEST_BEGIN(test_pt_gamma_scale) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_math()
+{
 	return test(
 	    test_ln_gamma_factorial,
 	    test_ln_gamma_misc,

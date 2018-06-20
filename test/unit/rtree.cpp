@@ -1,6 +1,9 @@
 #include "test/jemalloc_test.h"
-
 #include "jemalloc/internal/rtree.h"
+#include "jemalloc/internal/jemalloc_internal_externs.h"
+#include "jemalloc/internal/tsd_types.h"
+#include "jemalloc/mangle.h"
+#include "unit.h"
 
 rtree_node_alloc_t *rtree_node_alloc_orig;
 rtree_node_dalloc_t *rtree_node_dalloc_orig;
@@ -208,8 +211,8 @@ TEST_BEGIN(test_rtree_random) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_rtree()
+{
 	rtree_node_alloc_orig = rtree_node_alloc;
 	rtree_node_alloc = rtree_node_alloc_intercept;
 	rtree_node_dalloc_orig = rtree_node_dalloc;

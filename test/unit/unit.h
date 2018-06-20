@@ -6,14 +6,18 @@
 
 __BEGIN_DECLS
 
-int test_zero() ;
-int test_nstime() ;
-int test_ql() ;
-int test_qr() ;
-int test_rb() ;
-int test_hash() ;
-int test_log() ;
-int test_seq()  ;
+int f_test_zero() ;
+int f_test_nstime() ;
+int f_test_ql() ;
+int f_test_qr() ;
+int f_test_rb() ;
+int f_test_hash() ;
+int f_test_log() ;
+int f_test_seq()  ;
+int f_test_math() ;
+int f_test_rtree() ;
+int f_test_size_classes() ;
+int f_test_atomic() ;
 
 __END_DECLS
 

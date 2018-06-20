@@ -232,7 +232,7 @@ TEST_BEGIN(test_qr_meld_split) {
 }
 TEST_END
 
-int test_qr() 
+int f_test_qr() 
 {
 	return test(
 	    test_qr_one,

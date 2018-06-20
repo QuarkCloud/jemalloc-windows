@@ -1,7 +1,8 @@
-#ifndef JEMALLOC_INTERNAL_WITNESS_H
-#define JEMALLOC_INTERNAL_WITNESS_H
+#ifndef __JEMALLOC_INTERNAL_WITNESS_H
+#define __JEMALLOC_INTERNAL_WITNESS_H 1
 
 #include "jemalloc/internal/ql.h"
+#include "jemalloc/compile.h"
 
 /******************************************************************************/
 /* LOCK RANKS */
@@ -144,22 +145,22 @@ void witness_init(witness_t *witness, const char *name, witness_rank_t rank,
     witness_comp_t *comp, void *opaque);
 
 typedef void (witness_lock_error_t)(const witness_list_t *, const witness_t *);
-extern witness_lock_error_t *JET_MUTABLE witness_lock_error;
+extern JEMALLOC_API witness_lock_error_t *JET_MUTABLE witness_lock_error;
 
 typedef void (witness_owner_error_t)(const witness_t *);
-extern witness_owner_error_t *JET_MUTABLE witness_owner_error;
+extern JEMALLOC_API witness_owner_error_t *JET_MUTABLE witness_owner_error;
 
 typedef void (witness_not_owner_error_t)(const witness_t *);
-extern witness_not_owner_error_t *JET_MUTABLE witness_not_owner_error;
+extern JEMALLOC_API witness_not_owner_error_t *JET_MUTABLE witness_not_owner_error;
 
 typedef void (witness_depth_error_t)(const witness_list_t *,
     witness_rank_t rank_inclusive, unsigned depth);
-extern witness_depth_error_t *JET_MUTABLE witness_depth_error;
+extern JEMALLOC_API witness_depth_error_t *JET_MUTABLE witness_depth_error;
 
-void witnesses_cleanup(witness_tsd_t *witness_tsd);
-void witness_prefork(witness_tsd_t *witness_tsd);
-void witness_postfork_parent(witness_tsd_t *witness_tsd);
-void witness_postfork_child(witness_tsd_t *witness_tsd);
+JEMALLOC_API void witnesses_cleanup(witness_tsd_t *witness_tsd);
+JEMALLOC_API void witness_prefork(witness_tsd_t *witness_tsd);
+JEMALLOC_API void witness_postfork_parent(witness_tsd_t *witness_tsd);
+JEMALLOC_API void witness_postfork_child(witness_tsd_t *witness_tsd);
 
 /* Helper, not intended for direct use. */
 static inline bool
@@ -344,4 +345,4 @@ witness_unlock(witness_tsdn_t *witness_tsdn, witness_t *witness) {
 	}
 }
 
-#endif /* JEMALLOC_INTERNAL_WITNESS_H */
+#endif /* __JEMALLOC_INTERNAL_WITNESS_H */

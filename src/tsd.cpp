@@ -12,11 +12,7 @@
 static unsigned ncleanups;
 static malloc_tsd_cleanup_t cleanups[MALLOC_TSD_CLEANUPS_MAX];
 
-#ifdef JEMALLOC_MALLOC_THREAD_CLEANUP
-__thread tsd_t JEMALLOC_TLS_MODEL tsd_tls = TSD_INITIALIZER;
-__thread bool JEMALLOC_TLS_MODEL tsd_initialized = false;
-bool tsd_booted = false;
-#elif (defined(JEMALLOC_TLS))
+#if (defined(JEMALLOC_TLS))
 tsd_t tsd_tls = TSD_INITIALIZER;
 pthread_key_t tsd_tsd;
 bool tsd_booted = false;
@@ -395,13 +391,13 @@ tsd_cleanup(void *arg) {
 	default:
 		not_reached();
 	}
-#ifdef JEMALLOC_JET
+//#ifdef JEMALLOC_JET
 	test_callback_t test_callback = *tsd_test_callbackp_get_unsafe(tsd);
 	int *data = tsd_test_datap_get_unsafe(tsd);
 	if (test_callback != NULL) {
 		test_callback(data);
 	}
-#endif
+//#endif
 }
 
 tsd_t *

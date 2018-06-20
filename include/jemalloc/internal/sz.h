@@ -1,10 +1,13 @@
-#ifndef JEMALLOC_INTERNAL_SIZE_H
-#define JEMALLOC_INTERNAL_SIZE_H
+#ifndef __JEMALLOC_INTERNAL_SIZE_H
+#define __JEMALLOC_INTERNAL_SIZE_H 1
 
 #include "jemalloc/internal/bit_util.h"
 #include "jemalloc/internal/pages.h"
 #include "jemalloc/internal/size_classes.h"
 #include "jemalloc/internal/util.h"
+#include "jemalloc/compile.h"
+
+
 
 /*
  * sz module: Size computations.
@@ -26,18 +29,18 @@
  * sz_pind2sz_tab encodes the same information as could be computed by
  * sz_pind2sz_compute().
  */
-extern size_t const sz_pind2sz_tab[NPSIZES+1];
+extern JEMALLOC_API size_t const sz_pind2sz_tab[NPSIZES+1];
 /*
  * sz_index2size_tab encodes the same information as could be computed (at
  * unacceptable cost in some code paths) by sz_index2size_compute().
  */
-extern size_t const sz_index2size_tab[NSIZES];
+extern JEMALLOC_API size_t const sz_index2size_tab[NSIZES];
 /*
  * sz_size2index_tab is a compact lookup table that rounds request sizes up to
  * size classes.  In order to reduce cache footprint, the table is compressed,
  * and all accesses are via sz_size2index().
  */
-extern uint8_t const sz_size2index_tab[];
+extern JEMALLOC_API uint8_t const sz_size2index_tab[];
 
 static const size_t sz_large_pad =
 #ifdef JEMALLOC_CACHE_OBLIVIOUS
@@ -314,4 +317,4 @@ sz_sa2u(size_t size, size_t alignment) {
 	return usize;
 }
 
-#endif /* JEMALLOC_INTERNAL_SIZE_H */
+#endif /* __JEMALLOC_INTERNAL_SIZE_H */

@@ -232,7 +232,7 @@ TEST_BEGIN(test_nstime_update) {
 }
 TEST_END
 
-int test_nstime(void) 
+int f_test_nstime(void) 
 {
 	return test(
 	    test_nstime_init,

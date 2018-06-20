@@ -56,17 +56,18 @@ JEMALLOC_INLINE void * atomic_exchange_p(atomic_p_t *a, void * val,	atomic_memor
 JEMALLOC_INLINE bool atomic_compare_exchange_weak_p(atomic_p_t *a, void ** expected , void * desired, 
     atomic_memory_order_t success_mo, atomic_memory_order_t failure_mo) 
 {
-    return ::atomic_compare_exchange_ptr(&a->repr , expected , desired) ;
+    void * exp = *expected ;
+    void * old = ::atomic_compare_exchange_ptr(&a->repr , exp , desired) ;
+    if(old == exp)
+        return true ;
+    *expected = old ;
+    return false ;
 }
 
 JEMALLOC_INLINE bool atomic_compare_exchange_strong_p(atomic_p_t *a, void ** expected, void * desired, 
     atomic_memory_order_t success_mo, atomic_memory_order_t failure_mo) 
 {
-    void * addr = NULL ;
-    do{
-        addr = a->repr ;
-    }while(::atomic_compare_exchange_ptr(&a->repr , expected , desired) == false) ;
-    return true ;
+    return atomic_compare_exchange_weak_p(a , expected , desired , success_mo , failure_mo) ;
 }
 
 
@@ -92,14 +93,19 @@ JEMALLOC_INLINE uint32_t atomic_exchange_u32(atomic_u32_t *a, uint32_t val,	atom
 JEMALLOC_INLINE bool atomic_compare_exchange_weak_u32(atomic_u32_t *a, uint32_t *expected, uint32_t desired, 
     atomic_memory_order_t success_mo, atomic_memory_order_t failure_mo) 
 {
-    return::atomic_compare_exchange32(&a->repr , *expected , desired) ;
+    uint32_t exp = *expected ;
+    uint32_t old = ::atomic_compare_exchange32(&a->repr , exp , desired) ;
+    if(old == exp)
+        return true ;
+
+    *expected = old ;
+    return false ;
 }
 
 JEMALLOC_INLINE bool atomic_compare_exchange_strong_u32(atomic_u32_t *a, uint32_t * expected, uint32_t desired, 
     atomic_memory_order_t success_mo, atomic_memory_order_t failure_mo) 
 {
-    while(::atomic_compare_exchange32(&a->repr , *expected , desired) == false) ;
-    return true ;
+    return atomic_compare_exchange_weak_u32(a , expected , desired , success_mo , failure_mo) ;
 }
 
 JEMALLOC_INLINE uint32_t atomic_fetch_add_u32(atomic_u32_t *a, uint32_t val, atomic_memory_order_t mo) 
@@ -151,14 +157,19 @@ JEMALLOC_INLINE uint64_t atomic_exchange_u64(atomic_u64_t *a, uint64_t val,	atom
 JEMALLOC_INLINE bool atomic_compare_exchange_weak_u64(atomic_u64_t *a, uint64_t * expected, uint64_t desired, 
     atomic_memory_order_t success_mo, atomic_memory_order_t failure_mo) 
 {
-    return ::atomic_compare_exchange64(&a->repr , *expected , desired) ;
+    uint64_t exp = *expected ;
+    uint64_t old = ::atomic_compare_exchange64(&a->repr , exp , desired) ;
+    if(old == exp)
+        return true ;
+
+    *expected = old;
+    return false ;
 }
 
 JEMALLOC_INLINE bool atomic_compare_exchange_strong_u64(atomic_u64_t *a, uint64_t * expected, uint64_t desired, 
     atomic_memory_order_t success_mo, atomic_memory_order_t failure_mo) 
 {
-    while(::atomic_compare_exchange64(&a->repr , *expected , desired) == false) ;
-    return true ;
+    return atomic_compare_exchange_weak_u64(a , expected , desired , success_mo , failure_mo) ;
 }
 
 JEMALLOC_INLINE uint64_t atomic_fetch_add_u64(atomic_u64_t *a, uint64_t val, atomic_memory_order_t mo) 

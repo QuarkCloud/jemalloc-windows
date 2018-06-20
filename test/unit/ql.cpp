@@ -192,7 +192,7 @@ TEST_BEGIN(test_ql_insert) {
 }
 TEST_END
 
-int test_ql(void) 
+int f_test_ql(void) 
 {
 	return test(
 	    test_ql_empty,

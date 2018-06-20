@@ -24,11 +24,7 @@
 #endif
 
 /* Various function pointers are statick and immutable except during testing. */
-#ifdef JEMALLOC_JET
 #  define JET_MUTABLE
-#else
-#  define JET_MUTABLE const
-#endif
 
 #define JEMALLOC_VA_ARGS_HEAD(head, ...) head
 #define JEMALLOC_VA_ARGS_TAIL(head, ...) __VA_ARGS__

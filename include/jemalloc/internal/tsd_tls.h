@@ -1,11 +1,11 @@
-#ifdef JEMALLOC_INTERNAL_TSD_TLS_H
-#error This file should be included only once, by tsd.h.
-#endif
-#define JEMALLOC_INTERNAL_TSD_TLS_H
+#ifndef __JEMALLOC_INTERNAL_TSD_TLS_H
+#define __JEMALLOC_INTERNAL_TSD_TLS_H 1
 
-extern __thread tsd_t tsd_tls;
-extern pthread_key_t tsd_tsd;
-extern bool tsd_booted;
+#include "jemalloc/compile.h"
+
+extern JEMALLOC_API tsd_t tsd_tls;
+extern JEMALLOC_API pthread_key_t tsd_tsd;
+extern JEMALLOC_API bool tsd_booted;
 
 /* Initialization/cleanup. */
 JEMALLOC_ALWAYS_INLINE bool
@@ -57,3 +57,6 @@ tsd_set(tsd_t *val) {
 		}
 	}
 }
+
+
+#endif /** __JEMALLOC_INTERNAL_TSD_TLS_H*/

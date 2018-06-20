@@ -3247,12 +3247,12 @@ je_malloc_usable_size( void *ptr) {
  * to trigger the deadlock described above, but doing so would involve forking
  * via a library constructor that runs before jemalloc's runs.
  */
-#ifndef JEMALLOC_JET
+//#ifndef JEMALLOC_JET
 static void jemalloc_constructor(void) 
 {
 	malloc_init();
 }
-#endif
+//#endif
 
 #ifndef JEMALLOC_MUTEX_INIT_CB
 void

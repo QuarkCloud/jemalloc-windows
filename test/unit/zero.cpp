@@ -5,7 +5,7 @@
 #include "unit.h"
 
 
-static void test_zero_f(size_t sz_min, size_t sz_max) 
+static void test_zero(size_t sz_min, size_t sz_max) 
 {
 	uint8_t *s;
 	size_t sz_prev, sz, i;
@@ -46,18 +46,18 @@ static void test_zero_f(size_t sz_min, size_t sz_max)
 
 TEST_BEGIN(test_zero_small) {
 	test_skip_if(!config_fill);
-	test_zero_f(1, SMALL_MAXCLASS-1);
+	test_zero(1, SMALL_MAXCLASS-1);
 }
 TEST_END
 
 TEST_BEGIN(test_zero_large) {
 	test_skip_if(!config_fill);
-	test_zero_f(SMALL_MAXCLASS+1, (1U << (LG_LARGE_MINCLASS+1)));
+	test_zero(SMALL_MAXCLASS+1, (1U << (LG_LARGE_MINCLASS+1)));
 }
 TEST_END
 
 
-int test_zero() 
+int f_test_zero() 
 {
 	return test(
 	    test_zero_small,

@@ -9,6 +9,7 @@
 #endif
 
 #define JEMALLOC_NO_DEMANGLE
+/**
 #ifdef JEMALLOC_JET
 #  undef JEMALLOC_IS_MALLOC
 #  define JEMALLOC_N(n) jet_##n
@@ -17,9 +18,10 @@
 #  include "../jemalloc.h"
 #  undef JEMALLOC_NO_RENAME
 #else
+*/
 #  define JEMALLOC_N(n) je_##n
 #  include "../jemalloc.h"
-#endif
+//#endif
 
 #if (defined(JEMALLOC_OSATOMIC) || defined(JEMALLOC_OSSPIN))
 #include <libkern/OSAtomic.h>

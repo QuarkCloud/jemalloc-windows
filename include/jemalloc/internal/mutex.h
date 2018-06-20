@@ -1,10 +1,11 @@
-#ifndef JEMALLOC_INTERNAL_MUTEX_H
-#define JEMALLOC_INTERNAL_MUTEX_H
+#ifndef __JEMALLOC_INTERNAL_MUTEX_H
+#define __JEMALLOC_INTERNAL_MUTEX_H 1
 
 #include "jemalloc/internal/atomic.h"
 #include "jemalloc/internal/mutex_prof.h"
 #include "jemalloc/internal/tsd.h"
 #include "jemalloc/internal/witness.h"
+#include "jemalloc/compile.h"
 
 typedef enum {
 	/* Can only acquire one mutex of a given witness rank at a time. */
@@ -94,15 +95,15 @@ extern bool isthreaded;
 #  define isthreaded true
 #endif
 
-bool malloc_mutex_init(malloc_mutex_t *mutex, const char *name,
+JEMALLOC_API bool malloc_mutex_init(malloc_mutex_t *mutex, const char *name,
     witness_rank_t rank, malloc_mutex_lock_order_t lock_order);
-void malloc_mutex_prefork(tsdn_t *tsdn, malloc_mutex_t *mutex);
-void malloc_mutex_postfork_parent(tsdn_t *tsdn, malloc_mutex_t *mutex);
-void malloc_mutex_postfork_child(tsdn_t *tsdn, malloc_mutex_t *mutex);
-bool malloc_mutex_boot(void);
-void malloc_mutex_prof_data_reset(tsdn_t *tsdn, malloc_mutex_t *mutex);
+JEMALLOC_API void malloc_mutex_prefork(tsdn_t *tsdn, malloc_mutex_t *mutex);
+JEMALLOC_API void malloc_mutex_postfork_parent(tsdn_t *tsdn, malloc_mutex_t *mutex);
+JEMALLOC_API void malloc_mutex_postfork_child(tsdn_t *tsdn, malloc_mutex_t *mutex);
+JEMALLOC_API bool malloc_mutex_boot(void);
+JEMALLOC_API void malloc_mutex_prof_data_reset(tsdn_t *tsdn, malloc_mutex_t *mutex);
 
-void malloc_mutex_lock_slow(malloc_mutex_t *mutex);
+JEMALLOC_API void malloc_mutex_lock_slow(malloc_mutex_t *mutex);
 
 static inline void
 malloc_mutex_lock_final(malloc_mutex_t *mutex) {
@@ -213,4 +214,4 @@ malloc_mutex_prof_read(tsdn_t *tsdn, mutex_prof_data_t *data,
 	atomic_store_u32(&data->n_waiting_thds, 0, ATOMIC_RELAXED);
 }
 
-#endif /* JEMALLOC_INTERNAL_MUTEX_H */
+#endif /* __JEMALLOC_INTERNAL_MUTEX_H */

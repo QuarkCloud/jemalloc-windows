@@ -175,6 +175,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\atomic.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\hash.cpp"
 				>
 			</File>
@@ -184,6 +188,10 @@
 			</File>
 			<File
 				RelativePath=".\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\math.cpp"
 				>
 			</File>
 			<File
@@ -203,7 +211,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\rtree.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\seq.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\size_classes.cpp"
 				>
 			</File>
 			<File

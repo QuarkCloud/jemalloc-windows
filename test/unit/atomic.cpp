@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "unit.h"
 
 /*
  * We *almost* have consistent short names (e.g. "u32" for uint32_t, "b" for
@@ -14,130 +15,341 @@
  * val[1,2,3]: Values of the given type.  The CAS tests use val2 for expected,
  * and val3 for desired.
  */
+void do_test_u64(uint64_t val1 , uint64_t val2 , uint64_t val3) ;
+void do_test_u32(uint32_t val1 , uint32_t val2 , uint32_t val3) ;
+void do_test_p(void * val1 , void * val2 , void * val3) ;
 
-#define DO_TESTS(t, ta, val1, val2, val3) do {				\
-	t val;								\
-	t expected;							\
-	bool success;							\
-	/* This (along with the load below) also tests ATOMIC_LOAD. */	\
-	atomic_##ta##_t atom = ATOMIC_INIT(val1);			\
-									\
-	/* ATOMIC_INIT and load. */					\
-	val = atomic_load_##ta(&atom, ATOMIC_RELAXED);			\
-	assert_##ta##_eq(val1, val, "Load or init failed");		\
-									\
-	/* Store. */							\
-	atomic_store_##ta(&atom, val1, ATOMIC_RELAXED);			\
-	atomic_store_##ta(&atom, val2, ATOMIC_RELAXED);			\
-	val = atomic_load_##ta(&atom, ATOMIC_RELAXED);			\
-	assert_##ta##_eq(val2, val, "Store failed");			\
-									\
-	/* Exchange. */							\
-	atomic_store_##ta(&atom, val1, ATOMIC_RELAXED);			\
-	val = atomic_exchange_##ta(&atom, val2, ATOMIC_RELAXED);	\
-	assert_##ta##_eq(val1, val, "Exchange returned invalid value");	\
-	val = atomic_load_##ta(&atom, ATOMIC_RELAXED);			\
-	assert_##ta##_eq(val2, val, "Exchange store invalid value");	\
-									\
-	/* 								\
-	 * Weak CAS.  Spurious failures are allowed, so we loop a few	\
-	 * times.							\
-	 */								\
-	atomic_store_##ta(&atom, val1, ATOMIC_RELAXED);			\
-	success = false;						\
-	for (int i = 0; i < 10 && !success; i++) {			\
-		expected = val2;					\
-		success = atomic_compare_exchange_weak_##ta(&atom,	\
-		    &expected, val3, ATOMIC_RELAXED, ATOMIC_RELAXED);	\
-		assert_##ta##_eq(val1, expected, 			\
-		    "CAS should update expected");			\
-	}								\
-	assert_b_eq(val1 == val2, success,				\
-	    "Weak CAS did the wrong state update");			\
-	val = atomic_load_##ta(&atom, ATOMIC_RELAXED);			\
-	if (success) {							\
-		assert_##ta##_eq(val3, val,				\
-		    "Successful CAS should update atomic");		\
-	} else {							\
-		assert_##ta##_eq(val1, val,				\
-		    "Unsuccessful CAS should not update atomic");	\
-	}								\
-									\
-	/* Strong CAS. */						\
-	atomic_store_##ta(&atom, val1, ATOMIC_RELAXED);			\
-	expected = val2;						\
-	success = atomic_compare_exchange_strong_##ta(&atom, &expected,	\
-	    val3, ATOMIC_RELAXED, ATOMIC_RELAXED);			\
-	assert_b_eq(val1 == val2, success,				\
-	    "Strong CAS did the wrong state update");			\
-	val = atomic_load_##ta(&atom, ATOMIC_RELAXED);			\
-	if (success) {							\
-		assert_##ta##_eq(val3, val,				\
-		    "Successful CAS should update atomic");		\
-	} else {							\
-		assert_##ta##_eq(val1, val,				\
-		    "Unsuccessful CAS should not update atomic");	\
-	}								\
-									\
-									\
-} while (0)
 
-#define DO_INTEGER_TESTS(t, ta, val1, val2) do {			\
-	atomic_##ta##_t atom;						\
-	t val;								\
-									\
-	/* Fetch-add. */						\
-	atomic_store_##ta(&atom, val1, ATOMIC_RELAXED);			\
-	val = atomic_fetch_add_##ta(&atom, val2, ATOMIC_RELAXED);	\
-	assert_##ta##_eq(val1, val,					\
-	    "Fetch-add should return previous value");			\
-	val = atomic_load_##ta(&atom, ATOMIC_RELAXED);			\
-	assert_##ta##_eq(val1 + val2, val,				\
-	    "Fetch-add should update atomic");				\
-									\
-	/* Fetch-sub. */						\
-	atomic_store_##ta(&atom, val1, ATOMIC_RELAXED);			\
-	val = atomic_fetch_sub_##ta(&atom, val2, ATOMIC_RELAXED);	\
-	assert_##ta##_eq(val1, val,					\
-	    "Fetch-sub should return previous value");			\
-	val = atomic_load_##ta(&atom, ATOMIC_RELAXED);			\
-	assert_##ta##_eq(val1 - val2, val,				\
-	    "Fetch-sub should update atomic");				\
-									\
-	/* Fetch-and. */						\
-	atomic_store_##ta(&atom, val1, ATOMIC_RELAXED);			\
-	val = atomic_fetch_and_##ta(&atom, val2, ATOMIC_RELAXED);	\
-	assert_##ta##_eq(val1, val,					\
-	    "Fetch-and should return previous value");			\
-	val = atomic_load_##ta(&atom, ATOMIC_RELAXED);			\
-	assert_##ta##_eq(val1 & val2, val,				\
-	    "Fetch-and should update atomic");				\
-									\
-	/* Fetch-or. */							\
-	atomic_store_##ta(&atom, val1, ATOMIC_RELAXED);			\
-	val = atomic_fetch_or_##ta(&atom, val2, ATOMIC_RELAXED);	\
-	assert_##ta##_eq(val1, val,					\
-	    "Fetch-or should return previous value");			\
-	val = atomic_load_##ta(&atom, ATOMIC_RELAXED);			\
-	assert_##ta##_eq(val1 | val2, val,				\
-	    "Fetch-or should update atomic");				\
-									\
-	/* Fetch-xor. */						\
-	atomic_store_##ta(&atom, val1, ATOMIC_RELAXED);			\
-	val = atomic_fetch_xor_##ta(&atom, val2, ATOMIC_RELAXED);	\
-	assert_##ta##_eq(val1, val,					\
-	    "Fetch-xor should return previous value");			\
-	val = atomic_load_##ta(&atom, ATOMIC_RELAXED);			\
-	assert_##ta##_eq(val1 ^ val2, val,				\
-	    "Fetch-xor should update atomic");				\
-} while (0)
+void do_test_u64(uint64_t val1 , uint64_t val2 , uint64_t val3) 
+{
+	uint64_t val;								
+	uint64_t expected;							
+	bool success;							
+	/* This (along with the load below) also tests ATOMIC_LOAD. */	
+	atomic_u64_t atom = ATOMIC_INIT(val1);			
+									
+	/* ATOMIC_INIT and load. */					
+	val = atomic_load_u64(&atom, ATOMIC_RELAXED);			
+	assert_u64_eq(val1, val, "Load or init failed");		
+									
+	/* Store. */							
+	atomic_store_u64(&atom, val1, ATOMIC_RELAXED);			
+	atomic_store_u64(&atom, val2, ATOMIC_RELAXED);			
+	val = atomic_load_u64(&atom, ATOMIC_RELAXED);			
+	assert_u64_eq(val2, val, "Store failed");			
+									
+	/* Exchange. */							
+	atomic_store_u64(&atom, val1, ATOMIC_RELAXED);			
+	val = atomic_exchange_u64(&atom, val2, ATOMIC_RELAXED);	
+	assert_u64_eq(val1, val, "Exchange returned invalid value");	
+	val = atomic_load_u64(&atom, ATOMIC_RELAXED);			
+	assert_u64_eq(val2, val, "Exchange store invalid value");	
+									
+	/* 								
+	 * Weak CAS.  Spurious failures are allowed, so we loop a few	
+	 * times.							
+	 */								
+	atomic_store_u64(&atom, val1, ATOMIC_RELAXED);			
+	success = false;						
+	for (int i = 0; i < 10 && !success; i++) {			
+		expected = val2;					
+		success = atomic_compare_exchange_weak_u64(&atom,	
+		    &expected, val3, ATOMIC_RELAXED, ATOMIC_RELAXED);	
+		assert_u64_eq(val1, expected, 			
+		    "CAS should update expected");			
+	}								
+	assert_b_eq(val1 == val2, success,				
+	    "Weak CAS did the wrong state update");			
+	val = atomic_load_u64(&atom, ATOMIC_RELAXED);			
+	if (success) {							
+		assert_u64_eq(val3, val,				
+		    "Successful CAS should update atomic");		
+	} else {							
+		assert_u64_eq(val1, val,				
+		    "Unsuccessful CAS should not update atomic");	
+	}								
+									
+	/* Strong CAS. */						
+	atomic_store_u64(&atom, val1, ATOMIC_RELAXED);			
+	expected = val2;						
+	success = atomic_compare_exchange_strong_u64(&atom, &expected,	
+	    val3, ATOMIC_RELAXED, ATOMIC_RELAXED);			
+	assert_b_eq(val1 == val2, success,				
+	    "Strong CAS did the wrong state update");			
+	val = atomic_load_u64(&atom, ATOMIC_RELAXED);			
+	if (success) {							
+		assert_u64_eq(val3, val,				
+		    "Successful CAS should update atomic");		
+	} else {							
+		assert_u64_eq(val1, val,				
+		    "Unsuccessful CAS should not update atomic");	
+	}		
+}
 
-#define TEST_STRUCT(t, ta)						\
-typedef struct {							\
-	t val1;								\
-	t val2;								\
-	t val3;								\
-} ta##_test_t;
+void do_test_u32(uint32_t val1 , uint32_t val2 , uint32_t val3) 
+{
+	uint32_t val;								
+	uint32_t expected;							
+	bool success;							
+	/* This (along with the load below) also tests ATOMIC_LOAD. */	
+	atomic_u32_t atom = ATOMIC_INIT(val1);			
+									
+	/* ATOMIC_INIT and load. */					
+	val = atomic_load_u32(&atom, ATOMIC_RELAXED);			
+	assert_u32_eq(val1, val, "Load or init failed");		
+									
+	/* Store. */							
+	atomic_store_u32(&atom, val1, ATOMIC_RELAXED);			
+	atomic_store_u32(&atom, val2, ATOMIC_RELAXED);			
+	val = atomic_load_u32(&atom, ATOMIC_RELAXED);			
+	assert_u32_eq(val2, val, "Store failed");			
+									
+	/* Exchange. */							
+	atomic_store_u32(&atom, val1, ATOMIC_RELAXED);			
+	val = atomic_exchange_u32(&atom, val2, ATOMIC_RELAXED);	
+	assert_u32_eq(val1, val, "Exchange returned invalid value");	
+	val = atomic_load_u32(&atom, ATOMIC_RELAXED);			
+	assert_u32_eq(val2, val, "Exchange store invalid value");	
+									
+	/* 								
+	 * Weak CAS.  Spurious failures are allowed, so we loop a few	
+	 * times.							
+	 */								
+	atomic_store_u32(&atom, val1, ATOMIC_RELAXED);			
+	success = false;						
+	for (int i = 0; i < 10 && !success; i++) {			
+		expected = val2;					
+		success = atomic_compare_exchange_weak_u32(&atom,	
+		    &expected, val3, ATOMIC_RELAXED, ATOMIC_RELAXED);	
+		assert_u32_eq(val1, expected, 			
+		    "CAS should update expected");			
+	}								
+	assert_b_eq(val1 == val2, success,				
+	    "Weak CAS did the wrong state update");			
+	val = atomic_load_u32(&atom, ATOMIC_RELAXED);			
+	if (success) {							
+		assert_u32_eq(val3, val,				
+		    "Successful CAS should update atomic");		
+	} else {							
+		assert_u32_eq(val1, val,				
+		    "Unsuccessful CAS should not update atomic");	
+	}								
+									
+	/* Strong CAS. */						
+	atomic_store_u32(&atom, val1, ATOMIC_RELAXED);			
+	expected = val2;						
+	success = atomic_compare_exchange_strong_u32(&atom, &expected,	
+	    val3, ATOMIC_RELAXED, ATOMIC_RELAXED);			
+	assert_b_eq(val1 == val2, success,				
+	    "Strong CAS did the wrong state update");			
+	val = atomic_load_u32(&atom, ATOMIC_RELAXED);			
+	if (success) {							
+		assert_u32_eq(val3, val,				
+		    "Successful CAS should update atomic");		
+	} else {							
+		assert_u32_eq(val1, val,				
+		    "Unsuccessful CAS should not update atomic");	
+	}
+}
+
+void do_test_p(void * val1 , void * val2 , void * val3) 
+{
+	void * val;								
+	void * expected;							
+	bool success;							
+	/* This (along with the load below) also tests ATOMIC_LOAD. */	
+	atomic_p_t atom = ATOMIC_INIT(val1);			
+									
+	/* ATOMIC_INIT and load. */					
+	val = atomic_load_p(&atom, ATOMIC_RELAXED);			
+	assert_p_eq(val1, val, "Load or init failed");		
+									
+	/* Store. */							
+	atomic_store_p(&atom, val1, ATOMIC_RELAXED);			
+	atomic_store_p(&atom, val2, ATOMIC_RELAXED);			
+	val = atomic_load_p(&atom, ATOMIC_RELAXED);			
+	assert_p_eq(val2, val, "Store failed");			
+									
+	/* Exchange. */							
+	atomic_store_p(&atom, val1, ATOMIC_RELAXED);			
+	val = atomic_exchange_p(&atom, val2, ATOMIC_RELAXED);	
+	assert_p_eq(val1, val, "Exchange returned invalid value");	
+	val = atomic_load_p(&atom, ATOMIC_RELAXED);			
+	assert_p_eq(val2, val, "Exchange store invalid value");	
+									
+	/* 								
+	 * Weak CAS.  Spurious failures are allowed, so we loop a few	
+	 * times.							
+	 */								
+	atomic_store_p(&atom, val1, ATOMIC_RELAXED);			
+	success = false;						
+	for (int i = 0; i < 10 && !success; i++) {			
+		expected = val2;					
+		success = atomic_compare_exchange_weak_p(&atom,	
+		    &expected, val3, ATOMIC_RELAXED, ATOMIC_RELAXED);	
+		assert_p_eq(val1, expected, 			
+		    "CAS should update expected");			
+	}								
+	assert_b_eq(val1 == val2, success,				
+	    "Weak CAS did the wrong state update");			
+	val = atomic_load_p(&atom, ATOMIC_RELAXED);			
+	if (success) {							
+		assert_p_eq(val3, val,				
+		    "Successful CAS should update atomic");		
+	} else {							
+		assert_p_eq(val1, val,				
+		    "Unsuccessful CAS should not update atomic");	
+	}								
+									
+	/* Strong CAS. */						
+	atomic_store_p(&atom, val1, ATOMIC_RELAXED);			
+	expected = val2;						
+	success = atomic_compare_exchange_strong_p(&atom, &expected,	
+	    val3, ATOMIC_RELAXED, ATOMIC_RELAXED);			
+	assert_b_eq(val1 == val2, success,				
+	    "Strong CAS did the wrong state update");			
+	val = atomic_load_p(&atom, ATOMIC_RELAXED);			
+	if (success) {							
+		assert_p_eq(val3, val,				
+		    "Successful CAS should update atomic");		
+	} else {							
+		assert_p_eq(val1, val,				
+		    "Unsuccessful CAS should not update atomic");	
+	}								
+}
+
+#define DO_TESTS(t, ta, val1, val2 , val3) do_test_##ta(val1 , val2 , val3)
+
+//#define DO_INTEGER_TESTS(t, ta, val1, val2) 
+void do_integer_test_u64(uint64_t val1 , uint64_t val2) ;
+void do_integer_test_u32(uint32_t val1 , uint32_t val2) ;
+void do_integer_test_p(void * val1 , void * val2) ;
+
+void do_integer_test_u64(uint64_t val1 , uint64_t val2)
+{
+	atomic_u64_t atom;						
+	uint64_t val;								
+									
+	/* Fetch-add. */						
+	atomic_store_u64(&atom, val1, ATOMIC_RELAXED);			
+	val = atomic_fetch_add_u64(&atom, val2, ATOMIC_RELAXED);	
+	assert_u64_eq(val1, val,					
+	    "Fetch-add should return previous value");			
+	val = atomic_load_u64(&atom, ATOMIC_RELAXED);			
+	assert_u64_eq(val1 + val2, val,				
+	    "Fetch-add should update atomic");				
+									
+	/* Fetch-sub. */						
+	atomic_store_u64(&atom, val1, ATOMIC_RELAXED);			
+	val = atomic_fetch_sub_u64(&atom, val2, ATOMIC_RELAXED);	
+	assert_u64_eq(val1, val,					
+	    "Fetch-sub should return previous value");			
+	val = atomic_load_u64(&atom, ATOMIC_RELAXED);			
+	assert_u64_eq(val1 - val2, val,				
+	    "Fetch-sub should update atomic");				
+									
+	/* Fetch-and. */						
+	atomic_store_u64(&atom, val1, ATOMIC_RELAXED);			
+	val = atomic_fetch_and_u64(&atom, val2, ATOMIC_RELAXED);	
+	assert_u64_eq(val1, val,					
+	    "Fetch-and should return previous value");			
+	val = atomic_load_u64(&atom, ATOMIC_RELAXED);			
+	assert_u64_eq(val1 & val2, val,				
+	    "Fetch-and should update atomic");				
+									
+	/* Fetch-or. */							
+	atomic_store_u64(&atom, val1, ATOMIC_RELAXED);			
+	val = atomic_fetch_or_u64(&atom, val2, ATOMIC_RELAXED);	
+	assert_u64_eq(val1, val,					
+	    "Fetch-or should return previous value");			
+	val = atomic_load_u64(&atom, ATOMIC_RELAXED);			
+	assert_u64_eq(val1 | val2, val,				
+	    "Fetch-or should update atomic");				
+									
+	/* Fetch-xor. */						
+	atomic_store_u64(&atom, val1, ATOMIC_RELAXED);			
+	val = atomic_fetch_xor_u64(&atom, val2, ATOMIC_RELAXED);	
+	assert_u64_eq(val1, val,					
+	    "Fetch-xor should return previous value");			
+	val = atomic_load_u64(&atom, ATOMIC_RELAXED);			
+	assert_u64_eq(val1 ^ val2, val,				
+	    "Fetch-xor should update atomic");				
+}
+
+void do_integer_test_u32(uint32_t val1 , uint32_t val2)
+{
+	atomic_u32_t atom;						
+	uint32_t val;								
+									
+	/* Fetch-add. */						
+	atomic_store_u32(&atom, val1, ATOMIC_RELAXED);			
+	val = atomic_fetch_add_u32(&atom, val2, ATOMIC_RELAXED);	
+	assert_u32_eq(val1, val,					
+	    "Fetch-add should return previous value");			
+	val = atomic_load_u32(&atom, ATOMIC_RELAXED);			
+	assert_u32_eq(val1 + val2, val,				
+	    "Fetch-add should update atomic");				
+									
+	/* Fetch-sub. */						
+	atomic_store_u32(&atom, val1, ATOMIC_RELAXED);			
+	val = atomic_fetch_sub_u32(&atom, val2, ATOMIC_RELAXED);	
+	assert_u32_eq(val1, val,					
+	    "Fetch-sub should return previous value");			
+	val = atomic_load_u32(&atom, ATOMIC_RELAXED);			
+	assert_u32_eq(val1 - val2, val,				
+	    "Fetch-sub should update atomic");				
+									
+	/* Fetch-and. */						
+	atomic_store_u32(&atom, val1, ATOMIC_RELAXED);			
+	val = atomic_fetch_and_u32(&atom, val2, ATOMIC_RELAXED);	
+	assert_u32_eq(val1, val,					
+	    "Fetch-and should return previous value");			
+	val = atomic_load_u32(&atom, ATOMIC_RELAXED);			
+	assert_u32_eq(val1 & val2, val,				
+	    "Fetch-and should update atomic");				
+									
+	/* Fetch-or. */							
+	atomic_store_u32(&atom, val1, ATOMIC_RELAXED);			
+	val = atomic_fetch_or_u32(&atom, val2, ATOMIC_RELAXED);	
+	assert_u32_eq(val1, val,					
+	    "Fetch-or should return previous value");			
+	val = atomic_load_u32(&atom, ATOMIC_RELAXED);			
+	assert_u32_eq(val1 | val2, val,				
+	    "Fetch-or should update atomic");				
+									
+	/* Fetch-xor. */						
+	atomic_store_u32(&atom, val1, ATOMIC_RELAXED);			
+	val = atomic_fetch_xor_u32(&atom, val2, ATOMIC_RELAXED);	
+	assert_u32_eq(val1, val,					
+	    "Fetch-xor should return previous value");			
+	val = atomic_load_u32(&atom, ATOMIC_RELAXED);			
+	assert_u32_eq(val1 ^ val2, val,				
+	    "Fetch-xor should update atomic");				
+}
+
+#define DO_INTEGER_TESTS(t, ta, val1, val2) do_integer_test_##ta(val1 , val2)
+
+
+typedef struct {
+    uint64_t val1 ;
+    uint64_t val2 ;
+    uint64_t val3 ;
+} u64_test_t ;
+
+typedef struct {
+    uint32_t val1 ;
+    uint32_t val2 ;
+    uint32_t val3 ;
+} u32_test_t ;
+
+typedef struct {
+    void * val1 ;
+    void * val2 ;
+    void * val3 ;
+} p_test_t ;
+
+#define TEST_STRUCT(t, ta)
+
 
 #define TEST_CASES(t) {							\
 	{(t)-1, (t)-1, (t)-2},						\
@@ -177,11 +389,7 @@ typedef struct {							\
 
 TEST_STRUCT(uint64_t, u64);
 TEST_BEGIN(test_atomic_u64) {
-#if !(LG_SIZEOF_PTR == 3 || LG_SIZEOF_INT == 3)
-	test_skip("64-bit atomic operations not supported");
-#else
 	INTEGER_TEST_BODY(uint64_t, u64);
-#endif
 }
 TEST_END
 
@@ -198,32 +406,15 @@ TEST_BEGIN(test_atomic_p) {
 }
 TEST_END
 
-TEST_STRUCT(size_t, zu);
-TEST_BEGIN(test_atomic_zu) {
-	INTEGER_TEST_BODY(size_t, zu);
-}
-TEST_END
-
-TEST_STRUCT(ssize_t, zd);
-TEST_BEGIN(test_atomic_zd) {
-	INTEGER_TEST_BODY(ssize_t, zd);
-}
-TEST_END
 
 
-TEST_STRUCT(unsigned, u);
-TEST_BEGIN(test_atomic_u) {
-	INTEGER_TEST_BODY(unsigned, u);
-}
-TEST_END
-
-int
-main(void) {
+int f_test_atomic(void) 
+{
+/**
 	return test(
 	    test_atomic_u64,
 	    test_atomic_u32,
-	    test_atomic_p,
-	    test_atomic_zu,
-	    test_atomic_zd,
-	    test_atomic_u);
+	    test_atomic_p);
+*/
+    return test(test_atomic_u32);
 }

@@ -167,7 +167,7 @@ TEST_BEGIN(test_hash_x64_128) {
 }
 TEST_END
 
-int test_hash() 
+int f_test_hash() 
 {
 	return test(
 	    test_hash_x86_32,

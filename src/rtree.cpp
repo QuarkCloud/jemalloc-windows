@@ -11,13 +11,13 @@
  */
 bool
 rtree_new(rtree_t *rtree, bool zeroed) {
-#ifdef JEMALLOC_JET
+//#ifdef JEMALLOC_JET
 	if (!zeroed) {
 		memset(rtree, 0, sizeof(rtree_t)); /* Clear root. */
 	}
-#else
-	assert(zeroed);
-#endif
+//#else
+//	assert(zeroed);
+//#endif
 
 	if (malloc_mutex_init(&rtree->init_lock, "rtree", WITNESS_RANK_RTREE,
 	    malloc_mutex_rank_exclusive)) {
@@ -57,7 +57,7 @@ rtree_leaf_dalloc_impl(tsdn_t *tsdn, rtree_t *rtree, rtree_leaf_elm_t *leaf) {
 rtree_leaf_dalloc_t *JET_MUTABLE rtree_leaf_dalloc =
     rtree_leaf_dalloc_impl;
 
-#ifdef JEMALLOC_JET
+
 #  if RTREE_HEIGHT > 1
 static void
 rtree_delete_subtree(tsdn_t *tsdn, rtree_t *rtree, rtree_node_elm_t *subtree,
@@ -66,7 +66,7 @@ rtree_delete_subtree(tsdn_t *tsdn, rtree_t *rtree, rtree_node_elm_t *subtree,
 	if (level + 2 < RTREE_HEIGHT) {
 		for (size_t i = 0; i < nchildren; i++) {
 			rtree_node_elm_t *node =
-			    (rtree_node_elm_t *)atomic_load_ptr(&subtree[i].child,
+			    (rtree_node_elm_t *)atomic_load_p(&subtree[i].child,
 			    ATOMIC_RELAXED);
 			if (node != NULL) {
 				rtree_delete_subtree(tsdn, rtree, node, level +
@@ -76,7 +76,7 @@ rtree_delete_subtree(tsdn_t *tsdn, rtree_t *rtree, rtree_node_elm_t *subtree,
 	} else {
 		for (size_t i = 0; i < nchildren; i++) {
 			rtree_leaf_elm_t *leaf =
-			    (rtree_leaf_elm_t *)atomic_load_ptr(&subtree[i].child,
+			    (rtree_leaf_elm_t *)atomic_load_p(&subtree[i].child,
 			    ATOMIC_RELAXED);
 			if (leaf != NULL) {
 				rtree_leaf_dalloc(tsdn, rtree, leaf);
@@ -96,7 +96,7 @@ rtree_delete(tsdn_t *tsdn, rtree_t *rtree) {
 	rtree_delete_subtree(tsdn, rtree, rtree->root, 0);
 #  endif
 }
-#endif
+
 
 static rtree_node_elm_t *
 rtree_node_init(tsdn_t *tsdn, rtree_t *rtree, unsigned level,

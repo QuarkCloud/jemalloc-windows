@@ -1,11 +1,12 @@
-#ifdef JEMALLOC_INTERNAL_TSD_MALLOC_THREAD_CLEANUP_H
-#error This file should be included only once, by tsd.h.
-#endif
-#define JEMALLOC_INTERNAL_TSD_MALLOC_THREAD_CLEANUP_H
 
-extern __thread tsd_t tsd_tls;
-extern __thread bool tsd_initialized;
-extern bool tsd_booted;
+#ifndef __JEMALLOC_INTERNAL_TSD_MALLOC_THREAD_CLEANUP_H
+#define __JEMALLOC_INTERNAL_TSD_MALLOC_THREAD_CLEANUP_H 1
+
+#include "jemalloc/compile.h"
+
+extern JEMALLOC_API tsd_t tsd_tls;
+extern JEMALLOC_API bool tsd_initialized;
+extern JEMALLOC_API bool tsd_booted;
 
 /* Initialization/cleanup. */
 JEMALLOC_ALWAYS_INLINE bool
@@ -58,3 +59,5 @@ tsd_set(tsd_t *val) {
 	}
 	tsd_initialized = true;
 }
+
+#endif /** __JEMALLOC_INTERNAL_TSD_MALLOC_THREAD_CLEANUP_H */

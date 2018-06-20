@@ -182,7 +182,7 @@ TEST_BEGIN(test_log_only_format_string) {
 }
 TEST_END
 
-int test_log(void) 
+int f_test_log(void) 
 {
 	return test(
 	    test_log_disabled,
