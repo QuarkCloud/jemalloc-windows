@@ -1,6 +1,7 @@
-#ifndef ARENA_RESET_PROF_C_
+//#ifndef ARENA_RESET_PROF_C_
 #include "test/jemalloc_test.h"
-#endif
+//#endif
+#include "unit_test.h"
 
 #include "jemalloc/internal/extent_mmap.h"
 #include "jemalloc/internal/rtree.h"
@@ -334,8 +335,8 @@ TEST_BEGIN(test_arena_destroy_hooks_unmap) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_arena_reset()
+{
 	return test(
 	    test_arena_reset,
 	    test_arena_destroy_initial,

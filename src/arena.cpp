@@ -1662,8 +1662,7 @@ arena_ralloc(tsdn_t *tsdn, arena_t *arena, void *ptr, size_t oldsize,
 	 * size and oldsize are different enough that we need to move the
 	 * object.  In that case, fall back to allocating new space and copying.
 	 */
-	void *ret = arena_ralloc_move_helper(tsdn, arena, usize, alignment,
-	    zero, tcache);
+	void *ret = arena_ralloc_move_helper(tsdn, arena, usize, alignment,zero, tcache);
 	if (ret == NULL) {
 		return NULL;
 	}

@@ -270,7 +270,7 @@ static inline void rtree_leaf_elm_szind_write(tsdn_t *tsdn, rtree_t *rtree,   rt
 	    ((uintptr_t)rtree_leaf_elm_bits_slab_get(old_bits));
 	atomic_store_p(&elm->le_bits, (void *)bits, ATOMIC_RELEASE);
 #else
-    szind = atomic_load_u32(&elm->le_szind, ATOMIC_RELEASE);
+    atomic_store_u32(&elm->le_szind, szind, ATOMIC_RELEASE);
 #endif
 }
 
@@ -285,7 +285,7 @@ rtree_leaf_elm_slab_write(tsdn_t *tsdn, rtree_t *rtree,rtree_leaf_elm_t *elm, bo
 	    (((uintptr_t)0x1 << LG_VADDR) - 1)) | ((uintptr_t)slab);
 	atomic_store_p(&elm->le_bits, (void *)bits, ATOMIC_RELEASE);
 #else
-	slab = (atomic_load_u32(&elm->le_slab, ATOMIC_RELEASE) != 0);
+    atomic_store_u32(&elm->le_slab, slab?1:0 , ATOMIC_RELEASE) ;
 #endif
 }
 

@@ -71,7 +71,9 @@ tcache_alloc_small(tsd_t *tsd, arena_t *arena, tcache_t *tcache,
 	 */
 	if (config_prof || (slow_path && config_fill) || unlikely(zero)) {
 		usize = sz_index2size(binind);
-		assert(tcache_salloc(tsd_tsdn(tsd), ret) == usize);
+		//assert(tcache_salloc(tsd_tsdn(tsd), ret) == usize);
+        size_t rsize = tcache_salloc(tsd_tsdn(tsd), ret) ;
+        assert(rsize == usize);
 	}
 
 	if (likely(!zero)) {

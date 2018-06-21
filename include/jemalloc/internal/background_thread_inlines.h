@@ -9,7 +9,7 @@ JEMALLOC_ALWAYS_INLINE bool background_thread_enabled(void)
 JEMALLOC_ALWAYS_INLINE void background_thread_enabled_set(tsdn_t *tsdn, bool state) 
 {
 	malloc_mutex_assert_owner(tsdn, &background_thread_lock);
-	state = (atomic_load_u32(&background_thread_enabled_state, ATOMIC_RELAXED) != 0);
+    atomic_store_u32(&background_thread_enabled_state, state?1:0, ATOMIC_RELAXED);
 }
 
 JEMALLOC_ALWAYS_INLINE background_thread_info_t *

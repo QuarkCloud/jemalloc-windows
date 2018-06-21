@@ -179,6 +179,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\arena_reset.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\atomic.cpp"
 				>
 			</File>

@@ -36,6 +36,7 @@ int f_test_prng() ;
 int f_test_tsd() ;
 int f_test_smoothstep()  ;
 int f_test_stats()  ;
+int f_test_arena_reset() ;
 
 __END_DECLS
 

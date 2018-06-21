@@ -89,7 +89,7 @@ TEST_BEGIN(test_seq_simple) {
 }
 TEST_END
 
-int test_seq(void) 
+int f_test_seq(void) 
 {
 	return test_no_reentrancy(
 	    test_seq_simple,
