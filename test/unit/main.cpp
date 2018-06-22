@@ -7,14 +7,11 @@ void do_test_passed() ;
 
 int main(int argc , char * argv[])
 {
-    f_test_rb() ;
-
+    f_test_rtree() ;
     return 0 ;
 }
 void do_test_failed()
 {
-    f_test_rb() ;
-    f_test_seq() ; 
     f_test_rtree() ;
     f_test_decay() ;
     f_test_a0() ; 
@@ -48,6 +45,10 @@ void do_test_passed()
     f_test_pages() ;
     f_test_prng() ;
     f_test_smoothstep()  ;
+
+    //2018-06-22
     f_test_zero() ;
+    f_test_rb() ;
+    f_test_seq() ; 
 }
 

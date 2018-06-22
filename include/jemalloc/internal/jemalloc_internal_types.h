@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_TYPES_H
-#define JEMALLOC_INTERNAL_TYPES_H
+
+#ifndef __JEMALLOC_INTERNAL_TYPES_H
+#define __JEMALLOC_INTERNAL_TYPES_H 1
 
 /* Page size index type. */
 typedef unsigned pszind_t;
@@ -178,4 +179,4 @@ typedef int malloc_cpuid_t;
 #  define VARIABLE_ARRAY(type, name, count) type name[(count)]
 #endif
 
-#endif /* JEMALLOC_INTERNAL_TYPES_H */
+#endif /* __JEMALLOC_INTERNAL_TYPES_H */

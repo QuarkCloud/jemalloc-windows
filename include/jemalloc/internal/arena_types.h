@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_ARENA_TYPES_H
-#define JEMALLOC_INTERNAL_ARENA_TYPES_H
+
+#ifndef __JEMALLOC_INTERNAL_ARENA_TYPES_H
+#define __JEMALLOC_INTERNAL_ARENA_TYPES_H 1
 
 /* Maximum number of regions in one slab. */
 #define LG_SLAB_MAXREGS		(LG_PAGE - LG_TINY_MIN)
@@ -40,4 +41,4 @@ typedef enum {
 #define PERCPU_ARENA_ENABLED(m)	((m) >= percpu_arena_mode_enabled_base)
 #define PERCPU_ARENA_DEFAULT	percpu_arena_disabled
 
-#endif /* JEMALLOC_INTERNAL_ARENA_TYPES_H */
+#endif /* __JEMALLOC_INTERNAL_ARENA_TYPES_H */

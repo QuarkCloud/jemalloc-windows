@@ -3,6 +3,7 @@
 #include "jemalloc/jemalloc.h"
 #include "jemalloc/mangle.h"
 #include "unit_test.h"
+#include "opt_swap.h"
 
 
 static void test_zero(size_t sz_min, size_t sz_max) 
@@ -57,10 +58,6 @@ TEST_BEGIN(test_zero_large) {
 }
 TEST_END
 
-static const char * __opt_junk_true     = "true" ;
-static const char * __opt_junk_false    = "false" ;
-static const char * __opt_junk_alloc    = "alloc" ;
-static const char * __opt_junk_free     = "free" ;
 
 
 int f_test_zero() 
@@ -75,11 +72,15 @@ int f_test_zero()
     bool conf_opt_junk_free     = opt_junk_free ;
     bool conf_opt_zero          = opt_zero ;
 
+    opt_swap_to_conf() ;
+
     opt_abort       = false ;
     opt_junk        = __opt_junk_false ;
     opt_junk_alloc  = false ;
     opt_junk_free   = false ;
     opt_zero        = true ;
+
+
 
 	int result = test(test_zero_small , test_zero_large);
 
@@ -89,5 +90,6 @@ int f_test_zero()
     opt_junk_free   = conf_opt_junk_free ;
     opt_zero        = conf_opt_zero ;
 
+    opt_swap_to_conf() ;
     return result ;
 }

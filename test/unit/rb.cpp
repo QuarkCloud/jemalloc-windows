@@ -349,11 +349,5 @@ TEST_END
 
 int f_test_rb()
 {
-/**
-	return test(
-	    test_rb_empty,
-	    test_rb_random);
-*/
-    return test(test_rb_random);
-
+	return test( test_rb_empty, test_rb_random);
 }

@@ -1,7 +1,7 @@
 
 
 #ifndef __JEMALLOC_INTERNAL_DEFS_H
-#define __JEMALLOC_INTERNAL_DEFS_H
+#define __JEMALLOC_INTERNAL_DEFS_H 1
 
 
 

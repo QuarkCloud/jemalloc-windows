@@ -6,6 +6,7 @@
 #include "jemalloc/internal/atomic.h"
 #include "jemalloc/internal/size_classes.h"
 #include "jemalloc/internal/tsd_types.h"
+#include "jemalloc/internal/arena_types.h"
 #include "jemalloc/compile.h"
 
 /* TSD checks this to set thread local slow state accordingly. */
