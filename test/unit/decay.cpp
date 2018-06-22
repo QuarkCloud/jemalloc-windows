@@ -2,6 +2,7 @@
 #include "jemalloc/internal/ticker.h"
 #include "jemalloc/mangle.h"
 #include "unit_test.h"
+#include "opt_swap.h"
 
 static nstime_monotonic_t *nstime_monotonic_orig;
 static nstime_update_t *nstime_update_orig;
@@ -591,6 +592,11 @@ TEST_END
 
 int f_test_decay()
 {
+    opt_swap_to_conf() ;
+
+    opt_dirty_decay_ms = 1000 ;
+    opt_muzzy_decay_ms = 1000 ;
+    opt_lg_tcache_max = 0 ;
 /**
 	return test(
 	    test_decay_ticks,
@@ -599,5 +605,8 @@ int f_test_decay()
 	    test_decay_now,
 	    test_decay_never);
 */
-	return test(test_decay_ticks);
+	int result = test(test_decay_ticks);
+
+    opt_swap_from_conf() ;
+    return result ;
 }

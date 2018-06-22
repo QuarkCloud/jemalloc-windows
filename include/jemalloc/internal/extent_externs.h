@@ -23,8 +23,36 @@ extent_hooks_t *extent_hooks_set(tsd_t *tsd, arena_t *arena,extent_hooks_t *exte
 JEMALLOC_API size_t extent_size_quantize_floor(size_t size);
 JEMALLOC_API size_t extent_size_quantize_ceil(size_t size);
 
-rb_proto(, extent_avail_, extent_tree_t, extent_t)
-ph_proto(, extent_heap_, extent_heap_t, extent_t)
+//rb_proto(, extent_avail_, extent_tree_t, extent_t)
+typedef int (*extent_comp_t)(const extent_t *a, const extent_t *b)  ;
+JEMALLOC_API void extent_avail_merge_aux(extent_tree_t *ph , extent_comp_t comp) ;
+
+JEMALLOC_API void	extent_avail_new(extent_tree_t *rbtree);					
+JEMALLOC_API bool	extent_avail_empty(extent_tree_t *rbtree);					
+JEMALLOC_API extent_t *	extent_avail_first(extent_tree_t *rbtree);					
+JEMALLOC_API extent_t *	extent_avail_last(extent_tree_t *rbtree);					
+JEMALLOC_API extent_t *	extent_avail_next(extent_tree_t *rbtree, extent_t *node);			
+JEMALLOC_API extent_t *	extent_avail_prev(extent_tree_t *rbtree, extent_t *node);			
+JEMALLOC_API extent_t *	extent_avail_search(extent_tree_t *rbtree, const extent_t *key);		
+JEMALLOC_API extent_t *	extent_avail_nsearch(extent_tree_t *rbtree, const extent_t *key);		
+JEMALLOC_API extent_t *	extent_avail_psearch(extent_tree_t *rbtree, const extent_t *key);		
+JEMALLOC_API void extent_avail_insert(extent_tree_t *rbtree, extent_t *node);			
+JEMALLOC_API void extent_avail_remove(extent_tree_t *rbtree, extent_t *node);			
+JEMALLOC_API extent_t * extent_avail_iter(extent_tree_t *rbtree, extent_t *start, 
+        extent_t *(*cb)(extent_tree_t *, extent_t *, void *), void *arg);				
+JEMALLOC_API extent_t *	extent_avail_reverse_iter(extent_tree_t *rbtree, extent_t *start,
+        extent_t *(*cb)(extent_tree_t *, extent_t *, void *), void *arg);		
+JEMALLOC_API void extent_avail_destroy(extent_tree_t *rbtree, void (*cb)(extent_t *, void *),void *arg);
+
+//ph_proto(, extent_heap_, extent_heap_t, extent_t)
+JEMALLOC_API void	extent_heap_new(extent_heap_t *ph);				
+JEMALLOC_API bool	extent_heap_empty(extent_heap_t *ph);				
+JEMALLOC_API extent_t	*extent_heap_first(extent_heap_t *ph);			
+JEMALLOC_API extent_t	*extent_heap_any(extent_heap_t *ph);				
+JEMALLOC_API void	extent_heap_insert(extent_heap_t *ph, extent_t *phn);		
+JEMALLOC_API extent_t	*extent_heap_remove_first(extent_heap_t *ph);			
+JEMALLOC_API extent_t	*extent_heap_remove_any(extent_heap_t *ph);			
+JEMALLOC_API void	extent_heap_remove(extent_heap_t *ph, extent_t *phn);
 
 JEMALLOC_API bool extents_init(tsdn_t *tsdn, extents_t *extents, extent_state_t state,  bool delay_coalesce);
 JEMALLOC_API extent_state_t extents_state_get(const extents_t *extents);

@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_ARENA_STRUCTS_A_H
-#define JEMALLOC_INTERNAL_ARENA_STRUCTS_A_H
+
+#ifndef __JEMALLOC_INTERNAL_ARENA_STRUCTS_A_H
+#define __JEMALLOC_INTERNAL_ARENA_STRUCTS_A_H 1
 
 #include "jemalloc/internal/bitmap.h"
 
@@ -8,4 +9,4 @@ struct arena_slab_data_s {
 	bitmap_t	bitmap[BITMAP_GROUPS_MAX];
 };
 
-#endif /* JEMALLOC_INTERNAL_ARENA_STRUCTS_A_H */
+#endif /* __JEMALLOC_INTERNAL_ARENA_STRUCTS_A_H */

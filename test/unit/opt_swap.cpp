@@ -1,17 +1,6 @@
 
 #include "opt_swap.h"
-#include "jemalloc/internal/jemalloc_internal_externs.h"
-/**
-extern JEMALLOC_API bool opt_abort;
-extern JEMALLOC_API bool opt_abort_conf;
-extern JEMALLOC_API const char *opt_junk;
-extern JEMALLOC_API bool opt_junk_alloc;
-extern JEMALLOC_API bool opt_junk_free;
-extern JEMALLOC_API bool opt_utrace;
-extern JEMALLOC_API bool opt_xmalloc;
-extern JEMALLOC_API bool opt_zero;
-extern JEMALLOC_API unsigned opt_narenas;
-*/
+
 
 static bool         conf_opt_abort          = opt_abort;
 static bool         conf_opt_abort_conf     = opt_abort_conf;
@@ -22,6 +11,15 @@ static bool         conf_opt_utrace         = opt_utrace;
 static bool         conf_opt_xmalloc        = opt_xmalloc;
 static bool         conf_opt_zero           = opt_zero;
 static unsigned     conf_opt_narenas        = opt_narenas;
+
+static ssize_t      conf_opt_dirty_decay_ms = opt_dirty_decay_ms;
+static ssize_t      conf_opt_muzzy_decay_ms = opt_muzzy_decay_ms;
+
+static bool	        conf_opt_tcache         = opt_tcache;
+static ssize_t	    conf_opt_lg_tcache_max  = opt_lg_tcache_max;
+static unsigned	    conf_nhbins             = nhbins;
+static size_t	    conf_tcache_maxclass    = tcache_maxclass;
+
 
 
 void opt_swap_from_conf()
@@ -35,6 +33,15 @@ void opt_swap_from_conf()
     opt_xmalloc        = conf_opt_xmalloc;
     opt_zero           = conf_opt_zero;
     opt_narenas        = conf_opt_narenas;
+
+    opt_dirty_decay_ms = conf_opt_dirty_decay_ms;
+    opt_muzzy_decay_ms = conf_opt_muzzy_decay_ms;
+
+    opt_tcache         = conf_opt_tcache;
+    opt_lg_tcache_max  = conf_opt_lg_tcache_max;
+    nhbins             = conf_nhbins;
+    tcache_maxclass    = conf_tcache_maxclass;
+
 }
 
 void opt_swap_to_conf()
@@ -48,5 +55,33 @@ void opt_swap_to_conf()
     conf_opt_xmalloc        = opt_xmalloc;
     conf_opt_zero           = opt_zero;
     conf_opt_narenas        = opt_narenas;
+
+    conf_opt_dirty_decay_ms = opt_dirty_decay_ms;
+    conf_opt_muzzy_decay_ms = opt_muzzy_decay_ms;
+
+    conf_opt_tcache         = opt_tcache;
+    conf_opt_lg_tcache_max  = opt_lg_tcache_max;
+    conf_nhbins             = nhbins;
+    conf_tcache_maxclass    = tcache_maxclass;
 }
+
+bool conf_match(const char * src , const char * dst) 
+{
+    if(src == dst)  return true ;
+    if(src == NULL || dst == NULL) return false ;
+
+    int idx = 0 ;
+    while(true)
+    {
+        if(src[idx] != dst[idx])
+            return false ;
+
+        if(src[idx] == '\0')
+            break ;
+        ++idx ;
+    }
+
+    return true ;
+}
+
 

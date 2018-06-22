@@ -1880,8 +1880,7 @@ imalloc_body(static_opts_t *sopts, dynamic_opts_t *dopts, tsd_t *tsd) {
 		 * alignment path, imalloc_no_sample ignores ind and size
 		 * (relying only on usize).
 		 */
-		allocation = imalloc_no_sample(sopts, dopts, tsd, size, usize,
-		    ind);
+		allocation = imalloc_no_sample(sopts, dopts, tsd, size, usize,ind);
 		if (unlikely(allocation == NULL)) {
 			goto label_oom;
 		}

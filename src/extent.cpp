@@ -119,8 +119,206 @@ static void extent_record(tsdn_t *tsdn, arena_t *arena,
 
 /******************************************************************************/
 
-ph_gen(, extent_avail_, extent_tree_t, extent_t, ph_link,
-    extent_esnead_comp)
+//ph_gen(, extent_avail_, extent_tree_t, extent_t, ph_link,extent_esnead_comp)
+void extent_avail_new(extent_tree_t *ph) 
+{
+	memset(ph, 0, sizeof(extent_tree_t));				
+}									
+bool extent_avail_empty(extent_tree_t *ph) 
+{
+	return (ph->ph_root == NULL);					
+}
+
+
+//static inline extent_t * phn_next_get(extent_t * node) {return node->ph_link.phn_next ;}
+
+void extent_avail_merge_aux(extent_tree_t *ph , extent_comp_t comp) 
+{
+    extent_t *phn = phn_next_get(extent_t, ph_link, ph->ph_root);
+    if (phn != NULL) 
+    {				
+	    phn_prev_set(extent_t, ph_link, ph->ph_root, NULL);	
+	    phn_next_set(extent_t, ph_link, ph->ph_root, NULL);	
+	    phn_prev_set(extent_t, ph_link, phn, NULL);		
+	    ph_merge_siblings(extent_t, ph_link, phn, extent_esnead_comp, phn);	
+	    assert(phn_next_get(extent_t, ph_link, phn) == NULL);	
+	    phn_merge(extent_t, ph_link, ph->ph_root, phn, extent_esnead_comp,	
+	        ph->ph_root);
+    }	
+}
+
+extent_t * extent_avail_first(extent_tree_t *ph) 
+{
+	if (ph->ph_root == NULL) {					
+		return NULL;						
+	}								
+	//ph_merge_aux(extent_t, ph_link, ph, extent_esnead_comp);			
+    extent_avail_merge_aux(ph , extent_esnead_comp) ;
+	return ph->ph_root;						
+}									
+extent_t * extent_avail_any(extent_tree_t *ph) 
+{
+	if (ph->ph_root == NULL) {					
+		return NULL;						
+	}								
+	extent_t *aux = phn_next_get(extent_t, ph_link, ph->ph_root);	
+	if (aux != NULL) {						
+		return aux;						
+	}								
+	return ph->ph_root;						
+}									
+void extent_avail_insert(extent_tree_t *ph, extent_t *phn) 
+{
+    typedef phn(extent_t) __tmp_phn_a_type_t__ ;              
+	memset(&phn->ph_link, 0, sizeof(__tmp_phn_a_type_t__));	
+									
+	/*								
+	 * Treat the root as an aux list during insertion, and lazily	
+	 * merge during extent_avail_remove_first().  For elements that	
+	 * are inserted, then removed via extent_avail_remove() before the	
+	 * aux list is ever processed, this makes insert/remove		
+	 * constant-time, whereas eager merging would make insert	
+	 * O(log n).							
+	 */								
+	if (ph->ph_root == NULL) {					
+		ph->ph_root = phn;					
+	} else {							
+		phn_next_set(extent_t, ph_link, phn, phn_next_get(extent_t,	
+		    ph_link, ph->ph_root));				
+		if (phn_next_get(extent_t, ph_link, ph->ph_root) !=	
+		    NULL) {						
+			phn_prev_set(extent_t, ph_link,			
+			    phn_next_get(extent_t, ph_link, ph->ph_root),	
+			    phn);					
+		}							
+		phn_prev_set(extent_t, ph_link, phn, ph->ph_root);	
+		phn_next_set(extent_t, ph_link, ph->ph_root, phn);	
+	}								
+}									
+extent_t * extent_avail_remove_first(extent_tree_t *ph) 
+{
+	extent_t *ret;							
+									
+	if (ph->ph_root == NULL) {					
+		return NULL;						
+	}								
+	ph_merge_aux(extent_t, ph_link, ph, extent_esnead_comp);			
+									
+	ret = ph->ph_root;						
+									
+	ph_merge_children(extent_t, ph_link, ph->ph_root, extent_esnead_comp,		
+	    ph->ph_root);						
+									
+	return ret;							
+}									
+extent_t * extent_avail_remove_any(extent_tree_t *ph) 
+{
+	/*								
+	 * Remove the most recently inserted aux list element, or the	
+	 * root if the aux list is empty.  This has the effect of	
+	 * behaving as a LIFO (and insertion/removal is therefore	
+	 * constant-time) if extent_avail_[remove_]first() are never	
+	 * called.							
+	 */								
+	if (ph->ph_root == NULL) {					
+		return NULL;						
+	}								
+	extent_t *ret = phn_next_get(extent_t, ph_link, ph->ph_root);	
+	if (ret != NULL) {						
+		extent_t *aux = phn_next_get(extent_t, ph_link, ret);	
+		phn_next_set(extent_t, ph_link, ph->ph_root, aux);	
+		if (aux != NULL) {					
+			phn_prev_set(extent_t, ph_link, aux,		
+			    ph->ph_root);				
+		}							
+		return ret;						
+	}								
+	ret = ph->ph_root;						
+	ph_merge_children(extent_t, ph_link, ph->ph_root, extent_esnead_comp,		
+	    ph->ph_root);						
+	return ret;							
+}									
+void extent_avail_remove(extent_tree_t *ph, extent_t *phn) 
+{
+	extent_t *replace, *parent;					
+									
+	if (ph->ph_root == phn) {					
+		/*							
+		 * We can delete from aux list without merging it, but	
+		 * we need to merge if we are dealing with the root	
+		 * node and it has children.				
+		 */							
+		if (phn_lchild_get(extent_t, ph_link, phn) == NULL) {	
+			ph->ph_root = phn_next_get(extent_t, ph_link,	
+			    phn);					
+			if (ph->ph_root != NULL) {			
+				phn_prev_set(extent_t, ph_link,		
+				    ph->ph_root, NULL);			
+			}						
+			return;						
+		}							
+		ph_merge_aux(extent_t, ph_link, ph, extent_esnead_comp);		
+		if (ph->ph_root == phn) {				
+			ph_merge_children(extent_t, ph_link, ph->ph_root,	
+			    extent_esnead_comp, ph->ph_root);			
+			return;						
+		}							
+	}								
+									
+	/* Get parent (if phn is leftmost child) before mutating. */	
+	if ((parent = phn_prev_get(extent_t, ph_link, phn)) != NULL) {	
+		if (phn_lchild_get(extent_t, ph_link, parent) != phn) {	
+			parent = NULL;					
+		}							
+	}								
+	/* Find a possible replacement node, and link to parent. */	
+	ph_merge_children(extent_t, ph_link, phn, extent_esnead_comp, replace);	
+	/* Set next/prev for sibling linked list. */			
+	if (replace != NULL) {						
+		if (parent != NULL) {					
+			phn_prev_set(extent_t, ph_link, replace, parent);	
+			phn_lchild_set(extent_t, ph_link, parent,		
+			    replace);					
+		} else {						
+			phn_prev_set(extent_t, ph_link, replace,		
+			    phn_prev_get(extent_t, ph_link, phn));	
+			if (phn_prev_get(extent_t, ph_link, phn) !=	
+			    NULL) {					
+				phn_next_set(extent_t, ph_link,		
+				    phn_prev_get(extent_t, ph_link, phn),	
+				    replace);				
+			}						
+		}							
+		phn_next_set(extent_t, ph_link, replace,			
+		    phn_next_get(extent_t, ph_link, phn));		
+		if (phn_next_get(extent_t, ph_link, phn) != NULL) {	
+			phn_prev_set(extent_t, ph_link,			
+			    phn_next_get(extent_t, ph_link, phn),		
+			    replace);					
+		}							
+	} else {							
+		if (parent != NULL) {					
+			extent_t *next = phn_next_get(extent_t, ph_link,	
+			    phn);					
+			phn_lchild_set(extent_t, ph_link, parent, next);	
+			if (next != NULL) {				
+				phn_prev_set(extent_t, ph_link, next,	
+				    parent);				
+			}						
+		} else {						
+			assert(phn_prev_get(extent_t, ph_link, phn) !=	
+			    NULL);					
+			phn_next_set(extent_t, ph_link,			
+			    phn_prev_get(extent_t, ph_link, phn),		
+			    phn_next_get(extent_t, ph_link, phn));	
+		}							
+		if (phn_next_get(extent_t, ph_link, phn) != NULL) {	
+			phn_prev_set(extent_t, ph_link,			
+			    phn_next_get(extent_t, ph_link, phn),		
+			    phn_prev_get(extent_t, ph_link, phn));	
+		}							
+	}								
+}
 
 typedef enum {
 	lock_result_success,
@@ -275,7 +473,186 @@ extent_size_quantize_ceil(size_t size) {
 }
 
 /* Generate pairing heap functions. */
-ph_gen(, extent_heap_, extent_heap_t, extent_t, ph_link, extent_snad_comp)
+//ph_gen(, extent_heap_, extent_heap_t, extent_t, ph_link, extent_snad_comp)
+void								
+extent_heap_new(extent_heap_t *ph) {						
+	memset(ph, 0, sizeof(extent_heap_t));				
+}									
+ bool								
+extent_heap_empty(extent_heap_t *ph) {					
+	return (ph->ph_root == NULL);					
+}									
+ extent_t *								
+extent_heap_first(extent_heap_t *ph) {					
+	if (ph->ph_root == NULL) {					
+		return NULL;						
+	}								
+	ph_merge_aux(extent_t, ph_link, ph, extent_snad_comp);			
+	return ph->ph_root;						
+}									
+ extent_t *								
+extent_heap_any(extent_heap_t *ph) {						
+	if (ph->ph_root == NULL) {					
+		return NULL;						
+	}								
+	extent_t *aux = phn_next_get(extent_t, ph_link, ph->ph_root);	
+	if (aux != NULL) {						
+		return aux;						
+	}								
+	return ph->ph_root;						
+}									
+ void								
+extent_heap_insert(extent_heap_t *ph, extent_t *phn) {				
+    typedef phn(extent_t) __tmp_phn_a_type_t__ ;              
+	memset(&phn->ph_link, 0, sizeof(__tmp_phn_a_type_t__));	
+									
+	/*								
+	 * Treat the root as an aux list during insertion, and lazily	
+	 * merge during extent_heap_remove_first().  For elements that	
+	 * are inserted, then removed via extent_heap_remove() before the	
+	 * aux list is ever processed, this makes insert/remove		
+	 * constant-time, whereas eager merging would make insert	
+	 * O(log n).							
+	 */								
+	if (ph->ph_root == NULL) {					
+		ph->ph_root = phn;					
+	} else {							
+		phn_next_set(extent_t, ph_link, phn, phn_next_get(extent_t,	
+		    ph_link, ph->ph_root));				
+		if (phn_next_get(extent_t, ph_link, ph->ph_root) !=	
+		    NULL) {						
+			phn_prev_set(extent_t, ph_link,			
+			    phn_next_get(extent_t, ph_link, ph->ph_root),	
+			    phn);					
+		}							
+		phn_prev_set(extent_t, ph_link, phn, ph->ph_root);	
+		phn_next_set(extent_t, ph_link, ph->ph_root, phn);	
+	}								
+}									
+ extent_t *								
+extent_heap_remove_first(extent_heap_t *ph) {					
+	extent_t *ret;							
+									
+	if (ph->ph_root == NULL) {					
+		return NULL;						
+	}								
+	ph_merge_aux(extent_t, ph_link, ph, extent_snad_comp);			
+									
+	ret = ph->ph_root;						
+									
+	ph_merge_children(extent_t, ph_link, ph->ph_root, extent_snad_comp,		
+	    ph->ph_root);						
+									
+	return ret;							
+}									
+ extent_t *								
+extent_heap_remove_any(extent_heap_t *ph) {					
+	/*								
+	 * Remove the most recently inserted aux list element, or the	
+	 * root if the aux list is empty.  This has the effect of	
+	 * behaving as a LIFO (and insertion/removal is therefore	
+	 * constant-time) if extent_heap_[remove_]first() are never	
+	 * called.							
+	 */								
+	if (ph->ph_root == NULL) {					
+		return NULL;						
+	}								
+	extent_t *ret = phn_next_get(extent_t, ph_link, ph->ph_root);	
+	if (ret != NULL) {						
+		extent_t *aux = phn_next_get(extent_t, ph_link, ret);	
+		phn_next_set(extent_t, ph_link, ph->ph_root, aux);	
+		if (aux != NULL) {					
+			phn_prev_set(extent_t, ph_link, aux,		
+			    ph->ph_root);				
+		}							
+		return ret;						
+	}								
+	ret = ph->ph_root;						
+	ph_merge_children(extent_t, ph_link, ph->ph_root, extent_snad_comp,		
+	    ph->ph_root);						
+	return ret;							
+}									
+ void								
+extent_heap_remove(extent_heap_t *ph, extent_t *phn) {				
+	extent_t *replace, *parent;					
+									
+	if (ph->ph_root == phn) {					
+		/*							
+		 * We can delete from aux list without merging it, but	
+		 * we need to merge if we are dealing with the root	
+		 * node and it has children.				
+		 */							
+		if (phn_lchild_get(extent_t, ph_link, phn) == NULL) {	
+			ph->ph_root = phn_next_get(extent_t, ph_link,	
+			    phn);					
+			if (ph->ph_root != NULL) {			
+				phn_prev_set(extent_t, ph_link,		
+				    ph->ph_root, NULL);			
+			}						
+			return;						
+		}							
+		ph_merge_aux(extent_t, ph_link, ph, extent_snad_comp);		
+		if (ph->ph_root == phn) {				
+			ph_merge_children(extent_t, ph_link, ph->ph_root,	
+			    extent_snad_comp, ph->ph_root);			
+			return;						
+		}							
+	}								
+									
+	/* Get parent (if phn is leftmost child) before mutating. */	
+	if ((parent = phn_prev_get(extent_t, ph_link, phn)) != NULL) {	
+		if (phn_lchild_get(extent_t, ph_link, parent) != phn) {	
+			parent = NULL;					
+		}							
+	}								
+	/* Find a possible replacement node, and link to parent. */	
+	ph_merge_children(extent_t, ph_link, phn, extent_snad_comp, replace);	
+	/* Set next/prev for sibling linked list. */			
+	if (replace != NULL) {						
+		if (parent != NULL) {					
+			phn_prev_set(extent_t, ph_link, replace, parent);	
+			phn_lchild_set(extent_t, ph_link, parent,		
+			    replace);					
+		} else {						
+			phn_prev_set(extent_t, ph_link, replace,		
+			    phn_prev_get(extent_t, ph_link, phn));	
+			if (phn_prev_get(extent_t, ph_link, phn) !=	
+			    NULL) {					
+				phn_next_set(extent_t, ph_link,		
+				    phn_prev_get(extent_t, ph_link, phn),	
+				    replace);				
+			}						
+		}							
+		phn_next_set(extent_t, ph_link, replace,			
+		    phn_next_get(extent_t, ph_link, phn));		
+		if (phn_next_get(extent_t, ph_link, phn) != NULL) {	
+			phn_prev_set(extent_t, ph_link,			
+			    phn_next_get(extent_t, ph_link, phn),		
+			    replace);					
+		}							
+	} else {							
+		if (parent != NULL) {					
+			extent_t *next = phn_next_get(extent_t, ph_link,	
+			    phn);					
+			phn_lchild_set(extent_t, ph_link, parent, next);	
+			if (next != NULL) {				
+				phn_prev_set(extent_t, ph_link, next,	
+				    parent);				
+			}						
+		} else {						
+			assert(phn_prev_get(extent_t, ph_link, phn) !=	
+			    NULL);					
+			phn_next_set(extent_t, ph_link,			
+			    phn_prev_get(extent_t, ph_link, phn),		
+			    phn_next_get(extent_t, ph_link, phn));	
+		}							
+		if (phn_next_get(extent_t, ph_link, phn) != NULL) {	
+			phn_prev_set(extent_t, ph_link,			
+			    phn_next_get(extent_t, ph_link, phn),		
+			    phn_prev_get(extent_t, ph_link, phn));	
+		}							
+	}								
+}
 
 bool
 extents_init(tsdn_t *tsdn, extents_t *extents, extent_state_t state,

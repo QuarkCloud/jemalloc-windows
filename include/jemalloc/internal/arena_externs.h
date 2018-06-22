@@ -8,6 +8,8 @@
 #include "jemalloc/internal/pages.h"
 #include "jemalloc/internal/size_classes.h"
 #include "jemalloc/internal/stats.h"
+#include "jemalloc/internal/smoothstep.h"
+#include "jemalloc/internal/arena_stats.h"
 #include "jemalloc/compile.h"
 
 extern JEMALLOC_API ssize_t opt_dirty_decay_ms;

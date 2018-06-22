@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_PREAMBLE_H
-#define JEMALLOC_PREAMBLE_H
+
+#ifndef __JEMALLOC_PREAMBLE_H
+#define __JEMALLOC_PREAMBLE_H 1
 
 #include "jemalloc_internal_defs.h"
 #include "jemalloc/internal/jemalloc_internal_decls.h"
@@ -195,4 +196,4 @@ static const bool have_background_thread =
 #endif
     ;
 
-#endif /* JEMALLOC_PREAMBLE_H */
+#endif /* __JEMALLOC_PREAMBLE_H */

@@ -4,6 +4,7 @@
 
 #include "jemalloc/internal/malloc_io.h"
 #include "jemalloc/internal/util.h"
+#include "jemalloc/internal/jemalloc_preamble.h"
 
 /*
  * Define a custom assert() in order to reduce the chances of deadlock during
