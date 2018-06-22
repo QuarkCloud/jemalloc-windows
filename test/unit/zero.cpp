@@ -57,13 +57,37 @@ TEST_BEGIN(test_zero_large) {
 }
 TEST_END
 
+static const char * __opt_junk_true     = "true" ;
+static const char * __opt_junk_false    = "false" ;
+static const char * __opt_junk_alloc    = "alloc" ;
+static const char * __opt_junk_free     = "free" ;
+
 
 int f_test_zero() 
 {
 /**
-	return test(
-	    test_zero_small,
-	    test_zero_large);
+    zero测试在外部输入环境变量，在这里处理。
+    MALLOC_CONF="abort:false,junk:false,zero:true"
 */
-	return test(test_zero_small);
+    bool conf_opt_abort         = opt_abort ;
+    const char * conf_opt_junk  = opt_junk ;
+    bool conf_opt_junk_alloc    = opt_junk_alloc ;
+    bool conf_opt_junk_free     = opt_junk_free ;
+    bool conf_opt_zero          = opt_zero ;
+
+    opt_abort       = false ;
+    opt_junk        = __opt_junk_false ;
+    opt_junk_alloc  = false ;
+    opt_junk_free   = false ;
+    opt_zero        = true ;
+
+	int result = test(test_zero_small , test_zero_large);
+
+    opt_abort       = conf_opt_abort ;
+    opt_junk        = conf_opt_junk ;
+    opt_junk_alloc  = conf_opt_junk_alloc ;
+    opt_junk_free   = conf_opt_junk_free ;
+    opt_zero        = conf_opt_zero ;
+
+    return result ;
 }

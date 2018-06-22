@@ -52,7 +52,7 @@ log_var_update_state(log_var_t *log_var) {
 	 * If log_init done is false, we haven't parsed the malloc conf yet.  To
 	 * avoid log-spew, we default to not displaying anything.
 	 */
-	if (!atomic_load_u32(&log_init_done, ATOMIC_ACQUIRE)) {
+	if (atomic_load_u32(&log_init_done, ATOMIC_ACQUIRE) == 0) {
 		return LOG_INITIALIZED_NOT_ENABLED;
 	}
 

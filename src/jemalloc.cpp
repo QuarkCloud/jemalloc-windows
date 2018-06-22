@@ -1090,12 +1090,10 @@ malloc_conf_init(void) {
 				if (CONF_MATCH("junk")) {
 					if (CONF_MATCH_VALUE("true")) {
 						opt_junk = "true";
-						opt_junk_alloc = opt_junk_free =
-						    true;
+						opt_junk_alloc = opt_junk_free = true;
 					} else if (CONF_MATCH_VALUE("false")) {
 						opt_junk = "false";
-						opt_junk_alloc = opt_junk_free =
-						    false;
+						opt_junk_alloc = opt_junk_free = false;
 					} else if (CONF_MATCH_VALUE("alloc")) {
 						opt_junk = "alloc";
 						opt_junk_alloc = true;
@@ -1221,7 +1219,7 @@ malloc_conf_init(void) {
 			malloc_abort_invalid_conf();
 		}
 	}
-	atomic_store_u32(&log_init_done, true, ATOMIC_RELEASE);
+	atomic_store_u32(&log_init_done, 1, ATOMIC_RELEASE);
 }
 
 static bool
@@ -2606,7 +2604,7 @@ JEMALLOC_API  void * je_mallocx(size_t size, int flags)
 			dopts.alignment = MALLOCX_ALIGN_GET_SPECIFIED(flags);
 		}
 
-		dopts.zero = (MALLOCX_ZERO_GET(flags) != 0);
+		dopts.zero = (MALLOCX_ZERO_GET(flags)) ;
 
 		if ((flags & MALLOCX_TCACHE_MASK) != 0) {
 			if ((flags & MALLOCX_TCACHE_MASK)

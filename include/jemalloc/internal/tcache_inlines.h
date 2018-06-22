@@ -38,8 +38,7 @@ tcache_event(tsd_t *tsd, tcache_t *tcache) {
 	}
 }
 
-JEMALLOC_ALWAYS_INLINE void *
-tcache_alloc_small(tsd_t *tsd, arena_t *arena, tcache_t *tcache,
+JEMALLOC_ALWAYS_INLINE void * tcache_alloc_small(tsd_t *tsd, arena_t *arena, tcache_t *tcache,
     size_t size, szind_t binind, bool zero, bool slow_path) {
 	void *ret;
 	cache_bin_t *bin;
@@ -77,16 +76,20 @@ tcache_alloc_small(tsd_t *tsd, arena_t *arena, tcache_t *tcache,
 	}
 
 	if (likely(!zero)) {
-		if (slow_path && config_fill) {
-			if (unlikely(opt_junk_alloc)) {
-				arena_alloc_junk_small(ret, &bin_infos[binind],
-				    false);
-			} else if (unlikely(opt_zero)) {
+		if (slow_path && config_fill) 
+        {
+			if (unlikely(opt_junk_alloc)) 
+            {
+				arena_alloc_junk_small(ret, &bin_infos[binind], false);
+			} 
+            else if (unlikely(opt_zero)) 
+            {
 				memset(ret, 0, usize);
 			}
 		}
 	} else {
-		if (slow_path && config_fill && unlikely(opt_junk_alloc)) {
+		if (slow_path && config_fill && unlikely(opt_junk_alloc)) 
+        {
 			arena_alloc_junk_small(ret, &bin_infos[binind], true);
 		}
 		memset(ret, 0, usize);
