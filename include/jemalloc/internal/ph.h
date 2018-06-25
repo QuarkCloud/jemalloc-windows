@@ -238,7 +238,7 @@ a_prefix##any(a_ph_type *ph) {						\
 }									\
 a_attr void								\
 a_prefix##insert(a_ph_type *ph, a_type *phn) {				\
-    typedef phn(a_type) __tmp_phn_a_type_t__ ;              \
+    typedef extent_ph_link_t __tmp_phn_a_type_t__ ;              \
 	memset(&phn->a_field, 0, sizeof(__tmp_phn_a_type_t__));	\
 									\
 	/*								\

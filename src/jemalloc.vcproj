@@ -637,7 +637,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\include\jemalloc\internal\tsd_generic.h"
+					RelativePath="..\include\jemalloc\internal\tsd_detail.h"
 					>
 				</File>
 				<File

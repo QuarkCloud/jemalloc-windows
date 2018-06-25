@@ -5,8 +5,8 @@
 #include "jemalloc/internal/atomic.h"
 #include "jemalloc/internal/bitmap.h"
 #include "jemalloc/internal/mutex.h"
-#include "jemalloc/internal/ql.h"
-#include "jemalloc/internal/ph.h"
+//#include "jemalloc/internal/ql.h"
+//#include "jemalloc/internal/ph.h"
 #include "jemalloc/internal/size_classes.h"
 #include "jemalloc/internal/arena_types.h"
 
@@ -16,6 +16,19 @@ typedef enum {
 	extent_state_muzzy    = 2,
 	extent_state_retained = 3
 } extent_state_t;
+
+typedef struct extent_s extent_t ;
+
+typedef struct __st_extent_ph_link{
+	extent_t	*phn_prev;
+	extent_t	*phn_next;
+	extent_t	*phn_lchild;
+} extent_ph_link_t ;
+
+typedef struct __st_extent_ql_link{
+	extent_t	*qre_prev;
+	extent_t	*qre_next;
+} extent_ql_link_t ;
 
 /* Extent (span of pages).  Use accessor functions for e_* fields. */
 struct extent_s {
@@ -150,13 +163,15 @@ struct extent_s {
 	 * - stashed dirty extents
 	 * - arena's large allocations
 	 */
-	ql_elm(extent_t)	ql_link;
+	//ql_elm(extent_t)	ql_link;
+    extent_ql_link_t    ql_link;
 
 	/*
 	 * Linkage for per size class sn/address-ordered heaps, and
 	 * for extent_avail
 	 */
-	phn(extent_t)		ph_link;
+	//phn(extent_t)		ph_link;
+    extent_ph_link_t    ph_link ;
 
 	union {
 		/* Small region slab metadata. */
@@ -169,9 +184,26 @@ struct extent_s {
 		atomic_p_t		e_prof_tctx;
 	};
 };
-typedef ql_head(extent_t) extent_list_t;
-typedef ph(extent_t) extent_tree_t;
-typedef ph(extent_t) extent_heap_t;
+/**
+#define ph(a_type)							\
+struct {			\
+	a_type	*ph_root;						\
+}
+*/
+//typedef ql_head(extent_t) extent_list_t;
+//typedef ph(extent_t) extent_tree_t;
+//typedef ph(extent_t) extent_heap_t;
+
+typedef struct extent_list{								
+	extent_t *qlh_first;						
+} extent_list_t ;
+
+typedef struct __st_extent_tree{
+    extent_t * ph_root ;
+} extent_tree_t;
+typedef struct __st_extent_heap{
+    extent_t * ph_root ;
+} extent_heap_t;
 
 /* Quantized collection of extents, with built-in LRU queue. */
 struct extents_s {

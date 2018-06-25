@@ -62,7 +62,10 @@ typedef void (*test_callback_t)(int *);
 //#endif
 
 /* Various uses of this struct need it to be a named type. */
-typedef ql_elm(tsd_t) tsd_link_t;
+typedef struct {								
+	tsd_t	*qre_next;						
+	tsd_t	*qre_prev;						
+} tsd_link_t ;
 
 /*  O(name,			type,			nullable type */
 #define MALLOC_TSD							\
@@ -163,12 +166,6 @@ enum {
 	tsd_state_uninitialized = 6
 };
 
-/*
- * Some TSD accesses can only be done in a nominal state.  To enforce this, we
- * wrap TSD member access in a function that asserts on TSD state, and mangle
- * field names to prevent touching them accidentally.
- */
-#define TSD_MANGLE(n) cant_access_tsd_items_directly_use_a_getter_or_setter_##n
 
 /* The actual tsd. */
 struct tsd_s {
@@ -180,11 +177,33 @@ struct tsd_s {
 
 	/* We manually limit the state to just a single byte. */
 	atomic_u32_t state;
-#define O(n, t, nt)							\
-	t TSD_MANGLE(n);
-MALLOC_TSD
-#undef O
+
+
+    bool cant_access_tsd_items_directly_use_a_getter_or_setter_tcache_enabled ;
+    bool cant_access_tsd_items_directly_use_a_getter_or_setter_arenas_tdata_bypass ;
+    bool cant_access_tsd_items_directly_use_a_getter_or_setter_in_hook ;
+    int8_t cant_access_tsd_items_directly_use_a_getter_or_setter_reentrancy_level ;
+    uint32_t cant_access_tsd_items_directly_use_a_getter_or_setter_narenas_tdata ;
+    uint64_t cant_access_tsd_items_directly_use_a_getter_or_setter_offset_state ;
+    uint64_t cant_access_tsd_items_directly_use_a_getter_or_setter_thread_allocated ;
+    uint64_t cant_access_tsd_items_directly_use_a_getter_or_setter_thread_deallocated ;
+    prof_tdata_t * cant_access_tsd_items_directly_use_a_getter_or_setter_prof_tdata ;
+    rtree_ctx_t cant_access_tsd_items_directly_use_a_getter_or_setter_rtree_ctx ;
+    arena_t * cant_access_tsd_items_directly_use_a_getter_or_setter_iarena ;
+    arena_t * cant_access_tsd_items_directly_use_a_getter_or_setter_arena ;
+    arena_tdata_t * cant_access_tsd_items_directly_use_a_getter_or_setter_arenas_tdata ;
+    tsd_link_t cant_access_tsd_items_directly_use_a_getter_or_setter_link ;
+    tcache_t cant_access_tsd_items_directly_use_a_getter_or_setter_tcache ;
+    witness_tsd_t cant_access_tsd_items_directly_use_a_getter_or_setter_witness_tsd ;
+    int cant_access_tsd_items_directly_use_a_getter_or_setter_test_data ;
+    test_callback_t cant_access_tsd_items_directly_use_a_getter_or_setter_test_callback ;    
 };
+/*
+ * Some TSD accesses can only be done in a nominal state.  To enforce this, we
+ * wrap TSD member access in a function that asserts on TSD state, and mangle
+ * field names to prevent touching them accidentally.
+ */
+#define TSD_MANGLE(n) cant_access_tsd_items_directly_use_a_getter_or_setter_##n
 
 JEMALLOC_ALWAYS_INLINE uint8_t
 tsd_state_get(tsd_t *tsd) {
@@ -196,7 +215,6 @@ tsd_state_get(tsd_t *tsd) {
 	/* return atomic_load_u8(&tsd->state, ATOMIC_RELAXED); */
 	return *(uint8_t *)&tsd->state;
 }
-
 /*
  * Wrapper around tsd_t that makes it possible to avoid implicit conversion
  * between tsd_t and tsdn_t, where tsdn_t is "nullable" and has to be
@@ -206,13 +224,12 @@ struct tsdn_s {
 	tsd_t tsd;
 };
 #define TSDN_NULL ((tsdn_t *)0)
-JEMALLOC_ALWAYS_INLINE tsdn_t *
-tsd_tsdn(tsd_t *tsd) {
+JEMALLOC_ALWAYS_INLINE tsdn_t *tsd_tsdn(tsd_t *tsd) 
+{
 	return (tsdn_t *)tsd;
 }
 
-JEMALLOC_ALWAYS_INLINE bool
-tsdn_null(const tsdn_t *tsdn) {
+JEMALLOC_ALWAYS_INLINE bool tsdn_null(const tsdn_t *tsdn) {
 	return tsdn == NULL;
 }
 
@@ -223,75 +240,19 @@ tsdn_tsd(tsdn_t *tsdn) {
 	return &tsdn->tsd;
 }
 
+#include "jemalloc/internal/tsd_detail.h"
+
+
 /*
  * We put the platform-specific data declarations and inlines into their own
  * header files to avoid cluttering this file.  They define tsd_boot0,
  * tsd_boot1, tsd_boot, tsd_booted_get, tsd_get_allocates, tsd_get, and tsd_set.
  */
-#if (defined(JEMALLOC_TLS))
 #include "jemalloc/internal/tsd_tls.h"
-#else
-#include "jemalloc/internal/tsd_generic.h"
-#endif
 
-/*
- * tsd_foop_get_unsafe(tsd) returns a pointer to the thread-local instance of
- * foo.  This omits some safety checks, and so can be used during tsd
- * initialization and cleanup.
- */
-#define O(n, t, nt)							\
-JEMALLOC_ALWAYS_INLINE t *						\
-tsd_##n##p_get_unsafe(tsd_t *tsd) {					\
-	return &tsd->TSD_MANGLE(n);					\
-}
-MALLOC_TSD
-#undef O
-
-/* tsd_foop_get(tsd) returns a pointer to the thread-local instance of foo. */
-#define O(n, t, nt)							\
-JEMALLOC_ALWAYS_INLINE t *						\
-tsd_##n##p_get(tsd_t *tsd) {						\
-	/*								\
-	 * Because the state might change asynchronously if it's	\
-	 * nominal, we need to make sure that we only read it once.	\
-	 */								\
-	uint8_t state = tsd_state_get(tsd);				\
-	assert(state == tsd_state_nominal ||				\
-	    state == tsd_state_nominal_slow ||				\
-	    state == tsd_state_nominal_recompute ||			\
-	    state == tsd_state_reincarnated ||				\
-	    state == tsd_state_minimal_initialized);			\
-	return tsd_##n##p_get_unsafe(tsd);				\
-}
-MALLOC_TSD
-#undef O
-
-/*
- * tsdn_foop_get(tsdn) returns either the thread-local instance of foo (if tsdn
- * isn't NULL), or NULL (if tsdn is NULL), cast to the nullable pointer type.
- */
-#define O(n, t, nt)							\
-JEMALLOC_ALWAYS_INLINE nt *						\
-tsdn_##n##p_get(tsdn_t *tsdn) {						\
-	if (tsdn_null(tsdn)) {						\
-		return NULL;						\
-	}								\
-	tsd_t *tsd = tsdn_tsd(tsdn);					\
-	return (nt *)tsd_##n##p_get(tsd);				\
-}
-MALLOC_TSD
-#undef O
-
-/* tsd_foo_get(tsd) returns the value of the thread-local instance of foo. */
-#define O(n, t, nt)							\
-JEMALLOC_ALWAYS_INLINE t						\
-tsd_##n##_get(tsd_t *tsd) {						\
-	return *tsd_##n##p_get(tsd);					\
-}
-MALLOC_TSD
-#undef O
 
 /* tsd_foo_set(tsd, val) updates the thread-local instance of foo to be val. */
+/**
 #define O(n, t, nt)							\
 JEMALLOC_ALWAYS_INLINE void						\
 tsd_##n##_set(tsd_t *tsd, t val) {					\
@@ -301,7 +262,7 @@ tsd_##n##_set(tsd_t *tsd, t val) {					\
 }
 MALLOC_TSD
 #undef O
-
+*/
 JEMALLOC_ALWAYS_INLINE void
 tsd_assert_fast(tsd_t *tsd) {
 	/*
