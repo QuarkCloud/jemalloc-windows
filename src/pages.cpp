@@ -336,24 +336,14 @@ pages_dodump(void *addr, size_t size) {
 }
 
 
-static size_t
-os_page_detect(void) {
-/**
-#ifdef _WIN32
-	SYSTEM_INFO si;
-	GetSystemInfo(&si);
-	return si.dwPageSize;
-#el
-*/
-#if defined(__FreeBSD__)
-	return getpagesize();
-#else
+static size_t os_page_detect(void) 
+{
 	long result = sysconf(_SC_PAGESIZE);
 	if (result == -1) {
 		return LG_PAGE;
 	}
 	return (size_t)result;
-#endif
+
 }
 
 #ifdef JEMALLOC_SYSCTL_VM_OVERCOMMIT

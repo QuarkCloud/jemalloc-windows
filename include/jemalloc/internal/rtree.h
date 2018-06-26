@@ -45,25 +45,9 @@ struct rtree_node_elm_s {
 };
 
 struct rtree_leaf_elm_s {
-#ifdef RTREE_LEAF_COMPACT
-	/*
-	 * Single pointer-width field containing all three leaf element fields.
-	 * For example, on a 64-bit x64 system with 48 significant virtual
-	 * memory address bits, the index, extent, and slab fields are packed as
-	 * such:
-	 *
-	 * x: index
-	 * e: extent
-	 * b: slab
-	 *
-	 *   00000000 xxxxxxxx eeeeeeee [...] eeeeeeee eeee000b
-	 */
-	atomic_p_t	le_bits;
-#else
-	atomic_p_t	le_extent; /* (extent_t *) */
-	atomic_u32_t	le_szind; /* (szind_t) */
-	atomic_u32_t	le_slab; /* (bool) */
-#endif
+	atomic_p_t	    le_extent;  /* (extent_t *) */
+	atomic_u32_t	le_szind;   /* (szind_t) */
+	atomic_u32_t	le_slab;    /* (bool) */
 };
 
 typedef struct rtree_level_s rtree_level_t;
@@ -81,11 +65,7 @@ typedef struct rtree_s rtree_t;
 struct rtree_s {
 	malloc_mutex_t		init_lock;
 	/* Number of elements based on rtree_levels[0].bits. */
-#if RTREE_HEIGHT > 1
 	rtree_node_elm_t	root[1U << (RTREE_NSB/RTREE_HEIGHT)];
-#else
-	rtree_leaf_elm_t	root[1U << (RTREE_NSB/RTREE_HEIGHT)];
-#endif
 };
 
 /*
@@ -95,9 +75,7 @@ struct rtree_s {
  * level.
  */
 static const rtree_level_t rtree_levels[] = {
-#if RTREE_HEIGHT == 1
-	{RTREE_NSB, RTREE_NHIB + RTREE_NSB}
-#elif RTREE_HEIGHT == 2
+#if RTREE_HEIGHT == 2
 	{RTREE_NSB/2, RTREE_NHIB + RTREE_NSB/2},
 	{RTREE_NSB/2 + RTREE_NSB%2, RTREE_NHIB + RTREE_NSB}
 #elif RTREE_HEIGHT == 3
@@ -157,147 +135,48 @@ rtree_subkey(uintptr_t key, unsigned level) {
 	return ((key >> shiftbits) & mask);
 }
 
-/*
- * Atomic getters.
- *
- * dependent: Reading a value on behalf of a pointer to a valid allocation
- *            is guaranteed to be a clean read even without synchronization,
- *            because the rtree update became visible in memory before the
- *            pointer came into existence.
- * !dependent: An arbitrary read, e.g. on behalf of ivsalloc(), may not be
- *             dependent on a previous rtree write, which means a stale read
- *             could result if synchronization were omitted here.
- */
-#  ifdef RTREE_LEAF_COMPACT
-JEMALLOC_ALWAYS_INLINE uintptr_t
-rtree_leaf_elm_bits_read(tsdn_t *tsdn, rtree_t *rtree, rtree_leaf_elm_t *elm,
-    bool dependent) {
-	return (uintptr_t)atomic_load_ptr(&elm->le_bits, dependent
-	    ? ATOMIC_RELAXED : ATOMIC_ACQUIRE);
-}
 
-JEMALLOC_ALWAYS_INLINE extent_t *
-rtree_leaf_elm_bits_extent_get(uintptr_t bits) {
-#    ifdef __aarch64__
-	/*
-	 * aarch64 doesn't sign extend the highest virtual address bit to set
-	 * the higher ones.  Instead, the high bits gets zeroed.
-	 */
-	uintptr_t high_bit_mask = ((uintptr_t)1 << LG_VADDR) - 1;
-	/* Mask off the slab bit. */
-	uintptr_t low_bit_mask = ~(uintptr_t)1;
-	uintptr_t mask = high_bit_mask & low_bit_mask;
-	return (extent_t *)(bits & mask);
-#    else
-	/* Restore sign-extended high bits, mask slab bit. */
-	return (extent_t *)((uintptr_t)((intptr_t)(bits << RTREE_NHIB) >>
-	    RTREE_NHIB) & ~((uintptr_t)0x1));
-#    endif
-}
-
-JEMALLOC_ALWAYS_INLINE szind_t
-rtree_leaf_elm_bits_szind_get(uintptr_t bits) {
-	return (szind_t)(bits >> LG_VADDR);
-}
-
-JEMALLOC_ALWAYS_INLINE bool
-rtree_leaf_elm_bits_slab_get(uintptr_t bits) {
-	return (bool)(bits & (uintptr_t)0x1);
-}
-
-#  endif
-
-JEMALLOC_ALWAYS_INLINE extent_t *
-rtree_leaf_elm_extent_read(tsdn_t *tsdn, rtree_t *rtree,
+JEMALLOC_ALWAYS_INLINE extent_t * rtree_leaf_elm_extent_read(tsdn_t *tsdn, rtree_t *rtree,
     rtree_leaf_elm_t *elm, bool dependent) {
-#ifdef RTREE_LEAF_COMPACT
-	uintptr_t bits = rtree_leaf_elm_bits_read(tsdn, rtree, elm, dependent);
-	return rtree_leaf_elm_bits_extent_get(bits);
-#else
 	extent_t *extent = (extent_t *)atomic_load_p(&elm->le_extent, dependent
 	    ? ATOMIC_RELAXED : ATOMIC_ACQUIRE);
 	return extent;
-#endif
 }
 
 JEMALLOC_ALWAYS_INLINE szind_t
 rtree_leaf_elm_szind_read(tsdn_t *tsdn, rtree_t *rtree,
     rtree_leaf_elm_t *elm, bool dependent) {
-#ifdef RTREE_LEAF_COMPACT
-	uintptr_t bits = rtree_leaf_elm_bits_read(tsdn, rtree, elm, dependent);
-	return rtree_leaf_elm_bits_szind_get(bits);
-#else
 	return (szind_t)atomic_load_u32(&elm->le_szind, dependent ? ATOMIC_RELAXED
 	    : ATOMIC_ACQUIRE);
-#endif
 }
 
 JEMALLOC_ALWAYS_INLINE bool
 rtree_leaf_elm_slab_read(tsdn_t *tsdn, rtree_t *rtree,
     rtree_leaf_elm_t *elm, bool dependent) {
-#ifdef RTREE_LEAF_COMPACT
-	uintptr_t bits = rtree_leaf_elm_bits_read(tsdn, rtree, elm, dependent);
-	return rtree_leaf_elm_bits_slab_get(bits);
-#else
 	return (atomic_load_u32(&elm->le_slab, dependent ? ATOMIC_RELAXED : ATOMIC_ACQUIRE) != 0);
-#endif
 }
 
 static inline void
 rtree_leaf_elm_extent_write(tsdn_t *tsdn, rtree_t *rtree,
     rtree_leaf_elm_t *elm, extent_t *extent) {
-#ifdef RTREE_LEAF_COMPACT
-	uintptr_t old_bits = rtree_leaf_elm_bits_read(tsdn, rtree, elm, true);
-	uintptr_t bits = ((uintptr_t)rtree_leaf_elm_bits_szind_get(old_bits) <<
-	    LG_VADDR) | ((uintptr_t)extent & (((uintptr_t)0x1 << LG_VADDR) - 1))
-	    | ((uintptr_t)rtree_leaf_elm_bits_slab_get(old_bits));
-	atomic_store_p(&elm->le_bits, (void *)bits, ATOMIC_RELEASE);
-#else
 	atomic_store_p(&elm->le_extent, extent, ATOMIC_RELEASE);
-#endif
 }
 
 static inline void rtree_leaf_elm_szind_write(tsdn_t *tsdn, rtree_t *rtree,   rtree_leaf_elm_t *elm, szind_t szind) 
 {
 	assert(szind <= NSIZES);
-
-#ifdef RTREE_LEAF_COMPACT
-	uintptr_t old_bits = rtree_leaf_elm_bits_read(tsdn, rtree, elm,
-	    true);
-	uintptr_t bits = ((uintptr_t)szind << LG_VADDR) |
-	    ((uintptr_t)rtree_leaf_elm_bits_extent_get(old_bits) &
-	    (((uintptr_t)0x1 << LG_VADDR) - 1)) |
-	    ((uintptr_t)rtree_leaf_elm_bits_slab_get(old_bits));
-	atomic_store_p(&elm->le_bits, (void *)bits, ATOMIC_RELEASE);
-#else
     atomic_store_u32(&elm->le_szind, szind, ATOMIC_RELEASE);
-#endif
 }
 
 static inline void
 rtree_leaf_elm_slab_write(tsdn_t *tsdn, rtree_t *rtree,rtree_leaf_elm_t *elm, bool slab) 
 {
-#ifdef RTREE_LEAF_COMPACT
-	uintptr_t old_bits = rtree_leaf_elm_bits_read(tsdn, rtree, elm,
-	    true);
-	uintptr_t bits = ((uintptr_t)rtree_leaf_elm_bits_szind_get(old_bits) <<
-	    LG_VADDR) | ((uintptr_t)rtree_leaf_elm_bits_extent_get(old_bits) &
-	    (((uintptr_t)0x1 << LG_VADDR) - 1)) | ((uintptr_t)slab);
-	atomic_store_p(&elm->le_bits, (void *)bits, ATOMIC_RELEASE);
-#else
     atomic_store_u32(&elm->le_slab, slab?1:0 , ATOMIC_RELEASE) ;
-#endif
 }
 
 static inline void
 rtree_leaf_elm_write(tsdn_t *tsdn, rtree_t *rtree, rtree_leaf_elm_t *elm,
     extent_t *extent, szind_t szind, bool slab) {
-#ifdef RTREE_LEAF_COMPACT
-	uintptr_t bits = ((uintptr_t)szind << LG_VADDR) |
-	    ((uintptr_t)extent & (((uintptr_t)0x1 << LG_VADDR) - 1)) |
-	    ((uintptr_t)slab);
-	atomic_store_p(&elm->le_bits, (void *)bits, ATOMIC_RELEASE);
-#else
 	rtree_leaf_elm_slab_write(tsdn, rtree, elm, slab);
 	rtree_leaf_elm_szind_write(tsdn, rtree, elm, szind);
 	/*
@@ -305,7 +184,6 @@ rtree_leaf_elm_write(tsdn_t *tsdn, rtree_t *rtree, rtree_leaf_elm_t *elm,
 	 * as soon as the extent field is non-NULL.
 	 */
 	rtree_leaf_elm_extent_write(tsdn, rtree, elm, extent);
-#endif
 }
 
 static inline void
@@ -458,14 +336,9 @@ rtree_szind_slab_read(tsdn_t *tsdn, rtree_t *rtree, rtree_ctx_t *rtree_ctx,
 	if (!dependent && elm == NULL) {
 		return true;
 	}
-#ifdef RTREE_LEAF_COMPACT
-	uintptr_t bits = rtree_leaf_elm_bits_read(tsdn, rtree, elm, dependent);
-	*r_szind = rtree_leaf_elm_bits_szind_get(bits);
-	*r_slab = rtree_leaf_elm_bits_slab_get(bits);
-#else
 	*r_szind = rtree_leaf_elm_szind_read(tsdn, rtree, elm, dependent);
 	*r_slab = rtree_leaf_elm_slab_read(tsdn, rtree, elm, dependent);
-#endif
+
 	return false;
 }
 

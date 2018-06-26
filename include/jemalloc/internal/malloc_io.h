@@ -59,17 +59,9 @@ static inline ssize_t malloc_write_fd(int fd, const void *buf, size_t count)
 	return (ssize_t)result;
 }
 
-static inline ssize_t
-malloc_read_fd(int fd, void *buf, size_t count) {
-#if defined(JEMALLOC_USE_SYSCALL) && defined(SYS_read)
-	long result = syscall(SYS_read, fd, buf, count);
-#else
-	ssize_t result = read(fd, buf,
-#ifdef _WIN32
-	    (unsigned int)
-#endif
-	    count);
-#endif
+static inline ssize_t malloc_read_fd(int fd, void *buf, size_t count) 
+{
+	ssize_t result = read(fd, buf,   count);
 	return (ssize_t)result;
 }
 

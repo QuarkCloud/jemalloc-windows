@@ -1474,8 +1474,8 @@ malloc_init_hard_cleanup(tsdn_t *tsdn, bool reentrancy_set) {
 	}
 }
 
-static bool
-malloc_init_hard(void) {
+static bool malloc_init_hard(void) 
+{
 	tsd_t *tsd;
 
 #if defined(_WIN32) && _WIN32_WINNT < 0x0600

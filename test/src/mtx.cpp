@@ -26,25 +26,14 @@ mtx_init(mtx_t *mtx) {
 	return false;
 }
 
-void
-mtx_fini(mtx_t *mtx) {
-#ifdef _WIN32
-#elif (defined(JEMALLOC_OS_UNFAIR_LOCK))
-#elif (defined(JEMALLOC_OSSPIN))
-#else
+void mtx_fini(mtx_t *mtx) 
+{
 	pthread_mutex_destroy(&mtx->lock);
-#endif
 }
 
-void
-mtx_lock(mtx_t *mtx) {
-#if (defined(JEMALLOC_OS_UNFAIR_LOCK))
-	os_unfair_lock_lock(&mtx->lock);
-#elif (defined(JEMALLOC_OSSPIN))
-	OSSpinLockLock(&mtx->lock);
-#else
+void mtx_lock(mtx_t *mtx) 
+{
 	pthread_mutex_lock(&mtx->lock);
-#endif
 }
 
 void

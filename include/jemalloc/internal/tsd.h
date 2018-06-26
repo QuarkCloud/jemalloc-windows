@@ -252,19 +252,9 @@ tsdn_tsd(tsdn_t *tsdn) {
 
 
 /* tsd_foo_set(tsd, val) updates the thread-local instance of foo to be val. */
-/**
-#define O(n, t, nt)							\
-JEMALLOC_ALWAYS_INLINE void						\
-tsd_##n##_set(tsd_t *tsd, t val) {					\
-	assert(tsd_state_get(tsd) != tsd_state_reincarnated &&		\
-	    tsd_state_get(tsd) != tsd_state_minimal_initialized);	\
-	*tsd_##n##p_get(tsd) = val;					\
-}
-MALLOC_TSD
-#undef O
-*/
-JEMALLOC_ALWAYS_INLINE void
-tsd_assert_fast(tsd_t *tsd) {
+
+JEMALLOC_ALWAYS_INLINE void tsd_assert_fast(tsd_t *tsd) 
+{
 	/*
 	 * Note that our fastness assertion does *not* include global slowness
 	 * counters; it's not in general possible to ensure that they won't
@@ -274,8 +264,8 @@ tsd_assert_fast(tsd_t *tsd) {
 	    tsd_reentrancy_level_get(tsd) == 0);
 }
 
-JEMALLOC_ALWAYS_INLINE bool
-tsd_fast(tsd_t *tsd) {
+JEMALLOC_ALWAYS_INLINE bool tsd_fast(tsd_t *tsd) 
+{
 	bool fast = (tsd_state_get(tsd) == tsd_state_nominal);
 	if (fast) {
 		tsd_assert_fast(tsd);
@@ -284,8 +274,8 @@ tsd_fast(tsd_t *tsd) {
 	return fast;
 }
 
-JEMALLOC_ALWAYS_INLINE tsd_t *
-tsd_fetch_impl(bool init, bool minimal) {
+JEMALLOC_ALWAYS_INLINE tsd_t * tsd_fetch_impl(bool init, bool minimal) 
+{
 	tsd_t *tsd = tsd_get(init);
 
 	if (!init && tsd_get_allocates() && tsd == NULL) {
@@ -303,14 +293,14 @@ tsd_fetch_impl(bool init, bool minimal) {
 }
 
 /* Get a minimal TSD that requires no cleanup.  See comments in free(). */
-JEMALLOC_ALWAYS_INLINE tsd_t *
-tsd_fetch_min(void) {
+JEMALLOC_ALWAYS_INLINE tsd_t * tsd_fetch_min(void) 
+{
 	return tsd_fetch_impl(true, true);
 }
 
 /* For internal background threads use only. */
-JEMALLOC_ALWAYS_INLINE tsd_t *
-tsd_internal_fetch(void) {
+JEMALLOC_ALWAYS_INLINE tsd_t * tsd_internal_fetch(void) 
+{
 	tsd_t *tsd = tsd_fetch_min();
 	/* Use reincarnated state to prevent full initialization. */
 	tsd_state_set(tsd, tsd_state_reincarnated);
@@ -318,18 +308,18 @@ tsd_internal_fetch(void) {
 	return tsd;
 }
 
-JEMALLOC_ALWAYS_INLINE tsd_t *
-tsd_fetch(void) {
+JEMALLOC_ALWAYS_INLINE tsd_t * tsd_fetch(void) 
+{
 	return tsd_fetch_impl(true, false);
 }
 
-static inline bool
-tsd_nominal(tsd_t *tsd) {
+static inline bool tsd_nominal(tsd_t *tsd) 
+{
 	return (tsd_state_get(tsd) <= tsd_state_nominal_max);
 }
 
-JEMALLOC_ALWAYS_INLINE tsdn_t *
-tsdn_fetch(void) {
+JEMALLOC_ALWAYS_INLINE tsdn_t * tsdn_fetch(void) 
+{
 	if (!tsd_booted_get()) {
 		return NULL;
 	}
@@ -337,13 +327,13 @@ tsdn_fetch(void) {
 	return tsd_tsdn(tsd_fetch_impl(false, false));
 }
 
-JEMALLOC_ALWAYS_INLINE rtree_ctx_t *
-tsd_rtree_ctx(tsd_t *tsd) {
+JEMALLOC_ALWAYS_INLINE rtree_ctx_t * tsd_rtree_ctx(tsd_t *tsd) 
+{
 	return tsd_rtree_ctxp_get(tsd);
 }
 
-JEMALLOC_ALWAYS_INLINE rtree_ctx_t *
-tsdn_rtree_ctx(tsdn_t *tsdn, rtree_ctx_t *fallback) {
+JEMALLOC_ALWAYS_INLINE rtree_ctx_t * tsdn_rtree_ctx(tsdn_t *tsdn, rtree_ctx_t *fallback) 
+{
 	/*
 	 * If tsd cannot be accessed, initialize the fallback rtree_ctx and
 	 * return a pointer to it.

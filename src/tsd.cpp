@@ -12,43 +12,42 @@
 static unsigned ncleanups;
 static malloc_tsd_cleanup_t cleanups[MALLOC_TSD_CLEANUPS_MAX];
 
-#if (defined(JEMALLOC_TLS))
-tsd_t tsd_tls = TSD_INITIALIZER;
+//tsd_t tsd_tls = TSD_INITIALIZER;
 pthread_key_t tsd_tsd;
 bool tsd_booted = false;
-#elif (defined(_WIN32))
-DWORD tsd_tsd;
-tsd_wrapper_t tsd_boot_wrapper = {false, TSD_INITIALIZER};
-bool tsd_booted = false;
-#else
 
-/*
- * This contains a mutex, but it's pretty convenient to allow the mutex code to
- * have a dependency on tsd.  So we define the struct here, and only refer to it
- * by pointer in the header.
- */
-struct tsd_init_head_s {
-	ql_head(tsd_init_block_t) blocks;
-	malloc_mutex_t lock;
-};
+tsd_t * __tsd_tls() 
+{
+    if(tsd_booted == false)
+        return NULL ;
 
-pthread_key_t tsd_tsd;
-tsd_init_head_t	tsd_init_head = {
-	ql_head_initializer(blocks),
-	MALLOC_MUTEX_INITIALIZER
-};
-tsd_wrapper_t tsd_boot_wrapper = {
-	false,
-	TSD_INITIALIZER
-};
-bool tsd_booted = false;
-#endif
+    tsd_t * tsd = (tsd_t *)pthread_getspecific(tsd_tsd) ;
+    if(tsd == NULL)
+    {
+        size_t size = sizeof(tsd_t) ;
+        tsd = (tsd_t *)::malloc(size) ;
+        if(tsd == NULL)
+            return NULL ;
+
+        ::memset(tsd , 0 , size) ;
+        tsd_t tmp = TSD_INITIALIZER ;
+        ::memcpy(tsd , &tmp  , size);
+        if(pthread_setspecific(tsd_tsd, (void *)tsd) != 0) 
+        {
+            ::free(tsd) ;
+            return NULL ;
+        }
+    }
+
+    return tsd ;
+}
+
 
 
 /******************************************************************************/
 
 /* A list of all the tsds in the nominal state. */
-typedef ql_head(tsd_t) tsd_list_t;
+typedef struct {tsd_t * qlh_first ;} tsd_list_t ;
 static tsd_list_t tsd_nominal_tsds = ql_head_initializer(tsd_nominal_tsds);
 static malloc_mutex_t tsd_nominal_tsds_lock;
 
@@ -315,8 +314,8 @@ malloc_tsd_dalloc(void *wrapper) {
 #ifndef _WIN32
 JEMALLOC_API
 #endif
-void
-_malloc_thread_cleanup(void) {
+void _malloc_thread_cleanup(void) 
+{
 	bool pending[MALLOC_TSD_CLEANUPS_MAX], again;
 	unsigned i;
 
@@ -338,8 +337,8 @@ _malloc_thread_cleanup(void) {
 }
 #endif
 
-void
-malloc_tsd_cleanup_register(bool (*f)(void)) {
+void malloc_tsd_cleanup_register(bool (*f)(void)) 
+{
 	assert(ncleanups < MALLOC_TSD_CLEANUPS_MAX);
 	cleanups[ncleanups] = f;
 	ncleanups++;
@@ -355,8 +354,8 @@ tsd_do_data_cleanup(tsd_t *tsd) {
 	witnesses_cleanup(tsd_witness_tsdp_get_unsafe(tsd));
 }
 
-void
-tsd_cleanup(void *arg) {
+void tsd_cleanup(void *arg) 
+{
 	tsd_t *tsd = (tsd_t *)arg;
 
 	switch (tsd_state_get(tsd)) {

@@ -97,21 +97,7 @@ nstime_divide(const nstime_t *time, const nstime_t *divisor) {
 
 	return time->ns / divisor->ns;
 }
-/**
-#ifdef _WIN32
-#  define NSTIME_MONOTONIC true
-static void
-nstime_get(nstime_t *time) {
-	FILETIME ft;
-	uint64_t ticks_100ns;
 
-	GetSystemTimeAsFileTime(&ft);
-	ticks_100ns = (((uint64_t)ft.dwHighDateTime) << 32) | ft.dwLowDateTime;
-
-	nstime_init(time, ticks_100ns * 100);
-}
-#el
-*/
 #if defined(JEMALLOC_HAVE_CLOCK_MONOTONIC_COARSE)
 #  define NSTIME_MONOTONIC true
 static void
