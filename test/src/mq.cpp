@@ -4,8 +4,8 @@
  * Sleep for approximately ns nanoseconds.  No lower *nor* upper bound on sleep
  * time is guaranteed.
  */
-void
-mq_nanosleep(unsigned ns) {
+void mq_nanosleep(unsigned ns) 
+{
 	assert(ns <= 1000*1000*1000);
 
 	{

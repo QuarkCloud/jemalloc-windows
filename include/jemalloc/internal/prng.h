@@ -1,5 +1,6 @@
-#ifndef JEMALLOC_INTERNAL_PRNG_H
-#define JEMALLOC_INTERNAL_PRNG_H
+
+#ifndef __JEMALLOC_INTERNAL_PRNG_H
+#define __JEMALLOC_INTERNAL_PRNG_H 1
 
 #include "jemalloc/internal/atomic.h"
 #include "jemalloc/internal/bit_util.h"
@@ -182,4 +183,4 @@ prng_range_zu(atomic_u32_t *state, size_t range, bool atomic) {
 	return ret;
 }
 
-#endif /* JEMALLOC_INTERNAL_PRNG_H */
+#endif /* __JEMALLOC_INTERNAL_PRNG_H */

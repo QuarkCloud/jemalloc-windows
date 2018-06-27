@@ -422,7 +422,7 @@ decay_ticker_helper(unsigned arena_ind, int flags, bool dirty, ssize_t dt,
 
 TEST_BEGIN(test_decay_ticker) {
 	test_skip_if(check_background_thread_enabled());
-#define NPS 2048
+#define NPS 512
 	ssize_t ddt = opt_dirty_decay_ms;
 	ssize_t mdt = opt_muzzy_decay_ms;
 	unsigned arena_ind = do_arena_create(ddt, mdt);
@@ -447,8 +447,9 @@ TEST_BEGIN(test_decay_ticker) {
 	uint64_t dirty_npurge0 = get_arena_dirty_npurge(arena_ind);
 	uint64_t muzzy_npurge0 = get_arena_muzzy_npurge(arena_ind);
 
-	for (unsigned i = 0; i < NPS; i++) {
-		ps[i] = do_mallocx(large, flags);
+	for (unsigned i = 0; i < NPS; i++) 
+    {
+	    ps[i] = do_mallocx(large, flags);
 	}
 
 	nupdates_mock = 0;
@@ -597,15 +598,15 @@ int f_test_decay()
     opt_dirty_decay_ms = 1000 ;
     opt_muzzy_decay_ms = 1000 ;
     opt_lg_tcache_max = 0 ;
-/**
-	return test(
+
+	int result = test(
 	    test_decay_ticks,
 	    test_decay_ticker,
 	    test_decay_nonmonotonic,
 	    test_decay_now,
 	    test_decay_never);
-*/
-	int result = test(test_decay_ticks);
+
+	//int result = test(test_decay_ticker);
 
     opt_swap_from_conf() ;
     return result ;

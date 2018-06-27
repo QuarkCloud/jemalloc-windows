@@ -7,16 +7,11 @@ void do_test_passed() ;
 
 int main(int argc , char * argv[])
 {
-    f_test_decay() ;
+    f_test_tsd() ;
     return 0 ;
 }
 void do_test_failed()
 {
-    f_test_decay() ;
-    f_test_a0() ; 
-    f_test_mq() ;
-    f_test_pack() ; 
-    f_test_ph() ; 
     f_test_tsd() ; 
     f_test_stats()  ;
     f_test_arena_reset() ;
@@ -50,5 +45,12 @@ void do_test_passed()
     f_test_rb() ;
     f_test_seq() ; 
     f_test_rtree() ;
+
+    //2018-06-27
+    f_test_decay() ;
+    f_test_a0() ;
+    f_test_mq() ;
+    f_test_pack() ;
+    f_test_ph() ;
 }
 

@@ -3,6 +3,7 @@
 #define __JEMALLOC_INTERNAL_ARENA_STRUCTS_A_H 1
 
 #include "jemalloc/internal/bitmap.h"
+#include "jemalloc/internal/arena_types.h"
 
 struct arena_slab_data_s {
 	/* Per region allocated/deallocated bitmap. */

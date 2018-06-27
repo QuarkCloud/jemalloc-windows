@@ -436,8 +436,6 @@ void extent_dalloc(tsdn_t *tsdn, arena_t *arena, extent_t *extent)
 {
 	malloc_mutex_lock(tsdn, &arena->extent_avail_mtx);
     uintptr_t addr = (uintptr_t)extent ;
-    if((addr & 0xFFFF) == 0x4380)
-        ::printf("maybe error\n") ;
 	extent_avail_insert(&arena->extent_avail, extent);
 	malloc_mutex_unlock(tsdn, &arena->extent_avail_mtx);
 }

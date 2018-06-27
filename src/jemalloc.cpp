@@ -2185,8 +2185,8 @@ irealloc_prof(tsd_t *tsd, void *old_ptr, size_t old_usize, size_t usize,
 	return p;
 }
 
-JEMALLOC_ALWAYS_INLINE void
-ifree(tsd_t *tsd, void *ptr, tcache_t *tcache, bool slow_path) {
+JEMALLOC_ALWAYS_INLINE void ifree(tsd_t *tsd, void *ptr, tcache_t *tcache, bool slow_path) 
+{
 	if (!slow_path) {
 		tsd_assert_fast(tsd);
 	}
@@ -2397,12 +2397,13 @@ JEMALLOC_API  void * je_realloc(void *ptr, size_t arg_size)
 	return ret;
 }
 
-JEMALLOC_API void 
-je_free(void *ptr) {
+JEMALLOC_API void je_free(void *ptr) 
+{
 	LOG("core.free.entry", "ptr: %p", ptr);
 
 	UTRACE(ptr, 0, 0);
-	if (likely(ptr != NULL)) {
+	if (likely(ptr != NULL)) 
+    {
 		/*
 		 * We avoid setting up tsd fully (e.g. tcache, arena binding)
 		 * based on only free() calls -- other activities trigger the
@@ -2415,15 +2416,21 @@ je_free(void *ptr) {
 		check_entry_exit_locking(tsd_tsdn(tsd));
 
 		tcache_t *tcache;
-		if (likely(tsd_fast(tsd))) {
+		if (likely(tsd_fast(tsd))) 
+        {
 			tsd_assert_fast(tsd);
 			/* Unconditionally get tcache ptr on fast path. */
 			tcache = tsd_tcachep_get(tsd);
 			ifree(tsd, ptr, tcache, false);
-		} else {
-			if (likely(tsd_reentrancy_level_get(tsd) == 0)) {
+		} 
+        else 
+        {
+			if (likely(tsd_reentrancy_level_get(tsd) == 0)) 
+            {
 				tcache = tcache_get(tsd);
-			} else {
+			} 
+            else 
+            {
 				tcache = NULL;
 			}
 			uintptr_t args_raw[3] = {(uintptr_t)ptr};

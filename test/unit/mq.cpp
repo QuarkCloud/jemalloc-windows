@@ -3,13 +3,101 @@
 #include "unit_test.h"
 
 #define NSENDERS	3
-#define NMSGS		100000
+#define NMSGS		10000
+
 
 typedef struct mq_msg_s mq_msg_t;
+typedef struct {
+	mq_msg_t	*qre_next;
+	mq_msg_t	*qre_prev;
+} mq_msg_link_t ;
+
 struct mq_msg_s {
-	mq_msg(mq_msg_t)	link;
+	mq_msg_link_t link;
 };
-mq_gen(static, mq_, mq_t, mq_msg_t, link)
+
+typedef struct {
+	mq_msg_t *qlh_first;
+} mq_head_t ;
+
+
+typedef struct {							
+	mtx_t		lock;					
+	mq_head_t	msgs;					
+	unsigned	count;					
+} mq_t;
+
+static bool	mq_init(mq_t *mq) 
+{
+									
+	if (mtx_init(&mq->lock)) {					
+		return true;						
+	}								
+	ql_new(&mq->msgs);						
+	mq->count = 0;							
+	return false;							
+}									
+static void mq_fini(mq_t *mq) 
+{
+	mtx_fini(&mq->lock);						
+}									
+static unsigned	mq_count(mq_t *mq) 
+{
+	unsigned count;							
+									
+	mtx_lock(&mq->lock);						
+	count = mq->count;						
+	mtx_unlock(&mq->lock);						
+	return count;							
+}									
+static mq_msg_t * mq_tryget(mq_t *mq) 
+{
+	mq_msg_t *msg;						
+									
+	mtx_lock(&mq->lock);						
+	msg = ql_first(&mq->msgs);					
+	if (msg != NULL) {						
+		ql_head_remove(&mq->msgs, mq_msg_t, link);	
+		mq->count--;						
+	}								
+	mtx_unlock(&mq->lock);						
+	return msg;							
+}									
+static mq_msg_t * mq_get(mq_t *mq) 
+{
+	mq_msg_t *msg;						
+	unsigned ns;							
+									
+	msg = mq_tryget(mq);					
+	if (msg != NULL) {						
+		return msg;						
+	}								
+									
+	ns = 1;								
+	while (true) 
+    {				
+		mq_nanosleep(ns);					
+		msg = mq_tryget(mq);				
+		if (msg != NULL) {					
+			return msg;					
+		}							
+		if (ns < 1000*1000*1000) {				
+			/* Double sleep time, up to max 1 second. */	
+			ns <<= 1;					
+			if (ns > 1000*1000*1000) {			
+				ns = 1000*1000*1000;			
+			}						
+		}							
+	}								
+}									
+static void	mq_put(mq_t *mq, mq_msg_t *msg) 
+{									
+	mtx_lock(&mq->lock);						
+	ql_elm_new(msg, link);					
+	ql_tail_insert(&mq->msgs, msg, link);			
+	mq->count++;							
+	mtx_unlock(&mq->lock);						
+}
 
 TEST_BEGIN(test_mq_basic) {
 	mq_t mq;
@@ -84,8 +172,11 @@ TEST_END
 
 int f_test_mq()
 {
+
 	return test(
 	    test_mq_basic,
 	    test_mq_threaded);
+
+//	return test(test_mq_basic);
 }
 

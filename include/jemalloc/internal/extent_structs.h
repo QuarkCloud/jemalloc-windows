@@ -9,6 +9,7 @@
 //#include "jemalloc/internal/ph.h"
 #include "jemalloc/internal/size_classes.h"
 #include "jemalloc/internal/arena_types.h"
+#include "jemalloc/internal/arena_structs_a.h"
 
 typedef enum {
 	extent_state_active   = 0,
