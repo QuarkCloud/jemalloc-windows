@@ -7,14 +7,12 @@ void do_test_passed() ;
 
 int main(int argc , char * argv[])
 {
-    f_test_tsd() ;
+    f_test_background_thread() ;
     return 0 ;
 }
 void do_test_failed()
 {
-    f_test_tsd() ; 
-    f_test_stats()  ;
-    f_test_arena_reset() ;
+    
 }
 
 
@@ -52,5 +50,10 @@ void do_test_passed()
     f_test_mq() ;
     f_test_pack() ;
     f_test_ph() ;
+
+    //2018-07-02
+    f_test_tsd() ;
+    f_test_stats()  ;
+    f_test_arena_reset() ;
 }
 

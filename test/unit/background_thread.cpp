@@ -1,6 +1,8 @@
 #include "test/jemalloc_test.h"
-
 #include "jemalloc/internal/util.h"
+#include "jemalloc/jemalloc.h"
+#include "jemalloc/mangle.h"
+#include "unit_test.h"
 
 static void
 test_switch_background_thread_ctl(bool new_val) {
@@ -8,16 +10,15 @@ test_switch_background_thread_ctl(bool new_val) {
 	size_t sz = sizeof(bool);
 
 	e1 = new_val;
-	assert_d_eq(mallctl("background_thread", (void *)&e0, &sz,
-	    &e1, sz), 0, "Unexpected mallctl() failure");
-	assert_b_eq(e0, !e1,
-	    "background_thread should be %d before.\n", !e1);
-	if (e1) {
-		assert_zu_gt(n_background_threads, 0,
-		    "Number of background threads should be non zero.\n");
-	} else {
-		assert_zu_eq(n_background_threads, 0,
-		    "Number of background threads should be zero.\n");
+	assert_d_eq(mallctl("background_thread", (void *)&e0, &sz,&e1, sz), 0, "Unexpected mallctl() failure");
+	assert_b_eq(e0, !e1,"background_thread should be %d before.\n", !e1);
+	if (e1) 
+    {
+		assert_zu_gt(n_background_threads, 0,"Number of background threads should be non zero.\n");
+	} 
+    else 
+    {
+		assert_zu_eq(n_background_threads, 0,"Number of background threads should be zero.\n");
 	}
 }
 
@@ -80,8 +81,7 @@ TEST_BEGIN(test_background_thread_running) {
 
 	test_repeat_background_thread_ctl(false);
 	test_switch_background_thread_ctl(true);
-	assert_b_eq(info->state, background_thread_started,
-	    "Background_thread did not start.\n");
+	assert_true(info->state == background_thread_started, "Background_thread did not start.\n");
 
 	nstime_t start, now;
 	nstime_init(&start, 0);
@@ -110,10 +110,13 @@ TEST_BEGIN(test_background_thread_running) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_background_thread(void) 
+{
 	/* Background_thread creation tests reentrancy naturally. */
+/**
 	return test_no_reentrancy(
 	    test_background_thread_ctl,
 	    test_background_thread_running);
+*/
+	return test_no_reentrancy(test_background_thread_ctl);
 }

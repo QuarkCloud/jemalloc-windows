@@ -3124,9 +3124,8 @@ JEMALLOC_API size_t je_nallocx(size_t size, int flags)
 	return usize;
 }
 
-JEMALLOC_API int 
-je_mallctl(const char *name, void *oldp, size_t *oldlenp, void *newp,
-    size_t newlen) {
+JEMALLOC_API int je_mallctl(const char *name, void *oldp, size_t *oldlenp, void *newp,size_t newlen) 
+{
 	int ret;
 	tsd_t *tsd;
 

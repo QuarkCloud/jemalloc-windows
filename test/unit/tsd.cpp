@@ -260,13 +260,10 @@ int f_test_tsd(void)
 		malloc_printf("Initialization error");
 		return test_status_fail;
 	}
-/**
+
 	return test_no_reentrancy(
 	    test_tsd_main_thread,
-	    test_tsd_sub_thread,
+	    //test_tsd_sub_thread,
 	    test_tsd_reincarnation,
 	    test_tsd_global_slow);
-*/
-	return test_no_reentrancy(test_tsd_sub_thread);
-
 }

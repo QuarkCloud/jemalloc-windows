@@ -187,6 +187,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\background_thread.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\base.cpp"
 				>
 			</File>
