@@ -191,6 +191,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\background_thread_enable.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\base.cpp"
 				>
 			</File>
@@ -203,6 +207,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ckh.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\decay.cpp"
 				>
 			</File>
@@ -212,6 +220,14 @@
 			</File>
 			<File
 				RelativePath=".\emitter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\extent_quantize.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\fork.cpp"
 				>
 			</File>
 			<File

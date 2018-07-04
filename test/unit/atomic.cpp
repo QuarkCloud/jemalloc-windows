@@ -410,11 +410,8 @@ TEST_END
 
 int f_test_atomic(void) 
 {
-/**
 	return test(
 	    test_atomic_u64,
 	    test_atomic_u32,
 	    test_atomic_p);
-*/
-    return test(test_atomic_u32);
 }

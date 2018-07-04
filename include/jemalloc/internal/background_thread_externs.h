@@ -3,6 +3,7 @@
 #define __JEMALLOC_INTERNAL_BACKGROUND_THREAD_EXTERNS_H 1
 
 #include "jemalloc/compile.h"
+#include "jemalloc/internal/background_thread_structs.h"
 
 extern JEMALLOC_API bool opt_background_thread;
 extern JEMALLOC_API size_t opt_max_background_threads;
@@ -22,8 +23,7 @@ JEMALLOC_API void background_thread_prefork0(tsdn_t *tsdn);
 JEMALLOC_API void background_thread_prefork1(tsdn_t *tsdn);
 JEMALLOC_API void background_thread_postfork_parent(tsdn_t *tsdn);
 JEMALLOC_API void background_thread_postfork_child(tsdn_t *tsdn);
-JEMALLOC_API bool background_thread_stats_read(tsdn_t *tsdn,
-    background_thread_stats_t *stats);
+JEMALLOC_API bool background_thread_stats_read(tsdn_t *tsdn,   background_thread_stats_t *stats);
 JEMALLOC_API void background_thread_ctl_init(tsdn_t *tsdn);
 
 #ifdef JEMALLOC_PTHREAD_CREATE_WRAPPER

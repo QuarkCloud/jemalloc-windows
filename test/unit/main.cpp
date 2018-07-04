@@ -7,12 +7,12 @@ void do_test_passed() ;
 
 int main(int argc , char * argv[])
 {
-    f_test_background_thread() ;
+    f_test_fork() ;
     return 0 ;
 }
 void do_test_failed()
 {
-    
+       
 }
 
 
@@ -25,7 +25,6 @@ void do_test_passed()
     f_test_log() ;
     f_test_math() ;
     f_test_size_classes() ;
-    f_test_atomic() ;
     f_test_spin() ;
     f_test_ticker() ;
     f_test_bit_util() ;
@@ -55,5 +54,12 @@ void do_test_passed()
     f_test_tsd() ;
     f_test_stats()  ;
     f_test_arena_reset() ;
+
+    //2018-07-04
+    f_test_background_thread() ;
+    f_test_atomic() ;
+    f_test_background_thread_enable() ;
+    f_test_chk() ;
+    f_test_extent_quantize() ;
 }
 

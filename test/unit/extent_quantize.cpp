@@ -1,4 +1,6 @@
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
+#include "jemalloc/mangle.h"
 
 TEST_BEGIN(test_small_extent_size) {
 	unsigned nbins, i;
@@ -132,8 +134,8 @@ TEST_BEGIN(test_monotonic) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_extent_quantize(void) 
+{
 	return test(
 	    test_small_extent_size,
 	    test_large_extent_size,

@@ -1,6 +1,11 @@
-#include "test/jemalloc_test.h"
 
-const char *malloc_conf = "background_thread:false,narenas:1,max_background_threads:20";
+#include "test/jemalloc_test.h"
+#include "unit_test.h"
+//#include "jemalloc/jemalloc.h"
+#include "jemalloc/mangle.h"
+#include "opt_swap.h"
+
+//const char *malloc_conf = "background_thread:false,narenas:1,max_background_threads:20";
 
 TEST_BEGIN(test_deferred) {
 	test_skip_if(!have_background_thread);
@@ -77,9 +82,17 @@ TEST_BEGIN(test_max_background_threads) {
 }
 TEST_END
 
-int
-main(void) {
-	return test_no_reentrancy(
-		test_deferred,
-		test_max_background_threads);
+int f_test_background_thread_enable(void) 
+{
+    opt_swap_to_conf() ;
+    //const char *malloc_conf = "background_thread:false,narenas:1,max_background_threads:20";
+
+    opt_background_thread = false ;
+    opt_narenas = 1 ;
+    opt_max_background_threads = 20 ;
+    
+
+	int result =  test_no_reentrancy(test_deferred,test_max_background_threads);
+    opt_swap_from_conf() ;
+    return result ;
 }

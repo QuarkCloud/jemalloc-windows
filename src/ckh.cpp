@@ -551,8 +551,8 @@ ckh_string_keycomp(const void *k1, const void *k2) {
 	return !strcmp((char *)k1, (char *)k2);
 }
 
-void
-ckh_pointer_hash(const void *key, size_t r_hash[2]) {
+void ckh_pointer_hash(const void *key, size_t r_hash[2]) 
+{
 	union {
 		const void	*v;
 		size_t		i;

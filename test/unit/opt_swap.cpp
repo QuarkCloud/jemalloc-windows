@@ -20,6 +20,9 @@ static ssize_t	    conf_opt_lg_tcache_max  = opt_lg_tcache_max;
 static unsigned	    conf_nhbins             = nhbins;
 static size_t	    conf_tcache_maxclass    = tcache_maxclass;
 
+static bool         conf_opt_background_thread   = opt_background_thread;
+static size_t       conf_opt_max_background_threads = opt_max_background_threads;
+
 
 
 void opt_swap_from_conf()
@@ -42,6 +45,9 @@ void opt_swap_from_conf()
     nhbins             = conf_nhbins;
     tcache_maxclass    = conf_tcache_maxclass;
 
+    opt_background_thread = conf_opt_background_thread ;
+    opt_max_background_threads = conf_opt_max_background_threads ;
+    opt_narenas = conf_opt_narenas ;
 }
 
 void opt_swap_to_conf()
@@ -63,6 +69,10 @@ void opt_swap_to_conf()
     conf_opt_lg_tcache_max  = opt_lg_tcache_max;
     conf_nhbins             = nhbins;
     conf_tcache_maxclass    = tcache_maxclass;
+
+    conf_opt_background_thread   = opt_background_thread;
+    conf_opt_max_background_threads = opt_max_background_threads;
+    conf_opt_narenas             = opt_narenas;
 }
 
 bool conf_match(const char * src , const char * dst) 

@@ -1,4 +1,7 @@
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
+#include "jemalloc/mangle.h"
+#include "jemalloc/jemalloc.h"
 
 TEST_BEGIN(test_new_delete) {
 	tsd_t *tsd;
@@ -117,7 +120,7 @@ TEST_BEGIN(test_insert_iter_remove) {
 	    ckh_pointer_keycomp), "Unexpected ckh_new() error");
 
 	for (i = 0; i < NITEMS; i++) {
-		p[i] = mallocx(i+1, 0);
+		p[i] = (void **)mallocx(i+1, 0);
 		assert_ptr_not_null(p[i], "Unexpected mallocx() failure");
 	}
 
@@ -202,8 +205,8 @@ TEST_BEGIN(test_insert_iter_remove) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_chk(void) 
+{
 	return test(
 	    test_new_delete,
 	    test_count_insert_search_remove,

@@ -113,10 +113,9 @@ TEST_END
 int f_test_background_thread(void) 
 {
 	/* Background_thread creation tests reentrancy naturally. */
-/**
+
 	return test_no_reentrancy(
 	    test_background_thread_ctl,
 	    test_background_thread_running);
-*/
-	return test_no_reentrancy(test_background_thread_ctl);
+
 }

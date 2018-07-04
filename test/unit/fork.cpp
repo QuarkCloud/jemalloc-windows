@@ -1,12 +1,12 @@
+
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
+#include "jemalloc/mangle.h"
 
-#ifndef _WIN32
 #include <sys/wait.h>
-#endif
 
-#ifndef _WIN32
-static void
-wait_for_child_exit(int pid) {
+static void wait_for_child_exit(int pid) 
+{
 	int status;
 	while (true) {
 		if (waitpid(pid, &status, 0) == -1) {
@@ -26,10 +26,8 @@ wait_for_child_exit(int pid) {
 		}
 	}
 }
-#endif
 
 TEST_BEGIN(test_fork) {
-#ifndef _WIN32
 	void *p;
 	pid_t pid;
 
@@ -66,15 +64,11 @@ TEST_BEGIN(test_fork) {
 	} else {
 		wait_for_child_exit(pid);
 	}
-#else
-	test_skip("fork(2) is irrelevant to Windows");
-#endif
 }
 TEST_END
 
-#ifndef _WIN32
-static void *
-do_fork_thd(void *arg) {
+static void * do_fork_thd(void *arg) 
+{
 	malloc(1);
 	int pid = fork();
 	if (pid == -1) {
@@ -91,20 +85,17 @@ do_fork_thd(void *arg) {
 	}
 	return NULL;
 }
-#endif
 
-#ifndef _WIN32
-static void
-do_test_fork_multithreaded() {
+static void do_test_fork_multithreaded() 
+{
 	thd_t child;
 	thd_create(&child, do_fork_thd, NULL);
 	do_fork_thd(NULL);
 	thd_join(child, NULL);
 }
-#endif
+
 
 TEST_BEGIN(test_fork_multithreaded) {
-#ifndef _WIN32
 	/*
 	 * We've seen bugs involving hanging on arenas_lock (though the same
 	 * class of bugs can happen on any mutex).  The bugs are intermittent
@@ -127,14 +118,11 @@ TEST_BEGIN(test_fork_multithreaded) {
 			wait_for_child_exit(pid);
 		}
 	}
-#else
-	test_skip("fork(2) is irrelevant to Windows");
-#endif
 }
 TEST_END
 
-int
-main(void) {
+int f_test_fork(void) 
+{
 	return test_no_reentrancy(
 	    test_fork,
 	    test_fork_multithreaded);
