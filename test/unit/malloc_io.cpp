@@ -1,4 +1,6 @@
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
+#include "jemalloc/mangle.h"
 
 TEST_BEGIN(test_malloc_strtoumax_no_endptr) {
 	int err;
@@ -248,8 +250,8 @@ TEST_BEGIN(test_malloc_snprintf) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_malloc_io(void) 
+{
 	return test(
 	    test_malloc_strtoumax_no_endptr,
 	    test_malloc_strtoumax,

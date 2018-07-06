@@ -1,4 +1,6 @@
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
+#include "jemalloc/mangle.h"
 
 #define NTHREADS		4
 #define NALLOCS_PER_THREAD	50
@@ -74,8 +76,8 @@ TEST_BEGIN(test_idump) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_prof_accum(void) 
+{
 	return test_no_reentrancy(
 	    test_idump);
 }

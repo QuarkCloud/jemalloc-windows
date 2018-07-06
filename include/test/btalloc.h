@@ -1,5 +1,8 @@
+
+#include "test/jemalloc_test_defs.h"
+
 /* btalloc() provides a mechanism for allocating via permuted backtraces. */
-void	*btalloc(size_t size, unsigned bits);
+TESTAPI void	*btalloc(size_t size, unsigned bits);
 
 #define btalloc_n_proto(n)						\
 void	*btalloc_##n(size_t size, unsigned bits);

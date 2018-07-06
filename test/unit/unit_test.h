@@ -49,6 +49,9 @@ int f_test_mallctl() ;
 int f_test_junk_alloc() ;
 int f_test_junk_free() ;
 
+int f_test_malloc_io(void) ;
+int f_test_prof_accum(void) ;
+
 __END_DECLS
 
 #endif /**__JEMALLOC_TEST_UNIT_TEST_H*/

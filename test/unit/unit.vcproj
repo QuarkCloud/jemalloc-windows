@@ -267,6 +267,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\malloc_io.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\math.cpp"
 				>
 			</File>
@@ -300,6 +304,10 @@
 			</File>
 			<File
 				RelativePath=".\prng.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\prof_accum.cpp"
 				>
 			</File>
 			<File

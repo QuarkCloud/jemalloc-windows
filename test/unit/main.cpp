@@ -7,7 +7,7 @@ void do_test_passed() ;
 
 int main(int argc , char * argv[])
 {
-    
+    f_test_prof_accum() ;
     return 0 ;
 }
 void do_test_failed()
@@ -68,5 +68,7 @@ void do_test_passed()
     f_test_junk_alloc() ;
     f_test_junk_free() ;
     f_test_mallctl() ;
+
+    f_test_malloc_io() ;
 }
 
