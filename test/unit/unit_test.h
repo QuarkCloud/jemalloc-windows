@@ -42,6 +42,12 @@ int f_test_background_thread_enable() ;
 int f_test_chk() ;
 int f_test_extent_quantize() ;
 int f_test_fork() ;
+//2018-07-06
+int f_test_hook() ;
+int f_test_junk_true() ;
+int f_test_mallctl() ;
+int f_test_junk_alloc() ;
+int f_test_junk_free() ;
 
 __END_DECLS
 

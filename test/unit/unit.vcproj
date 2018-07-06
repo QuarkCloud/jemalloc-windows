@@ -235,11 +235,35 @@
 				>
 			</File>
 			<File
+				RelativePath=".\hook.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\junk.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\junk_alloc.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\junk_free.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\junk_true.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\log.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\mallctl.cpp"
 				>
 			</File>
 			<File

@@ -1,6 +1,7 @@
 #include "test/jemalloc_test.h"
-
 #include "jemalloc/internal/hook.h"
+#include "unit_test.h"
+#include "jemalloc/mangle.h"
 
 static void *arg_extra;
 static int arg_type;
@@ -455,9 +456,9 @@ TEST_BEGIN(test_hooks_realloc_as_malloc_or_free) {
 }
 TEST_END
 
-static void
-do_realloc_test(void *(*ralloc)(void *, size_t, int), int flags,
-    int expand_type, int dalloc_type) {
+static void do_realloc_test(void *(*ralloc)(void *, size_t , int flags), int flags,
+    int expand_type, int dalloc_type) 
+{
 	hooks_t hooks = {&test_alloc_hook, &test_dalloc_hook,
 		&test_expand_hook, (void *)123};
 	void *handle = hook_install(TSDN_NULL, &hooks);
@@ -547,8 +548,8 @@ do_realloc_test(void *(*ralloc)(void *, size_t, int), int flags,
 	hook_remove(TSDN_NULL, handle);
 }
 
-static void *
-realloc_wrapper(void *ptr, size_t size, UNUSED int flags) {
+static void * realloc_wrapper(void *ptr, size_t size , int flags) 
+{
 	return realloc(ptr, size);
 }
 
@@ -564,8 +565,8 @@ TEST_BEGIN(test_hooks_rallocx) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_hook(void) 
+{
 	/* We assert on call counts. */
 	return test_no_reentrancy(
 	    test_hooks_basic,

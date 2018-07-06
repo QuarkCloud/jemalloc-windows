@@ -7,12 +7,12 @@ void do_test_passed() ;
 
 int main(int argc , char * argv[])
 {
-    f_test_fork() ;
+    
     return 0 ;
 }
 void do_test_failed()
 {
-       
+    f_test_fork() ;       
 }
 
 
@@ -61,5 +61,12 @@ void do_test_passed()
     f_test_background_thread_enable() ;
     f_test_chk() ;
     f_test_extent_quantize() ;
+
+    //2018-07-06
+    f_test_hook() ;
+    f_test_junk_true() ;
+    f_test_junk_alloc() ;
+    f_test_junk_free() ;
+    f_test_mallctl() ;
 }
 

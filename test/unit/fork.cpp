@@ -60,7 +60,7 @@ TEST_BEGIN(test_fork) {
 		test_fail("Unexpected fork() failure");
 	} else if (pid == 0) {
 		/* Child. */
-		_exit(0);
+		exit(0);
 	} else {
 		wait_for_child_exit(pid);
 	}
@@ -77,7 +77,7 @@ static void * do_fork_thd(void *arg)
 	} else if (pid == 0) {
 		/* Child. */
 		char *args[] = {"true", NULL};
-		execvp(args[0], args);
+		//execvp(args[0], args);
 		test_fail("Exec failed");
 	} else {
 		/* Parent */
@@ -113,7 +113,7 @@ TEST_BEGIN(test_fork_multithreaded) {
 		} else if (pid == 0) {
 			/* Child. */
 			do_test_fork_multithreaded();
-			_exit(0);
+			exit(0);
 		} else {
 			wait_for_child_exit(pid);
 		}

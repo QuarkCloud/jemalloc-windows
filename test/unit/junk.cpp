@@ -1,6 +1,8 @@
 #include "test/jemalloc_test.h"
-
 #include "jemalloc/internal/util.h"
+#include "jemalloc/mangle.h"
+#include "unit_test.h"
+#include "opt_swap.h"
 
 static arena_dalloc_junk_small_t *arena_dalloc_junk_small_orig;
 static large_dalloc_junk_t *large_dalloc_junk_orig;
@@ -132,10 +134,3 @@ TEST_BEGIN(test_junk_large) {
 	test_junk(SMALL_MAXCLASS+1, (1U << (LG_LARGE_MINCLASS+1)));
 }
 TEST_END
-
-int
-main(void) {
-	return test(
-	    test_junk_small,
-	    test_junk_large);
-}

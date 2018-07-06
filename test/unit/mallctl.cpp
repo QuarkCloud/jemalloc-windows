@@ -1,7 +1,9 @@
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
 
 #include "jemalloc/internal/hook.h"
 #include "jemalloc/internal/util.h"
+#include "jemalloc/mangle.h"
 
 TEST_BEGIN(test_mallctl_errors) {
 	uint64_t epoch;
@@ -117,6 +119,16 @@ TEST_BEGIN(test_mallctlnametomib_short_mib) {
 }
 TEST_END
 
+void TEST_MALLOC_CONFIG()
+{
+    const char * oldval = NULL;
+    size_t sz = sizeof(oldval) ;
+
+	assert_d_eq(mallctl("config.malloc_conf", (void *)&oldval, &sz, NULL, 0), 0, "Unexpected mallctl() failure");
+	assert_b_eq((oldval[0] == 0), (config_malloc_conf[0] == 0), "Incorrect config value");
+	assert_zu_eq(sz, sizeof(oldval), "Unexpected output size");
+}
+
 TEST_BEGIN(test_mallctl_config) {
 #define TEST_MALLCTL_CONFIG(config, t) do {				\
 	t oldval;							\
@@ -131,7 +143,8 @@ TEST_BEGIN(test_mallctl_config) {
 	TEST_MALLCTL_CONFIG(debug, bool);
 	TEST_MALLCTL_CONFIG(fill, bool);
 	TEST_MALLCTL_CONFIG(lazy_lock, bool);
-	TEST_MALLCTL_CONFIG(malloc_conf, const char *);
+	//TEST_MALLCTL_CONFIG(malloc_conf, const char *);
+    TEST_MALLOC_CONFIG() ;
 	TEST_MALLCTL_CONFIG(prof, bool);
 	TEST_MALLCTL_CONFIG(prof_libgcc, bool);
 	TEST_MALLCTL_CONFIG(prof_libunwind, bool);
@@ -774,15 +787,13 @@ TEST_BEGIN(test_stats_arenas) {
 }
 TEST_END
 
-static void
-alloc_hook(void *extra, UNUSED hook_alloc_t type, UNUSED void *result,
-    UNUSED uintptr_t result_raw, UNUSED uintptr_t args_raw[3]) {
+static void alloc_hook(void *extra, hook_alloc_t type, void *result,
+    uintptr_t result_raw, uintptr_t args_raw[3]) {
 	*(bool *)extra = true;
 }
 
-static void
-dalloc_hook(void *extra, UNUSED hook_dalloc_t type,
-    UNUSED void *address, UNUSED uintptr_t args_raw[3]) {
+static void dalloc_hook(void *extra, hook_dalloc_t type,
+    void *address, uintptr_t args_raw[3]) {
 	*(bool *)extra = true;
 }
 
@@ -847,8 +858,8 @@ TEST_BEGIN(test_hooks_exhaustion) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_mallctl(void) 
+{
 	return test(
 	    test_mallctl_errors,
 	    test_mallctlnametomib_errors,

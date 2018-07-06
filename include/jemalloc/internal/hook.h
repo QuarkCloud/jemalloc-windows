@@ -3,6 +3,7 @@
 #define __JEMALLOC_INTERNAL_HOOK_H 1
 
 #include "jemalloc/internal/tsd.h"
+#include "jemalloc/compile.h"
 
 /*
  * This API is *extremely* experimental, and may get ripped out, changed in API-
@@ -144,21 +145,19 @@ struct hook_ralloc_args_s {
  * Returns an opaque handle to be used when removing the hook.  NULL means that
  * we couldn't install the hook.
  */
-bool hook_boot();
+JEMALLOC_API bool hook_boot();
 
-void *hook_install(tsdn_t *tsdn, hooks_t *hooks);
+JEMALLOC_API void *hook_install(tsdn_t *tsdn, hooks_t *hooks);
 /* Uninstalls the hook with the handle previously returned from hook_install. */
-void hook_remove(tsdn_t *tsdn, void *opaque);
+JEMALLOC_API void hook_remove(tsdn_t *tsdn, void *opaque);
 
 /* Hooks */
-
-void hook_invoke_alloc(hook_alloc_t type, void *result, uintptr_t result_raw,
+JEMALLOC_API void hook_invoke_alloc(hook_alloc_t type, void *result, uintptr_t result_raw,
     uintptr_t args_raw[3]);
 
-void hook_invoke_dalloc(hook_dalloc_t type, void *address,
-    uintptr_t args_raw[3]);
+JEMALLOC_API void hook_invoke_dalloc(hook_dalloc_t type, void *address,uintptr_t args_raw[3]);
 
-void hook_invoke_expand(hook_expand_t type, void *address, size_t old_usize,
+JEMALLOC_API void hook_invoke_expand(hook_expand_t type, void *address, size_t old_usize,
     size_t new_usize, uintptr_t result_raw, uintptr_t args_raw[4]);
 
 #endif /* __JEMALLOC_INTERNAL_HOOK_H */

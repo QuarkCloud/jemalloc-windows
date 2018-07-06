@@ -1,12 +1,13 @@
 #include "junk.cpp"
 
-int f_test_junk_alloc(void) 
+
+int f_test_junk_true(void) 
 {
     opt_swap_to_conf() ;
 
     opt_abort = false ;
     opt_zero = false ;
-    opt_junk = "alloc" ;
+    opt_junk = "ture" ;
 
 	int result = test(
 	    test_junk_small,
@@ -16,5 +17,6 @@ int f_test_junk_alloc(void)
 
     return result ;
 }
+
 
 
