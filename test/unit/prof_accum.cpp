@@ -1,14 +1,16 @@
 #include "test/jemalloc_test.h"
 #include "unit_test.h"
+#include "opt_swap.h"
 #include "jemalloc/mangle.h"
 
-#define NTHREADS		4
+//#define NTHREADS		4
+#define NTHREADS		1
 #define NALLOCS_PER_THREAD	50
 #define DUMP_INTERVAL		1
 #define BT_COUNT_CHECK_INTERVAL	5
 
-static int
-prof_dump_open_intercept(bool propagate_err, const char *filename) {
+static int prof_dump_open_intercept(bool propagate_err, const char *filename) 
+{
 	int fd;
 
 	fd = open("/dev/null", O_WRONLY);
@@ -17,13 +19,13 @@ prof_dump_open_intercept(bool propagate_err, const char *filename) {
 	return fd;
 }
 
-static void *
-alloc_from_permuted_backtrace(unsigned thd_ind, unsigned iteration) {
+static void * alloc_from_permuted_backtrace(unsigned thd_ind, unsigned iteration) 
+{
 	return btalloc(1, thd_ind*NALLOCS_PER_THREAD + iteration);
 }
 
-static void *
-thd_start(void *varg) {
+static void * thd_start(void *varg) 
+{
 	unsigned thd_ind = *(unsigned *)varg;
 	size_t bt_count_prev, bt_count;
 	unsigned i_prev, i;
@@ -78,6 +80,15 @@ TEST_END
 
 int f_test_prof_accum(void) 
 {
-	return test_no_reentrancy(
-	    test_idump);
+    opt_swap_to_conf() ;
+
+    opt_prof = true ;
+    opt_prof_accum = true ;
+    opt_prof_active = false ;
+    opt_lg_prof_sample = 0 ;
+
+	int result = test_no_reentrancy(test_idump);
+
+    opt_swap_from_conf() ;
+    return result ;
 }

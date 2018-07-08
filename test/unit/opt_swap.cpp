@@ -23,6 +23,13 @@ static size_t	    conf_tcache_maxclass    = tcache_maxclass;
 static bool         conf_opt_background_thread   = opt_background_thread;
 static size_t       conf_opt_max_background_threads = opt_max_background_threads;
 
+static bool         conf_opt_prof   = opt_prof ;
+static bool         conf_opt_prof_accum  = opt_prof_accum ;
+static bool         conf_opt_prof_active = opt_prof_active ;
+static size_t       conf_opt_lg_prof_sample = opt_lg_prof_sample ;
+
+
+
 
 
 void opt_swap_from_conf()
@@ -48,6 +55,11 @@ void opt_swap_from_conf()
     opt_background_thread = conf_opt_background_thread ;
     opt_max_background_threads = conf_opt_max_background_threads ;
     opt_narenas = conf_opt_narenas ;
+
+    opt_prof   = conf_opt_prof ;
+    opt_prof_accum  = conf_opt_prof_accum ;
+    opt_prof_active = conf_opt_prof_active ;
+    opt_lg_prof_sample = conf_opt_lg_prof_sample ;
 }
 
 void opt_swap_to_conf()
@@ -73,6 +85,11 @@ void opt_swap_to_conf()
     conf_opt_background_thread   = opt_background_thread;
     conf_opt_max_background_threads = opt_max_background_threads;
     conf_opt_narenas             = opt_narenas;
+
+    conf_opt_prof   = opt_prof ;
+    conf_opt_prof_accum  = opt_prof_accum ;
+    conf_opt_prof_active = opt_prof_active ;
+    conf_opt_lg_prof_sample = opt_lg_prof_sample ;
 }
 
 bool conf_match(const char * src , const char * dst) 

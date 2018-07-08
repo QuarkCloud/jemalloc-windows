@@ -7,6 +7,7 @@
 #include "jemalloc/internal/arena_externs.h"
 #include "jemalloc/internal/tcache_externs.h"
 #include "jemalloc/internal/background_thread_externs.h"
+#include "jemalloc/internal/prof_externs.h"
 
 __BEGIN_DECLS
 
