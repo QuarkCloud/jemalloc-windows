@@ -1241,9 +1241,7 @@ prof_dump_maps(bool propagate_err) {
 	int mfd;
 
 	cassert(config_prof);
-#ifdef __FreeBSD__
-	mfd = prof_open_maps("/proc/curproc/map");
-#elif defined(_WIN32)
+#if defined(_WIN32)
 	mfd = -1; // Not implemented
 #else
 	{
