@@ -24,12 +24,15 @@ static bool         conf_opt_background_thread   = opt_background_thread;
 static size_t       conf_opt_max_background_threads = opt_max_background_threads;
 
 static bool         conf_opt_prof   = opt_prof ;
-static bool         conf_opt_prof_accum  = opt_prof_accum ;
 static bool         conf_opt_prof_active = opt_prof_active ;
+static bool         conf_opt_prof_thread_active_init = opt_prof_thread_active_init ;
 static size_t       conf_opt_lg_prof_sample = opt_lg_prof_sample ;
+static size_t       conf_opt_lg_prof_interval = opt_lg_prof_interval ;
 
-
-
+static bool         conf_opt_prof_gdump  = opt_prof_gdump ;
+static bool         conf_opt_prof_final  = opt_prof_final ;
+static bool         conf_opt_prof_leak  = opt_prof_leak ;
+static bool         conf_opt_prof_accum  = opt_prof_accum ;
 
 
 void opt_swap_from_conf()
@@ -47,7 +50,7 @@ void opt_swap_from_conf()
     opt_dirty_decay_ms = conf_opt_dirty_decay_ms;
     opt_muzzy_decay_ms = conf_opt_muzzy_decay_ms;
 
-    opt_tcache         = conf_opt_tcache;
+    opt_tcache         = conf_opt_tcache ;
     opt_lg_tcache_max  = conf_opt_lg_tcache_max;
     nhbins             = conf_nhbins;
     tcache_maxclass    = conf_tcache_maxclass;
@@ -57,9 +60,16 @@ void opt_swap_from_conf()
     opt_narenas = conf_opt_narenas ;
 
     opt_prof   = conf_opt_prof ;
-    opt_prof_accum  = conf_opt_prof_accum ;
     opt_prof_active = conf_opt_prof_active ;
+
+    opt_prof_thread_active_init = conf_opt_prof_thread_active_init ;
     opt_lg_prof_sample = conf_opt_lg_prof_sample ;
+    opt_lg_prof_interval = conf_opt_lg_prof_interval ;
+    opt_prof_gdump = conf_opt_prof_gdump ;
+    opt_prof_final = conf_opt_prof_final ;
+    opt_prof_leak = conf_opt_prof_leak ;
+
+    opt_prof_accum  = conf_opt_prof_accum ;   
 }
 
 void opt_swap_to_conf()
@@ -87,9 +97,16 @@ void opt_swap_to_conf()
     conf_opt_narenas             = opt_narenas;
 
     conf_opt_prof   = opt_prof ;
-    conf_opt_prof_accum  = opt_prof_accum ;
     conf_opt_prof_active = opt_prof_active ;
+    conf_opt_prof_thread_active_init = opt_prof_thread_active_init ;
     conf_opt_lg_prof_sample = opt_lg_prof_sample ;
+    conf_opt_lg_prof_interval = opt_lg_prof_interval ;
+
+    conf_opt_prof_gdump  = opt_prof_gdump ;
+    conf_opt_prof_final  = opt_prof_final ;
+    conf_opt_prof_leak  = opt_prof_leak ;
+
+    conf_opt_prof_accum  = opt_prof_accum ;
 }
 
 bool conf_match(const char * src , const char * dst) 

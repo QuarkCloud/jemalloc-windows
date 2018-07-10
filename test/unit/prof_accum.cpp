@@ -3,8 +3,8 @@
 #include "opt_swap.h"
 #include "jemalloc/mangle.h"
 
-//#define NTHREADS		4
-#define NTHREADS		1
+#define NTHREADS		4
+//#define NTHREADS		1
 #define NALLOCS_PER_THREAD	50
 #define DUMP_INTERVAL		1
 #define BT_COUNT_CHECK_INTERVAL	5

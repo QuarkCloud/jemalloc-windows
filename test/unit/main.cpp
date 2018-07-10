@@ -7,7 +7,7 @@ void do_test_passed() ;
 
 int main(int argc , char * argv[])
 {
-    
+    f_test_prof_tctx() ;        
     return 0 ;
 }
 void do_test_failed()
@@ -71,5 +71,11 @@ void do_test_passed()
     f_test_mallctl() ;
 
     f_test_malloc_io() ;
+
+    //2018-07-10
+    f_test_prof_active() ;
+    f_test_prof_gdump() ;
+    f_test_prof_idump() ;
+    f_test_prof_reset() ;
 }
 

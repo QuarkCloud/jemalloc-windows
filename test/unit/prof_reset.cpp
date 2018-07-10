@@ -1,7 +1,10 @@
-#include "test/jemalloc_test.h"
 
-static int
-prof_dump_open_intercept(bool propagate_err, const char *filename) {
+#include "test/jemalloc_test.h"
+#include "unit_test.h"
+#include "opt_swap.h"
+
+static int prof_dump_open_intercept(bool propagate_err, const char *filename) 
+{
 	int fd;
 
 	fd = open("/dev/null", O_WRONLY);
@@ -131,12 +134,14 @@ TEST_BEGIN(test_prof_reset_cleanup) {
 TEST_END
 
 #define NTHREADS		4
-#define NALLOCS_PER_THREAD	(1U << 13)
+//#define NALLOCS_PER_THREAD	(1U << 13)
+#define NALLOCS_PER_THREAD	(1U << 10)
 #define OBJ_RING_BUF_COUNT	1531
 #define RESET_INTERVAL		(1U << 10)
 #define DUMP_INTERVAL		3677
-static void *
-thd_start(void *varg) {
+
+static void * thd_start(void *varg) 
+{
 	unsigned thd_ind = *(unsigned *)varg;
 	unsigned i;
 	void *objs[OBJ_RING_BUF_COUNT];
@@ -273,14 +278,24 @@ TEST_BEGIN(test_xallocx) {
 TEST_END
 #undef NITER
 
-int
-main(void) {
+int f_test_prof_reset(void) 
+{
+    opt_swap_to_conf() ;
+
+    opt_prof = true ;
+    opt_prof_active = false ;
+    opt_lg_prof_sample = 0 ;
+
 	/* Intercept dumping prior to running any tests. */
 	prof_dump_open = prof_dump_open_intercept;
 
-	return test_no_reentrancy(
+	int result = test_no_reentrancy(
 	    test_prof_reset_basic,
 	    test_prof_reset_cleanup,
 	    test_prof_reset,
 	    test_xallocx);
+
+    opt_swap_from_conf() ;
+
+    return result ;
 }

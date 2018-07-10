@@ -102,8 +102,16 @@ static inline bool extent_dumpable_get(const extent_t *extent)
 
 static inline bool extent_slab_get(const extent_t *extent) 
 {
-	return (bool)(((extent->e_bits & EXTENT_BITS_SLAB_MASK) >>
-	    EXTENT_BITS_SLAB_SHIFT) != 0);
+    uint64_t mask = EXTENT_BITS_SLAB_MASK ;
+    uint64_t shift = EXTENT_BITS_SLAB_SHIFT ;
+
+    uint64_t bits = (extent->e_bits & mask) ;
+    bits = bits >> shift ;
+
+    return (bits != 0) ;
+
+	//return (bool)(((extent->e_bits & EXTENT_BITS_SLAB_MASK) >>
+	//    EXTENT_BITS_SLAB_SHIFT) != 0);
 }
 
 static inline unsigned extent_nfree_get(const extent_t *extent) 
@@ -290,6 +298,9 @@ static inline void extent_dumpable_set(extent_t *extent, bool dumpable)
 
 static inline void extent_slab_set(extent_t *extent, bool slab) 
 {
+    uintptr_t addr = (uintptr_t)extent ;
+    if((addr & 0xFFFF) == 0xd380 && slab == true)
+        ::printf("\n") ;
 	extent->e_bits = (extent->e_bits & ~EXTENT_BITS_SLAB_MASK) |
 	    ((uint64_t)slab << EXTENT_BITS_SLAB_SHIFT);
 }

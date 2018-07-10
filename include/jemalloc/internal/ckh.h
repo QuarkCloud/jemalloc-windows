@@ -19,7 +19,7 @@
 */
 #define CKH_COUNT 
 /* Print counter values in ckh_delete() (requires CKH_COUNT). */
-#define CKH_VERBOSE 
+/* #define CKH_VERBOSE */
 
 /*
  * There are 2^LG_CKH_BUCKET_CELLS cells in each hash table bucket.  Try to fit

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="unit"
+	Name="unit_pass"
 	ProjectGUID="{7D3AFA88-21B6-4678-92FB-4056A5978A7E}"
-	RootNamespace="unit"
+	RootNamespace="unit_pass"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -175,11 +175,135 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\a0.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\arena_reset.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\atomic.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\background_thread.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\background_thread_enable.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\base.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\bit_util.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\bitmap.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ckh.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\decay.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\div.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\emitter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\extent_quantize.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\fork.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\hash.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\hook.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\junk.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\junk_alloc.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\junk_free.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\junk_true.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\log.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
 			<File
+				RelativePath=".\mallctl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\malloc_io.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\math.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\mq.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\mtx.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\nstime.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\opt_swap.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\pack.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\pages.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ph.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\prng.cpp"
 				>
 			</File>
 			<File
@@ -192,18 +316,6 @@
 			</File>
 			<File
 				RelativePath=".\prof_gdump.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\prof_idump.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\prof_reset.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\prof_tctx.cpp"
 				>
 			</File>
 			<File
@@ -248,10 +360,6 @@
 			</File>
 			<File
 				RelativePath=".\tsd.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\unit_test.cpp"
 				>
 			</File>
 			<File

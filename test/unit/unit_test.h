@@ -50,7 +50,14 @@ int f_test_junk_alloc() ;
 int f_test_junk_free() ;
 
 int f_test_malloc_io(void) ;
+
+//2017-08-10
 int f_test_prof_accum(void) ;
+int f_test_prof_active(void) ;
+int f_test_prof_gdump(void) ;
+int f_test_prof_idump(void) ;
+int f_test_prof_reset(void) ;
+int f_test_prof_tctx(void) ;
 
 __END_DECLS
 

@@ -1,4 +1,6 @@
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
+#include "opt_swap.h"
 
 static bool did_prof_dump_open;
 
@@ -67,8 +69,16 @@ TEST_BEGIN(test_gdump) {
 }
 TEST_END
 
-int
-main(void) {
-	return test_no_reentrancy(
-	    test_gdump);
+int f_test_prof_gdump(void) 
+{
+    opt_swap_to_conf() ;
+
+    opt_prof = true ;
+    opt_prof_active = false ;
+    opt_prof_gdump = true ;
+
+
+	int result = test_no_reentrancy(test_gdump);
+    return result ;
+    opt_swap_from_conf() ;
 }

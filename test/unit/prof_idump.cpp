@@ -1,4 +1,7 @@
+
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
+#include "opt_swap.h"
 
 static bool did_prof_dump_open;
 
@@ -35,8 +38,18 @@ TEST_BEGIN(test_idump) {
 }
 TEST_END
 
-int
-main(void) {
-	return test(
-	    test_idump);
+int f_test_prof_idump(void) 
+{
+    opt_swap_to_conf() ;
+
+    opt_tcache = false ;
+    opt_prof = true ;
+    opt_prof_accum = true ;
+    opt_prof_active = false ;
+    opt_lg_prof_sample = 0 ;
+    opt_lg_prof_interval = 0 ;
+
+	int result = test(test_idump);
+    opt_swap_from_conf() ;
+    return result ;
 }

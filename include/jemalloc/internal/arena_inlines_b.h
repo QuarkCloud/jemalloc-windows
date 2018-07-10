@@ -16,7 +16,8 @@ arena_prof_tctx_get(tsdn_t *tsdn, const void *ptr, alloc_ctx_t *alloc_ctx) {
 	/* Static check. */
 	if (alloc_ctx == NULL) {
 		extent_t *extent = iealloc(tsdn, ptr);
-		if (unlikely(!extent_slab_get(extent))) {
+        bool slab_get_result = extent_slab_get(extent) ;
+		if (unlikely(!slab_get_result)) {
 			return large_prof_tctx_get(tsdn, extent);
 		}
 	} else {

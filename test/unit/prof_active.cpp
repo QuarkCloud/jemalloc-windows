@@ -1,4 +1,6 @@
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
+#include "opt_swap.h"
 
 static void
 mallctl_bool_get(const char *name, bool expected, const char *func, int line) {
@@ -75,8 +77,7 @@ prof_sampling_probe_impl(bool expect_sample, const char *func, int line) {
 	    "%s():%d: Unexpected backtrace count", func, line);
 	dallocx(p, 0);
 }
-#define prof_sampling_probe(a)						\
-	prof_sampling_probe_impl(a, __func__, __LINE__)
+#define prof_sampling_probe(a)	prof_sampling_probe_impl(a, __func__, __LINE__)
 
 TEST_BEGIN(test_prof_active) {
 	test_skip_if(!config_prof);
@@ -110,8 +111,15 @@ TEST_BEGIN(test_prof_active) {
 }
 TEST_END
 
-int
-main(void) {
-	return test_no_reentrancy(
-	    test_prof_active);
+int f_test_prof_active(void) 
+{
+    opt_swap_to_conf() ;
+
+    opt_prof = true ;
+    opt_prof_thread_active_init = false ;
+    opt_lg_prof_sample = 0 ;
+
+	int result = test_no_reentrancy(test_prof_active);
+    opt_swap_from_conf() ;
+    return result ;
 }
