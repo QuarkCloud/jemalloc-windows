@@ -4,11 +4,14 @@
 /* btalloc() provides a mechanism for allocating via permuted backtraces. */
 TESTAPI void	*btalloc(size_t size, unsigned bits);
 
-#define btalloc_n_proto(n)						\
-void	*btalloc_##n(size_t size, unsigned bits);
-btalloc_n_proto(0)
-btalloc_n_proto(1)
+void * btalloc_0(size_t size, unsigned bits) ;
+void * btalloc_1(size_t size, unsigned bits) ;
+//#define btalloc_n_proto(n)						\
+//void	*btalloc_##n(size_t size, unsigned bits);
+//btalloc_n_proto(0)
+//btalloc_n_proto(1)
 
+/**
 #define btalloc_n_gen(n)						\
 void *									\
 btalloc_##n(size_t size, unsigned bits) {				\
@@ -30,4 +33,5 @@ btalloc_##n(size_t size, unsigned bits) {				\
 	assert_ptr_not_null(p, "Unexpected mallocx() failure");		\
 	return p;							\
 }
+*/
 

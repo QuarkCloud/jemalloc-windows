@@ -7,12 +7,13 @@ void do_test_passed() ;
 
 int main(int argc , char * argv[])
 {
-    f_test_prof_accum() ;
+    
     return 0 ;
 }
 void do_test_failed()
 {
-    f_test_fork() ;       
+    f_test_fork() ; 
+    f_test_prof_accum() ;
 }
 
 

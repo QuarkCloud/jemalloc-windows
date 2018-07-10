@@ -13,9 +13,13 @@
 /******************************************************************************/
 
 /* Maintain counters used to get an idea of performance. */
-/* #define CKH_COUNT */
+/**
+    2018-07-10  by chenquan
+    try to pass prof unit test
+*/
+#define CKH_COUNT 
 /* Print counter values in ckh_delete() (requires CKH_COUNT). */
-/* #define CKH_VERBOSE */
+#define CKH_VERBOSE 
 
 /*
  * There are 2^LG_CKH_BUCKET_CELLS cells in each hash table bucket.  Try to fit

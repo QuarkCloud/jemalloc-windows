@@ -98,9 +98,8 @@ ckh_isearch(ckh_t *ckh, const void *key) {
 	return cell;
 }
 
-static bool
-ckh_try_bucket_insert(ckh_t *ckh, size_t bucket, const void *key,
-    const void *data) {
+static bool ckh_try_bucket_insert(ckh_t *ckh, size_t bucket, const void *key,  const void *data) 
+{
 	ckhc_t *cell;
 	unsigned offset, i;
 
@@ -130,9 +129,8 @@ ckh_try_bucket_insert(ckh_t *ckh, size_t bucket, const void *key,
  * eviction/relocation procedure until either success or detection of an
  * eviction/relocation bucket cycle.
  */
-static bool
-ckh_evict_reloc_insert(ckh_t *ckh, size_t argbucket, void const **argkey,
-    void const **argdata) {
+static bool ckh_evict_reloc_insert(ckh_t *ckh, size_t argbucket, void const **argkey, void const **argdata)
+{
 	const void *key, *data, *tkey, *tdata;
 	ckhc_t *cell;
 	size_t hashes[2], bucket, tbucket;
@@ -201,8 +199,8 @@ ckh_evict_reloc_insert(ckh_t *ckh, size_t argbucket, void const **argkey,
 	}
 }
 
-static bool
-ckh_try_insert(ckh_t *ckh, void const**argkey, void const**argdata) {
+static bool ckh_try_insert(ckh_t *ckh, void const**argkey, void const**argdata)
+{
 	size_t hashes[2], bucket;
 	const void *key = *argkey;
 	const void *data = *argdata;
@@ -231,18 +229,21 @@ ckh_try_insert(ckh_t *ckh, void const**argkey, void const**argdata) {
  * Try to rebuild the hash table from scratch by inserting all items from the
  * old table into the new.
  */
-static bool
-ckh_rebuild(ckh_t *ckh, ckhc_t *aTab) {
+static bool ckh_rebuild(ckh_t *ckh, ckhc_t *aTab) 
+{
 	size_t count, i, nins;
 	const void *key, *data;
 
 	count = ckh->count;
 	ckh->count = 0;
-	for (i = nins = 0; nins < count; i++) {
-		if (aTab[i].key != NULL) {
+	for (i = nins = 0; nins < count; i++) 
+    {
+		if (aTab[i].key != NULL) 
+        {
 			key = aTab[i].key;
 			data = aTab[i].data;
-			if (ckh_try_insert(ckh, &key, &data)) {
+			if (ckh_try_insert(ckh, &key, &data)) 
+            {
 				ckh->count = count;
 				return true;
 			}
@@ -355,9 +356,8 @@ ckh_shrink(tsd_t *tsd, ckh_t *ckh) {
 #endif
 }
 
-bool
-ckh_new(tsd_t *tsd, ckh_t *ckh, size_t minitems, ckh_hash_t *hash,
-    ckh_keycomp_t *keycomp) {
+bool ckh_new(tsd_t *tsd, ckh_t *ckh, size_t minitems, ckh_hash_t *hash,ckh_keycomp_t *keycomp)
+{
 	bool ret;
 	size_t mincells, usize;
 	unsigned lg_mincells;
@@ -434,10 +434,9 @@ ckh_delete(tsd_t *tsd, ckh_t *ckh) {
 	}
 }
 
-size_t
-ckh_count(ckh_t *ckh) {
+size_t ckh_count(ckh_t *ckh) 
+{
 	assert(ckh != NULL);
-
 	return ckh->count;
 }
 
@@ -462,8 +461,8 @@ ckh_iter(ckh_t *ckh, size_t *tabind, void **key, void **data) {
 	return true;
 }
 
-bool
-ckh_insert(tsd_t *tsd, ckh_t *ckh, const void *key, const void *data) {
+bool ckh_insert(tsd_t *tsd, ckh_t *ckh, const void *key, const void *data) 
+{
 	bool ret;
 
 	assert(ckh != NULL);

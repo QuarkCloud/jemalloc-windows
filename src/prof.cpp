@@ -741,8 +741,8 @@ prof_tdata_count(void) {
 	return tdata_count;
 }
 
-size_t
-prof_bt_count(void) {
+size_t prof_bt_count(void) 
+{
 	size_t bt_count;
 	tsd_t *tsd;
 	prof_tdata_t *tdata;
@@ -1235,8 +1235,10 @@ prof_getpid(void) {
 	return getpid();
 }
 
-static bool
-prof_dump_maps(bool propagate_err) {
+static bool prof_dump_maps(bool propagate_err) 
+{
+    return false ;
+
 	bool ret;
 	int mfd;
 
@@ -1264,8 +1266,8 @@ prof_dump_maps(bool propagate_err) {
 		nread = 0;
 		do {
 			prof_dump_buf_end += nread;
-			if (prof_dump_buf_end == PROF_DUMP_BUFSIZE) {
-				/* Make space in prof_dump_buf before read(). */
+			if (prof_dump_buf_end == PROF_DUMP_BUFSIZE) 
+            {
 				if (prof_dump_flush(propagate_err) &&
 				    propagate_err) {
 					ret = true;
