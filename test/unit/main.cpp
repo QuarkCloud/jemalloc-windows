@@ -7,13 +7,15 @@ void do_test_passed() ;
 
 int main(int argc , char * argv[])
 {
-    f_test_prof_tctx() ;        
+    f_test_prof_tctx() ;   
     return 0 ;
 }
 void do_test_failed()
 {
     f_test_fork() ; 
     f_test_prof_accum() ;
+    f_test_prof_tctx() ;   
+    
 }
 
 
@@ -77,5 +79,14 @@ void do_test_passed()
     f_test_prof_gdump() ;
     f_test_prof_idump() ;
     f_test_prof_reset() ;
+
+    //2018-07-12
+    f_test_prof_thread_name() ;
+    f_test_retained() ;
+    f_test_SFMT() ;
+    f_test_slab() ;
+    f_test_stats_print() ;
+    f_test_test_hooks() ;
+    f_test_witness() ;
 }
 

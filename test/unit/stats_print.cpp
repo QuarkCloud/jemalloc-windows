@@ -1,5 +1,5 @@
 #include "test/jemalloc_test.h"
-
+#include "unit_test.h"
 #include "jemalloc/internal/util.h"
 
 typedef enum {
@@ -67,7 +67,7 @@ token_error(token_t *token) {
 		    token->col);
 		break;
 	}
-	UNUSED ssize_t err = malloc_write_fd(STDERR_FILENO,
+	ssize_t err = malloc_write_fd(STDERR_FILENO,
 	    &token->parser->buf[token->pos], token->len);
 	malloc_printf("\n");
 }
@@ -92,9 +92,9 @@ parser_fini(parser_t *parser) {
 static bool
 parser_append(parser_t *parser, const char *str) {
 	size_t len = strlen(str);
-	char *buf = (parser->buf == NULL) ? mallocx(len + 1,
+	char *buf = (char *)((parser->buf == NULL) ? mallocx(len + 1,
 	    MALLOCX_TCACHE_NONE) : rallocx(parser->buf, parser->len + len + 1,
-	    MALLOCX_TCACHE_NONE);
+	    MALLOCX_TCACHE_NONE));
 	if (buf == NULL) {
 		return true;
 	}
@@ -991,8 +991,8 @@ TEST_BEGIN(test_stats_print_json) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_stats_print(void) 
+{
 	return test(
 	    test_json_parser,
 	    test_stats_print_json);

@@ -141,7 +141,7 @@ witness_tsdn_tsd(witness_tsdn_t *witness_tsdn) {
 /******************************************************************************/
 /* API */
 /******************************************************************************/
-void witness_init(witness_t *witness, const char *name, witness_rank_t rank,
+JEMALLOC_API void witness_init(witness_t *witness, const char *name, witness_rank_t rank,
     witness_comp_t *comp, void *opaque);
 
 typedef void (witness_lock_error_t)(const witness_list_t *, const witness_t *);

@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
 
 TEST_BEGIN(test_arena_slab_regind) {
 	szind_t binind;
@@ -25,8 +26,8 @@ TEST_BEGIN(test_arena_slab_regind) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_slab(void) 
+{
 	return test(
 	    test_arena_slab_regind);
 }

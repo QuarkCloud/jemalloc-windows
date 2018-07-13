@@ -59,6 +59,15 @@ int f_test_prof_idump(void) ;
 int f_test_prof_reset(void) ;
 int f_test_prof_tctx(void) ;
 
+//2018-07-12
+int f_test_prof_thread_name(void) ;
+int f_test_retained(void) ;
+int f_test_SFMT(void) ;
+int f_test_slab(void) ;
+int f_test_stats_print(void)  ;
+int f_test_test_hooks() ;
+int f_test_witness(void) ;
+
 __END_DECLS
 
 #endif /**__JEMALLOC_TEST_UNIT_TEST_H*/

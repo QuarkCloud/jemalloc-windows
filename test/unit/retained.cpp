@@ -1,5 +1,5 @@
 #include "test/jemalloc_test.h"
-
+#include "unit_test.h"
 #include "jemalloc/internal/spin.h"
 
 static unsigned		arena_ind;
@@ -7,8 +7,8 @@ static size_t		sz;
 static size_t		esz;
 #define NEPOCHS		8
 #define PER_THD_NALLOCS	1
-static atomic_u_t	epoch;
-static atomic_u_t	nfinished;
+static atomic_u32_t	epoch;
+static atomic_u32_t	nfinished;
 
 static unsigned
 do_arena_create(extent_hooks_t *h) {
@@ -72,7 +72,7 @@ thd_start(void *arg) {
 		/* Busy-wait for next epoch. */
 		unsigned cur_epoch;
 		spin_t spinner = SPIN_INITIALIZER;
-		while ((cur_epoch = atomic_load_u(&epoch, ATOMIC_ACQUIRE)) !=
+		while ((cur_epoch = atomic_load_u32(&epoch, ATOMIC_ACQUIRE)) !=
 		    next_epoch) {
 			spin_adaptive(&spinner);
 		}
@@ -91,7 +91,7 @@ thd_start(void *arg) {
 		}
 
 		/* Let the main thread know we've finished this iteration. */
-		atomic_fetch_add_u(&nfinished, 1, ATOMIC_RELEASE);
+		atomic_fetch_add_u32(&nfinished, 1, ATOMIC_RELEASE);
 	}
 
 	return NULL;
@@ -104,7 +104,7 @@ TEST_BEGIN(test_retained) {
 	sz = nallocx(HUGEPAGE, 0);
 	esz = sz + sz_large_pad;
 
-	atomic_store_u(&epoch, 0, ATOMIC_RELAXED);
+	atomic_store_u32(&epoch, 0, ATOMIC_RELAXED);
 
 	unsigned nthreads = ncpus * 2;
 	VARIABLE_ARRAY(thd_t, threads, nthreads);
@@ -113,12 +113,12 @@ TEST_BEGIN(test_retained) {
 	}
 
 	for (unsigned e = 1; e < NEPOCHS; e++) {
-		atomic_store_u(&nfinished, 0, ATOMIC_RELEASE);
-		atomic_store_u(&epoch, e, ATOMIC_RELEASE);
+		atomic_store_u32(&nfinished, 0, ATOMIC_RELEASE);
+		atomic_store_u32(&epoch, e, ATOMIC_RELEASE);
 
 		/* Wait for threads to finish allocating. */
 		spin_t spinner = SPIN_INITIALIZER;
-		while (atomic_load_u(&nfinished, ATOMIC_ACQUIRE) < nthreads) {
+		while (atomic_load_u32(&nfinished, ATOMIC_ACQUIRE) < nthreads) {
 			spin_adaptive(&spinner);
 		}
 
@@ -174,8 +174,8 @@ TEST_BEGIN(test_retained) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_retained(void) 
+{
 	return test(
 	    test_retained);
 }

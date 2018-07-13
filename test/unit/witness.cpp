@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
 
 static witness_lock_error_t *witness_lock_error_orig;
 static witness_owner_error_t *witness_owner_error_orig;
@@ -268,8 +269,8 @@ TEST_BEGIN(test_witness_depth) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_witness(void) 
+{
 	return test(
 	    test_witness,
 	    test_witness_comp,

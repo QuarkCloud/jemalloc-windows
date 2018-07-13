@@ -207,6 +207,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\prof_thread_name.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ql.cpp"
 				>
 			</File>
@@ -219,6 +223,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\retained.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\rtree.cpp"
 				>
 			</File>
@@ -227,7 +235,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SFMT.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\size_classes.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\slab.cpp"
 				>
 			</File>
 			<File
@@ -243,6 +259,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\stats_print.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\test_hooks.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ticker.cpp"
 				>
 			</File>
@@ -252,6 +276,10 @@
 			</File>
 			<File
 				RelativePath=".\unit_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\witness.cpp"
 				>
 			</File>
 			<File

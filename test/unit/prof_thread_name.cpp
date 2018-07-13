@@ -1,4 +1,6 @@
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
+#include "opt_swap.h"
 
 static void
 mallctl_thread_name_get_impl(const char *thread_name_expected, const char *func,
@@ -112,9 +114,14 @@ TEST_END
 #undef NTHREADS
 #undef NRESET
 
-int
-main(void) {
-	return test(
-	    test_prof_thread_name_validation,
-	    test_prof_thread_name_threaded);
+int f_test_prof_thread_name(void) 
+{
+    opt_swap_to_conf() ;
+
+    opt_prof = true ;
+    opt_prof_active = false ;
+
+	int result = test(test_prof_thread_name_validation,test_prof_thread_name_threaded);
+    opt_swap_from_conf() ;
+    return result ;
 }

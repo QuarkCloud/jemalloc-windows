@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
 
 static bool hook_called = false;
 
@@ -30,9 +31,7 @@ TEST_BEGIN(hooked_call) {
 }
 TEST_END
 
-int
-main(void) {
-	return test(
-	    unhooked_call,
-	    hooked_call);
+int f_test_test_hooks(void) 
+{
+	return test(unhooked_call,hooked_call);
 }

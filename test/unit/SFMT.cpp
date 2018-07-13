@@ -34,6 +34,7 @@
  *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #include "test/jemalloc_test.h"
+#include "unit_test.h"
 
 #define BLOCK_SIZE 10000
 #define BLOCK_SIZE64 (BLOCK_SIZE / 2)
@@ -1450,9 +1451,11 @@ static const uint64_t init_by_array_64_expected[] = {
 };
 
 TEST_BEGIN(test_gen_rand_32) {
-	uint32_t array32[BLOCK_SIZE] JEMALLOC_ATTR(aligned(16));
-	uint32_t array32_2[BLOCK_SIZE] JEMALLOC_ATTR(aligned(16));
-	int i;
+	//uint32_t array32[BLOCK_SIZE] JEMALLOC_ATTR(aligned(16));
+	//uint32_t array32_2[BLOCK_SIZE] JEMALLOC_ATTR(aligned(16));
+	uint32_t array32[BLOCK_SIZE] ;
+	uint32_t array32_2[BLOCK_SIZE] ;
+    int i;
 	uint32_t r32;
 	sfmt_t *ctx;
 
@@ -1484,9 +1487,11 @@ TEST_BEGIN(test_gen_rand_32) {
 TEST_END
 
 TEST_BEGIN(test_by_array_32) {
-	uint32_t array32[BLOCK_SIZE] JEMALLOC_ATTR(aligned(16));
-	uint32_t array32_2[BLOCK_SIZE] JEMALLOC_ATTR(aligned(16));
-	int i;
+	//uint32_t array32[BLOCK_SIZE] JEMALLOC_ATTR(aligned(16));
+	//uint32_t array32_2[BLOCK_SIZE] JEMALLOC_ATTR(aligned(16));
+	uint32_t array32[BLOCK_SIZE] ;
+	uint32_t array32_2[BLOCK_SIZE] ;
+    int i;
 	uint32_t ini[4] = {0x1234, 0x5678, 0x9abc, 0xdef0};
 	uint32_t r32;
 	sfmt_t *ctx;
@@ -1519,9 +1524,11 @@ TEST_BEGIN(test_by_array_32) {
 TEST_END
 
 TEST_BEGIN(test_gen_rand_64) {
-	uint64_t array64[BLOCK_SIZE64] JEMALLOC_ATTR(aligned(16));
-	uint64_t array64_2[BLOCK_SIZE64] JEMALLOC_ATTR(aligned(16));
-	int i;
+	//uint64_t array64[BLOCK_SIZE64] JEMALLOC_ATTR(aligned(16));
+	//uint64_t array64_2[BLOCK_SIZE64] JEMALLOC_ATTR(aligned(16));
+	uint64_t array64[BLOCK_SIZE64] ;
+	uint64_t array64_2[BLOCK_SIZE64] ;
+    int i;
 	uint64_t r;
 	sfmt_t *ctx;
 
@@ -1554,9 +1561,12 @@ TEST_BEGIN(test_gen_rand_64) {
 TEST_END
 
 TEST_BEGIN(test_by_array_64) {
-	uint64_t array64[BLOCK_SIZE64] JEMALLOC_ATTR(aligned(16));
-	uint64_t array64_2[BLOCK_SIZE64] JEMALLOC_ATTR(aligned(16));
-	int i;
+	//uint64_t array64[BLOCK_SIZE64] JEMALLOC_ATTR(aligned(16));
+	//uint64_t array64_2[BLOCK_SIZE64] JEMALLOC_ATTR(aligned(16));
+	uint64_t array64[BLOCK_SIZE64] ;
+	uint64_t array64_2[BLOCK_SIZE64] ;
+
+    int i;
 	uint64_t r;
 	uint32_t ini[] = {5, 4, 3, 2, 1};
 	sfmt_t *ctx;
@@ -1589,8 +1599,8 @@ TEST_BEGIN(test_by_array_64) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_SFMT(void) 
+{
 	return test(
 	    test_gen_rand_32,
 	    test_by_array_32,

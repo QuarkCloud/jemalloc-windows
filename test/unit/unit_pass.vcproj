@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="unit_pass"
-	ProjectGUID="{7D3AFA88-21B6-4678-92FB-4056A5978A7E}"
+	ProjectGUID="{DCB1C3C6-F57C-457A-B1A2-366C3B83EF59}"
 	RootNamespace="unit_pass"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
@@ -316,6 +316,18 @@
 			</File>
 			<File
 				RelativePath=".\prof_gdump.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\prof_idump.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\prof_reset.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\prof_tctx.cpp"
 				>
 			</File>
 			<File
