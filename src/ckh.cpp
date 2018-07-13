@@ -107,18 +107,25 @@ static bool ckh_try_bucket_insert(ckh_t *ckh, size_t bucket, const void *key,  c
 	 * Cycle through the cells in the bucket, starting at a random position.
 	 * The randomness avoids worst-case search overhead as buckets fill up.
 	 */
-	offset = (unsigned)prng_lg_range_u64(&ckh->prng_state,
-	    LG_CKH_BUCKET_CELLS);
-	for (i = 0; i < (ZU(1) << LG_CKH_BUCKET_CELLS); i++) {
-		cell = &ckh->tab[(bucket << LG_CKH_BUCKET_CELLS) +
-		    ((i + offset) & ((ZU(1) << LG_CKH_BUCKET_CELLS) - 1))];
-		if (cell->key == NULL) {
+    size_t lg_ckh_bucket_cells = LG_CKH_BUCKET_CELLS ;
+    size_t ckh_bucket_cells_max = (ZU(1) << lg_ckh_bucket_cells) ;
+
+    offset = (unsigned)prng_lg_range_u64(&ckh->prng_state,lg_ckh_bucket_cells);
+    for(i = 0 ; i < ckh_bucket_cells_max ; ++i)
+    {
+        size_t offset_cell = ((i + offset) & (ckh_bucket_cells_max - 1)) ;
+        size_t offset_bucket = (bucket << lg_ckh_bucket_cells) ;
+        size_t index_cell = offset_bucket + offset_cell ;
+
+        cell = &ckh->tab[index_cell] ;
+		if (cell->key == NULL) 
+        {
 			cell->key = key;
 			cell->data = data;
 			ckh->count++;
 			return false;
-		}
-	}
+		}    
+    }
 
 	return true;
 }
@@ -484,9 +491,8 @@ label_return:
 	return ret;
 }
 
-bool
-ckh_remove(tsd_t *tsd, ckh_t *ckh, const void *searchkey, void **key,
-    void **data) {
+bool ckh_remove(tsd_t *tsd, ckh_t *ckh, const void *searchkey, void **key,void **data)
+{
 	size_t cell;
 
 	assert(ckh != NULL);

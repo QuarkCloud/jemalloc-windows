@@ -47,7 +47,6 @@ int f_test_prof_tctx(void)
     opt_swap_to_conf() ;
 
     opt_prof = true ;
-    opt_prof_active = false ;
     opt_lg_prof_sample = 0 ;
 
 	int result = test_no_reentrancy(test_prof_realloc);

@@ -6,16 +6,13 @@ void do_test_passed() ;
 
 
 int main(int argc , char * argv[])
-{
-    f_test_prof_tctx() ;   
+{ 
     return 0 ;
 }
 void do_test_failed()
 {
     f_test_fork() ; 
-    f_test_prof_accum() ;
-    f_test_prof_tctx() ;   
-    
+    f_test_prof_accum() ;  
 }
 
 
@@ -88,5 +85,9 @@ void do_test_passed()
     f_test_stats_print() ;
     f_test_test_hooks() ;
     f_test_witness() ;
+
+    //2018-07-13
+    f_test_prof_tctx() ;   
+    f_test_prof_accum() ;  
 }
 

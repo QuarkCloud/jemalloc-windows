@@ -1,6 +1,6 @@
 
 #define JEMALLOC_PROF_C_
-#define JEMALLOC_PROF_GCC
+//#define JEMALLOC_PROF_GCC
 
 #include "jemalloc/internal/jemalloc_preamble.h"
 #include "jemalloc/internal/jemalloc_internal_includes.h"
@@ -115,6 +115,11 @@ static int		prof_dump_fd;
 
 /* Do not dump any profiles until bootstrapping is complete. */
 static bool		prof_booted = false;
+
+ckh_t * get_bt2gctx() 
+{
+    return &bt2gctx ;
+}
 
 /******************************************************************************/
 /*
@@ -300,64 +305,183 @@ static void prof_leave(tsd_t *tsd, prof_tdata_t *tdata)
 }
 
 
-#if (defined(JEMALLOC_PROF_GCC))
-
-void BT_FRAME(int i , prof_bt_t * bt)
-{
-    //
-}
-/**
-{
-	if ((i) < PROF_BT_MAX) 
-	{
-		void *p;			
-		if (__builtin_frame_address(i) == 0) 
-		{
-			return;
-		}				
-		p = __builtin_return_address(i);
-		if (p == NULL) {	
-			return;				
-		}				
-		bt->vec[(i)] = p;
-		bt->len = (i) + 1;
-	}
-	else 
-	{			
-		return;
-	}
-}
-*/
-
 void prof_backtrace(prof_bt_t *bt) 
 {
+#define BT_FRAME(i)							\
+	if ((i) < PROF_BT_MAX) {					\
+		void *p;						\
+		if (__builtin_frame_address(i) == 0) {			\
+			return;						\
+		}							\
+		p = __builtin_return_address(i);			\
+		if (p == NULL) {					\
+			return;						\
+		}							\
+		bt->vec[(i)] = p;					\
+		bt->len = (i) + 1;					\
+	} else {							\
+		return;							\
+	}
+
 	cassert(config_prof);
 
-    for(int idx = 0 ; idx < 128 ; ++idx)
-        BT_FRAME(idx , bt) ;
-}
-#else
-void
-prof_backtrace(prof_bt_t *bt) {
-	cassert(config_prof);
-	not_reached();
-}
-#endif
+	BT_FRAME(0)
+	BT_FRAME(1)
+	BT_FRAME(2)
+	BT_FRAME(3)
+	BT_FRAME(4)
+	BT_FRAME(5)
+	BT_FRAME(6)
+	BT_FRAME(7)
+	BT_FRAME(8)
+	BT_FRAME(9)
 
-static malloc_mutex_t *
-prof_gctx_mutex_choose(void) {
+	BT_FRAME(10)
+	BT_FRAME(11)
+	BT_FRAME(12)
+	BT_FRAME(13)
+	BT_FRAME(14)
+	BT_FRAME(15)
+	BT_FRAME(16)
+	BT_FRAME(17)
+	BT_FRAME(18)
+	BT_FRAME(19)
+
+	BT_FRAME(20)
+	BT_FRAME(21)
+	BT_FRAME(22)
+	BT_FRAME(23)
+	BT_FRAME(24)
+	BT_FRAME(25)
+	BT_FRAME(26)
+	BT_FRAME(27)
+	BT_FRAME(28)
+	BT_FRAME(29)
+
+	BT_FRAME(30)
+	BT_FRAME(31)
+	BT_FRAME(32)
+	BT_FRAME(33)
+	BT_FRAME(34)
+	BT_FRAME(35)
+	BT_FRAME(36)
+	BT_FRAME(37)
+	BT_FRAME(38)
+	BT_FRAME(39)
+
+	BT_FRAME(40)
+	BT_FRAME(41)
+	BT_FRAME(42)
+	BT_FRAME(43)
+	BT_FRAME(44)
+	BT_FRAME(45)
+	BT_FRAME(46)
+	BT_FRAME(47)
+	BT_FRAME(48)
+	BT_FRAME(49)
+
+	BT_FRAME(50)
+	BT_FRAME(51)
+	BT_FRAME(52)
+	BT_FRAME(53)
+	BT_FRAME(54)
+	BT_FRAME(55)
+	BT_FRAME(56)
+	BT_FRAME(57)
+	BT_FRAME(58)
+	BT_FRAME(59)
+
+	BT_FRAME(60)
+	BT_FRAME(61)
+	BT_FRAME(62)
+	BT_FRAME(63)
+	BT_FRAME(64)
+	BT_FRAME(65)
+	BT_FRAME(66)
+	BT_FRAME(67)
+	BT_FRAME(68)
+	BT_FRAME(69)
+
+	BT_FRAME(70)
+	BT_FRAME(71)
+	BT_FRAME(72)
+	BT_FRAME(73)
+	BT_FRAME(74)
+	BT_FRAME(75)
+	BT_FRAME(76)
+	BT_FRAME(77)
+	BT_FRAME(78)
+	BT_FRAME(79)
+
+	BT_FRAME(80)
+	BT_FRAME(81)
+	BT_FRAME(82)
+	BT_FRAME(83)
+	BT_FRAME(84)
+	BT_FRAME(85)
+	BT_FRAME(86)
+	BT_FRAME(87)
+	BT_FRAME(88)
+	BT_FRAME(89)
+
+	BT_FRAME(90)
+	BT_FRAME(91)
+	BT_FRAME(92)
+	BT_FRAME(93)
+	BT_FRAME(94)
+	BT_FRAME(95)
+	BT_FRAME(96)
+	BT_FRAME(97)
+	BT_FRAME(98)
+	BT_FRAME(99)
+
+	BT_FRAME(100)
+	BT_FRAME(101)
+	BT_FRAME(102)
+	BT_FRAME(103)
+	BT_FRAME(104)
+	BT_FRAME(105)
+	BT_FRAME(106)
+	BT_FRAME(107)
+	BT_FRAME(108)
+	BT_FRAME(109)
+
+	BT_FRAME(110)
+	BT_FRAME(111)
+	BT_FRAME(112)
+	BT_FRAME(113)
+	BT_FRAME(114)
+	BT_FRAME(115)
+	BT_FRAME(116)
+	BT_FRAME(117)
+	BT_FRAME(118)
+	BT_FRAME(119)
+
+	BT_FRAME(120)
+	BT_FRAME(121)
+	BT_FRAME(122)
+	BT_FRAME(123)
+	BT_FRAME(124)
+	BT_FRAME(125)
+	BT_FRAME(126)
+	BT_FRAME(127)
+#undef BT_FRAME
+}
+
+static malloc_mutex_t * prof_gctx_mutex_choose(void)
+{
 	unsigned ngctxs = atomic_fetch_add_u32(&cum_gctxs, 1, ATOMIC_RELAXED);
 
 	return &gctx_locks[(ngctxs - 1) % PROF_NCTX_LOCKS];
 }
 
-static malloc_mutex_t *
-prof_tdata_mutex_choose(uint64_t thr_uid) {
+static malloc_mutex_t * prof_tdata_mutex_choose(uint64_t thr_uid)
+{
 	return &tdata_locks[thr_uid % PROF_NTDATA_LOCKS];
 }
 
-static prof_gctx_t *
-prof_gctx_create(tsdn_t *tsdn, prof_bt_t *bt) {
+static prof_gctx_t *prof_gctx_create(tsdn_t *tsdn, prof_bt_t *bt)
+{
 	/*
 	 * Create a single allocation that has space for vec of length bt->len.
 	 */
@@ -382,9 +506,9 @@ prof_gctx_create(tsdn_t *tsdn, prof_bt_t *bt) {
 	return gctx;
 }
 
-static void
-prof_gctx_try_destroy(tsd_t *tsd, prof_tdata_t *tdata_self, prof_gctx_t *gctx,
-    prof_tdata_t *tdata) {
+static void prof_gctx_try_destroy(tsd_t *tsd, prof_tdata_t *tdata_self, 
+    prof_gctx_t *gctx,prof_tdata_t *tdata)
+{
 	cassert(config_prof);
 
 	/*
@@ -417,8 +541,8 @@ prof_gctx_try_destroy(tsd_t *tsd, prof_tdata_t *tdata_self, prof_gctx_t *gctx,
 	}
 }
 
-static bool
-prof_tctx_should_destroy(tsdn_t *tsdn, prof_tctx_t *tctx) {
+static bool prof_tctx_should_destroy(tsdn_t *tsdn, prof_tctx_t *tctx)
+{
 	malloc_mutex_assert_owner(tsdn, tctx->tdata->lock);
 
 	if (opt_prof_accum) {
@@ -433,8 +557,8 @@ prof_tctx_should_destroy(tsdn_t *tsdn, prof_tctx_t *tctx) {
 	return true;
 }
 
-static bool
-prof_gctx_should_destroy(prof_gctx_t *gctx) {
+static bool prof_gctx_should_destroy(prof_gctx_t *gctx)
+{
 	if (opt_prof_accum) {
 		return false;
 	}
@@ -447,8 +571,8 @@ prof_gctx_should_destroy(prof_gctx_t *gctx) {
 	return true;
 }
 
-static void
-prof_tctx_destroy(tsd_t *tsd, prof_tctx_t *tctx) {
+static void prof_tctx_destroy(tsd_t *tsd, prof_tctx_t *tctx)
+{
 	prof_tdata_t *tdata = tctx->tdata;
 	prof_gctx_t *gctx = tctx->gctx;
 	bool destroy_tdata, destroy_tctx, destroy_gctx;
@@ -523,9 +647,9 @@ prof_tctx_destroy(tsd_t *tsd, prof_tctx_t *tctx) {
 	}
 }
 
-static bool
-prof_lookup_global(tsd_t *tsd, prof_bt_t *bt, prof_tdata_t *tdata,
-    void **p_btkey, prof_gctx_t **p_gctx, bool *p_new_gctx) {
+static bool prof_lookup_global(tsd_t *tsd, prof_bt_t *bt, prof_tdata_t *tdata,
+    void **p_btkey, prof_gctx_t **p_gctx, bool *p_new_gctx) 
+{
 	union {
 		prof_gctx_t	*p;
 		void		*v;
@@ -548,11 +672,11 @@ prof_lookup_global(tsd_t *tsd, prof_bt_t *bt, prof_tdata_t *tdata,
 		if (ckh_search(&bt2gctx, bt, &btkey.v, &gctx.v)) {
 			gctx.p = tgctx.p;
 			btkey.p = &gctx.p->bt;
-			if (ckh_insert(tsd, &bt2gctx, btkey.v, gctx.v)) {
+			if (ckh_insert(tsd, &bt2gctx, btkey.v, gctx.v)) 
+            {
 				/* OOM. */
 				prof_leave(tsd, tdata);
-				idalloctm(tsd_tsdn(tsd), gctx.v, NULL, NULL,
-				    true, true);
+				idalloctm(tsd_tsdn(tsd), gctx.v, NULL, NULL,true, true);
 				return true;
 			}
 			new_gctx = true;
@@ -574,10 +698,10 @@ prof_lookup_global(tsd_t *tsd, prof_bt_t *bt, prof_tdata_t *tdata,
 		malloc_mutex_unlock(tsd_tsdn(tsd), gctx.p->lock);
 		new_gctx = false;
 
-		if (tgctx.v != NULL) {
+		if (tgctx.v != NULL) 
+        {
 			/* Lost race to insert. */
-			idalloctm(tsd_tsdn(tsd), tgctx.v, NULL, NULL, true,
-			    true);
+			idalloctm(tsd_tsdn(tsd), tgctx.v, NULL, NULL, true,true);
 		}
 	}
 	prof_leave(tsd, tdata);
@@ -588,8 +712,8 @@ prof_lookup_global(tsd_t *tsd, prof_bt_t *bt, prof_tdata_t *tdata,
 	return false;
 }
 
-prof_tctx_t *
-prof_lookup(tsd_t *tsd, prof_bt_t *bt) {
+prof_tctx_t * prof_lookup(tsd_t *tsd, prof_bt_t *bt) 
+{
 	union {
 		prof_tctx_t	*p;
 		void		*v;
@@ -619,8 +743,8 @@ prof_lookup(tsd_t *tsd, prof_bt_t *bt) {
 		 * This thread's cache lacks bt.  Look for it in the global
 		 * cache.
 		 */
-		if (prof_lookup_global(tsd, bt, tdata, &btkey, &gctx,
-		    &new_gctx)) {
+		if (prof_lookup_global(tsd, bt, tdata, &btkey, &gctx,&new_gctx)) 
+        {
 			return NULL;
 		}
 
@@ -675,8 +799,8 @@ prof_lookup(tsd_t *tsd, prof_bt_t *bt) {
  * (e.g.
  * -mno-sse) in order for the workaround to be complete.
  */
-void
-prof_sample_threshold_update(prof_tdata_t *tdata) {
+void prof_sample_threshold_update(prof_tdata_t *tdata) 
+{
 #ifdef JEMALLOC_PROF
 	uint64_t r;
 	double u;

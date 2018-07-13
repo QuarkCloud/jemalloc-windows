@@ -1,6 +1,4 @@
-//#ifndef ARENA_RESET_PROF_C_
 #include "test/jemalloc_test.h"
-//#endif
 #include "unit_test.h"
 
 #include "jemalloc/internal/extent_mmap.h"
