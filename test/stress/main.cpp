@@ -41,21 +41,19 @@ TEST_END
 
 int main(int argc , char * argv[]) 
 {
-/**
-	return test_no_reentrancy(
+    int result = test_no_reentrancy(
 	    test_malloc_vs_mallocx,
 	    test_free_vs_dallocx,
 	    test_dallocx_vs_sdallocx,
 	    test_mus_vs_sallocx ,
 	    test_sallocx_vs_nallocx);
-*/
 
 
     //test_malloc_vs_mallocx() ;
-    test_free_vs_dallocx() ;
+    //test_free_vs_dallocx() ;
     //test_dallocx_vs_sdallocx() ;
     //test_mus_vs_sallocx() ;
     //test_sallocx_vs_nallocx() ;
 
-    return 0 ;
+    return result ;
 }
