@@ -28,6 +28,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\src\test.vcpro
 		{A08041CF-81D7-4A5C-A1D1-216FA37D2D46} = {A08041CF-81D7-4A5C-A1D1-216FA37D2D46}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "integration", "test\integration\integration.vcproj", "{9049554C-A50F-48B0-99D4-816411C8AE5B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{513CC07A-23A1-4AC3-AD9F-672E6C45CD0D} = {513CC07A-23A1-4AC3-AD9F-672E6C45CD0D}
+		{7612659E-0868-4733-8927-675DFC06D7D3} = {7612659E-0868-4733-8927-675DFC06D7D3}
+		{A08041CF-81D7-4A5C-A1D1-216FA37D2D46} = {A08041CF-81D7-4A5C-A1D1-216FA37D2D46}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -54,6 +61,10 @@ Global
 		{7612659E-0868-4733-8927-675DFC06D7D3}.Debug|Win32.Build.0 = Debug|Win32
 		{7612659E-0868-4733-8927-675DFC06D7D3}.Release|Win32.ActiveCfg = Release|Win32
 		{7612659E-0868-4733-8927-675DFC06D7D3}.Release|Win32.Build.0 = Release|Win32
+		{9049554C-A50F-48B0-99D4-816411C8AE5B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9049554C-A50F-48B0-99D4-816411C8AE5B}.Debug|Win32.Build.0 = Debug|Win32
+		{9049554C-A50F-48B0-99D4-816411C8AE5B}.Release|Win32.ActiveCfg = Release|Win32
+		{9049554C-A50F-48B0-99D4-816411C8AE5B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

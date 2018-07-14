@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "integration_test.h"
 
 #define MAXALIGN (((size_t)1) << 23)
 
@@ -124,10 +125,11 @@ TEST_BEGIN(test_alignment_and_size) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_aligned_alloc(void)
+{
 	return test(
 	    test_alignment_errors,
 	    test_oom_errors,
 	    test_alignment_and_size);
+
 }
