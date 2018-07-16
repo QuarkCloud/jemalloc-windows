@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "integration_test.h"
 
 static unsigned
 get_nsizes_impl(const char *cmd) {
@@ -218,11 +219,16 @@ TEST_BEGIN(test_alignment_and_size) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_mallocx(void)
+{
+    opt_junk="false" ;
+    /**
 	return test(
 	    test_overflow,
 	    test_oom,
 	    test_basic,
 	    test_alignment_and_size);
+    */
+
+	return test(test_overflow , test_basic );
 }

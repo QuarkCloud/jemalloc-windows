@@ -1,5 +1,7 @@
 #include "test/jemalloc_test.h"
+#include "integration_test.h"
 
+/**
 static const bool config_stats =
 #ifdef JEMALLOC_STATS
     true
@@ -7,7 +9,7 @@ static const bool config_stats =
     false
 #endif
     ;
-
+*/
 void *
 thd_start(void *arg) {
 	int err;
@@ -112,8 +114,8 @@ TEST_BEGIN(test_subthread) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_allocated(void)
+{
 	/* Run tests multiple times to check for bad interactions. */
 	return test(
 	    test_main_thread,

@@ -8,6 +8,9 @@ __BEGIN_DECLS
 
 
 int f_test_aligned_alloc() ;
+int f_test_allocated(void) ;
+int f_test_extent(void) ;
+int f_test_mallocx(void) ;
 
 __END_DECLS
 

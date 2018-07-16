@@ -3,6 +3,11 @@
 #define __JEMALLOC_DEFINES_H 1
 
 
+#include <builtin.h>
+#  define ffsll(x) __builtin_ffsll(x)
+#  define ffsl(x) __builtin_ffsl(x)
+#  define ffs(x) __builtin_ffs(x)
+
 
 /* sizeof(void *) == 2^LG_SIZEOF_PTR. */
 #define LG_SIZEOF_PTR 2

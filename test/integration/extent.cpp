@@ -1,6 +1,6 @@
 #include "test/jemalloc_test.h"
-
 #include "test/extent_hooks.h"
+#include "integration_test.h"
 
 static bool
 check_background_thread_enabled(void) {
@@ -240,8 +240,8 @@ TEST_BEGIN(test_extent_auto_hook) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_extent(void)
+{
 	return test(
 	    test_extent_manual_hook,
 	    test_extent_auto_hook);

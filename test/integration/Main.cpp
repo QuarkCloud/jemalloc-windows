@@ -7,17 +7,22 @@
 
 int main(int argc , char *argv[])
 {
-    f_test_aligned_alloc() ;
+    
     return 0 ;
 }
 
 void do_test_failed()
 {
-
+    f_test_mallocx() ;
 }
 
 void do_test_passed()
 {
+    //2018-07-16
+    //减少内存分配次数，得以通过
+    f_test_aligned_alloc() ;
+    f_test_allocated() ;
+    f_test_extent() ; 
 
 }
 

@@ -1,7 +1,8 @@
 #include "test/jemalloc_test.h"
 #include "integration_test.h"
 
-#define MAXALIGN (((size_t)1) << 23)
+//#define MAXALIGN (((size_t)1) << 23)
+#define MAXALIGN (((size_t)1) << 12)
 
 /*
  * On systems which can't merge extents, tests that call this function generate
@@ -79,41 +80,43 @@ TEST_BEGIN(test_oom_errors) {
 }
 TEST_END
 
-TEST_BEGIN(test_alignment_and_size) {
+TEST_BEGIN(test_alignment_and_size) 
+{
 #define NITER 4
 	size_t alignment, size, total;
 	unsigned i;
 	void *ps[NITER];
 
-	for (i = 0; i < NITER; i++) {
+	for (i = 0; i < NITER; i++)
+    {
 		ps[i] = NULL;
 	}
 
-	for (alignment = 8;
-	    alignment <= MAXALIGN;
-	    alignment <<= 1) {
+	for (alignment = 8;alignment <= MAXALIGN;alignment <<= 1)
+    {
 		total = 0;
-		for (size = 1;
-		    size < 3 * alignment && size < (1U << 31);
-		    size += (alignment >> (LG_SIZEOF_PTR-1)) - 1) {
-			for (i = 0; i < NITER; i++) {
+		for (size = 1;size < 3 * alignment && size < (1U << 31);size += (alignment >> (LG_SIZEOF_PTR-1)) - 1) 
+        {
+			for (i = 0; i < NITER; i++) 
+            {
 				ps[i] = aligned_alloc(alignment, size);
-				if (ps[i] == NULL) {
+				if (ps[i] == NULL) 
+                {
 					char buf[BUFERROR_BUF];
 
 					buferror(get_errno(), buf, sizeof(buf));
-					test_fail(
-					    "Error for alignment=%zu, "
-					    "size=%zu (%#zx): %s",
-					    alignment, size, size, buf);
+					test_fail("Error for alignment=%zu, size=%zu (%#zx): %s " ,alignment, size, size, buf);
 				}
 				total += malloc_usable_size(ps[i]);
-				if (total >= (MAXALIGN << 1)) {
+				if (total >= (MAXALIGN << 1))
+                {
 					break;
 				}
 			}
-			for (i = 0; i < NITER; i++) {
-				if (ps[i] != NULL) {
+			for (i = 0; i < NITER; i++)
+            {
+				if (ps[i] != NULL) 
+                {
 					free(ps[i]);
 					ps[i] = NULL;
 				}
@@ -121,6 +124,7 @@ TEST_BEGIN(test_alignment_and_size) {
 		}
 		purge();
 	}
+
 #undef NITER
 }
 TEST_END

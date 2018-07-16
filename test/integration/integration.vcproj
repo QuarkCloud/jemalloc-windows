@@ -181,11 +181,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\allocated.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\extent.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\integration_test.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Main.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\mallocx.cpp"
 				>
 			</File>
 		</Filter>

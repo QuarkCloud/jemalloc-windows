@@ -49,13 +49,14 @@ static void os_pages_unmap(void *addr, size_t size);
 
 /******************************************************************************/
 
-static void *
-os_pages_map(void *addr, size_t size, size_t alignment, bool *commit) {
+static void * os_pages_map(void *addr, size_t size, size_t alignment, bool *commit)
+{
 	assert(ALIGNMENT_ADDR2BASE(addr, os_page) == addr);
 	assert(ALIGNMENT_CEILING(size, os_page) == size);
 	assert(size != 0);
 
-	if (os_overcommits) {
+	if (os_overcommits)
+    {
 		*commit = true;
 	}
 
@@ -74,7 +75,9 @@ os_pages_map(void *addr, size_t size, size_t alignment, bool *commit) {
 
 	if (ret == MAP_FAILED) {
 		ret = NULL;
-	} else if (addr != NULL && ret != addr) {
+	} 
+    else if (addr != NULL && ret != addr)
+    {
 		/*
 		 * We succeeded in mapping memory, but not in the right place.
 		 */
@@ -82,8 +85,7 @@ os_pages_map(void *addr, size_t size, size_t alignment, bool *commit) {
 		ret = NULL;
 	}
 
-	assert(ret == NULL || (addr == NULL && ret != addr) || (addr != NULL &&
-	    ret == addr));
+	assert(ret == NULL || (addr == NULL && ret != addr) || (addr != NULL && ret == addr));
 	return ret;
 }
 
@@ -105,8 +107,8 @@ os_pages_trim(void *addr, size_t alloc_size, size_t leadsize, size_t size,
 
 }
 
-static void
-os_pages_unmap(void *addr, size_t size) {
+static void os_pages_unmap(void *addr, size_t size)
+{
 	assert(ALIGNMENT_ADDR2BASE(addr, os_page) == addr);
 	assert(ALIGNMENT_CEILING(size, os_page) == size);
 
@@ -115,17 +117,16 @@ os_pages_unmap(void *addr, size_t size) {
 		char buf[BUFERROR_BUF];
 
 		buferror(get_errno(), buf, sizeof(buf));
-		malloc_printf("<jemalloc>: Error in "
-		    "munmap"
-		    "(): %s\n", buf);
-		if (opt_abort) {
+		malloc_printf("<jemalloc>: Error in munmap(): %s\n", buf);
+		if (opt_abort) 
+        {
 			abort();
 		}
 	}
 }
 
-static void *
-pages_map_slow(size_t size, size_t alignment, bool *commit) {
+static void * pages_map_slow(size_t size, size_t alignment, bool *commit) 
+{
 	size_t alloc_size = size + alignment - os_page;
 	/* Beware size_t wrap-around. */
 	if (alloc_size < size) {
@@ -189,20 +190,21 @@ pages_unmap(void *addr, size_t size) {
 	os_pages_unmap(addr, size);
 }
 
-static bool
-pages_commit_impl(void *addr, size_t size, bool commit) {
+static bool pages_commit_impl(void *addr, size_t size, bool commit)
+{
 	assert(PAGE_ADDR2BASE(addr) == addr);
 	assert(PAGE_CEILING(size) == size);
 
-	if (os_overcommits) {
+	if (os_overcommits) 
+    {
 		return true;
 	}
 
 	{
 		int prot = commit ? PAGES_PROT_COMMIT : PAGES_PROT_DECOMMIT;
-		void *result = mmap(addr, size, prot, mmap_flags | MAP_FIXED,
-		    -1, 0);
-		if (result == MAP_FAILED) {
+		void *result = mmap(addr, size, prot, mmap_flags | MAP_FIXED,-1, 0);
+		if (result == MAP_FAILED) 
+        {
 			return true;
 		}
 		if (result != addr) {
@@ -217,25 +219,28 @@ pages_commit_impl(void *addr, size_t size, bool commit) {
 	}
 }
 
-bool
-pages_commit(void *addr, size_t size) {
+bool pages_commit(void *addr, size_t size)
+{
 	return pages_commit_impl(addr, size, true);
 }
 
-bool
-pages_decommit(void *addr, size_t size) {
+bool pages_decommit(void *addr, size_t size)
+{
 	return pages_commit_impl(addr, size, false);
 }
 
-bool
-pages_purge_lazy(void *addr, size_t size) {
+bool pages_purge_lazy(void *addr, size_t size)
+{
 	assert(ALIGNMENT_ADDR2BASE(addr, os_page) == addr);
 	assert(PAGE_CEILING(size) == size);
 
-	if (!pages_can_purge_lazy) {
+	if (!pages_can_purge_lazy)
+    {
 		return true;
 	}
-	if (!pages_can_purge_lazy_runtime) {
+
+	if (!pages_can_purge_lazy_runtime) 
+    {
 		/*
 		 * Built with lazy purge enabled, but detected it was not
 		 * supported on the current system.
@@ -246,8 +251,8 @@ pages_purge_lazy(void *addr, size_t size) {
     return false ;
 }
 
-bool
-pages_purge_forced(void *addr, size_t size) {
+bool pages_purge_forced(void *addr, size_t size)
+{
 	assert(PAGE_ADDR2BASE(addr) == addr);
 	assert(PAGE_CEILING(size) == size);
 
@@ -279,19 +284,20 @@ pages_huge_impl(void *addr, size_t size, bool aligned) {
 #endif
 }
 
-bool
-pages_huge(void *addr, size_t size) {
+bool pages_huge(void *addr, size_t size)
+{
 	return pages_huge_impl(addr, size, true);
 }
 
-static bool
-pages_huge_unaligned(void *addr, size_t size) {
+static bool pages_huge_unaligned(void *addr, size_t size)
+{
 	return pages_huge_impl(addr, size, false);
 }
 
-static bool
-pages_nohuge_impl(void *addr, size_t size, bool aligned) {
-	if (aligned) {
+static bool pages_nohuge_impl(void *addr, size_t size, bool aligned)
+{
+	if (aligned)
+    {
 		assert(HUGEPAGE_ADDR2BASE(addr) == addr);
 		assert(HUGEPAGE_CEILING(size) == size);
 	}
@@ -303,18 +309,18 @@ pages_nohuge_impl(void *addr, size_t size, bool aligned) {
 #endif
 }
 
-bool
-pages_nohuge(void *addr, size_t size) {
+bool pages_nohuge(void *addr, size_t size)
+{
 	return pages_nohuge_impl(addr, size, true);
 }
 
-static bool
-pages_nohuge_unaligned(void *addr, size_t size) {
+static bool pages_nohuge_unaligned(void *addr, size_t size)
+{
 	return pages_nohuge_impl(addr, size, false);
 }
 
-bool
-pages_dontdump(void *addr, size_t size) {
+bool pages_dontdump(void *addr, size_t size)
+{
 	assert(PAGE_ADDR2BASE(addr) == addr);
 	assert(PAGE_CEILING(size) == size);
 #ifdef JEMALLOC_MADVISE_DONTDUMP
@@ -324,8 +330,8 @@ pages_dontdump(void *addr, size_t size) {
 #endif
 }
 
-bool
-pages_dodump(void *addr, size_t size) {
+bool pages_dodump(void *addr, size_t size)
+{
 	assert(PAGE_ADDR2BASE(addr) == addr);
 	assert(PAGE_CEILING(size) == size);
 #ifdef JEMALLOC_MADVISE_DONTDUMP
