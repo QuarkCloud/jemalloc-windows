@@ -10,8 +10,8 @@ static const bool config_stats =
 #endif
     ;
 */
-void *
-thd_start(void *arg) {
+void * allocated_thd_start(void *arg)
+{
 	int err;
 	void *p;
 	uint64_t a0, a1, d0, d1;
@@ -102,14 +102,14 @@ label_ENOENT:
 }
 
 TEST_BEGIN(test_main_thread) {
-	thd_start(NULL);
+	allocated_thd_start(NULL);
 }
 TEST_END
 
 TEST_BEGIN(test_subthread) {
 	thd_t thd;
 
-	thd_create(&thd, thd_start, NULL);
+	thd_create(&thd, allocated_thd_start, NULL);
 	thd_join(thd, NULL);
 }
 TEST_END

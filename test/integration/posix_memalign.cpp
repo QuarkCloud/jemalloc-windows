@@ -1,7 +1,8 @@
 #include "test/jemalloc_test.h"
+#include "integration_test.h"
 
-#define MAXALIGN (((size_t)1) << 23)
-
+//#define MAXALIGN (((size_t)1) << 23)
+#define MAXALIGN (((size_t)1) << 12)
 /*
  * On systems which can't merge extents, tests that call this function generate
  * a lot of dirty memory very quickly.  Purging between cycles mitigates
@@ -118,10 +119,10 @@ TEST_BEGIN(test_alignment_and_size) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_posix_memalign(void)
+{
 	return test(
 	    test_alignment_errors,
-	    test_oom_errors,
+	    test_oom_errors ,
 	    test_alignment_and_size);
 }

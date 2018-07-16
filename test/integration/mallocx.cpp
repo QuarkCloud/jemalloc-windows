@@ -222,6 +222,7 @@ TEST_END
 int f_test_mallocx(void)
 {
     opt_junk="false" ;
+    opt_junk_alloc = opt_junk_free = false;
     /**
 	return test(
 	    test_overflow,

@@ -1,9 +1,10 @@
 #include "test/jemalloc_test.h"
+#include "integration_test.h"
 
 #define NTHREADS 10
 
-void *
-thd_start(void *arg) {
+void * thread_arena_thd_start(void *arg)
+{
 	unsigned main_arena_ind = *(unsigned *)arg;
 	void *p;
 	unsigned arena_ind;
@@ -65,22 +66,23 @@ TEST_BEGIN(test_thread_arena) {
 		mallctl_failure(err);
 	}
 
-	for (i = 0; i < NTHREADS; i++) {
-		thd_create(&thds[i], thd_start,
-		    (void *)&arena_ind);
+	for (i = 0; i < NTHREADS; i++)
+    {
+		thd_create(&thds[i], thread_arena_thd_start, (void *)&arena_ind);
 	}
 
-	for (i = 0; i < NTHREADS; i++) {
+	for (i = 0; i < NTHREADS; i++) 
+    {
 		intptr_t join_ret;
-		thd_join(thds[i], (void *)&join_ret);
+		thd_join(thds[i], (void **)&join_ret);
 		assert_zd_eq(join_ret, 0, "Unexpected thread join error");
 	}
 	free(p);
 }
 TEST_END
 
-int
-main(void) {
+int f_test_thread_arena(void)
+{
 	return test(
 	    test_thread_arena);
 }

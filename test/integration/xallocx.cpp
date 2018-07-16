@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "integration_test.h"
 
 /*
  * Use a separate arena for xallocx() extension/contraction tests so that
@@ -370,8 +371,11 @@ TEST_BEGIN(test_zero_large) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_xallocx(void)
+{
+    opt_junk = "false" ;
+    opt_junk_alloc = opt_junk_free = false;
+
 	return test(
 	    test_same_size,
 	    test_extra_no_move,

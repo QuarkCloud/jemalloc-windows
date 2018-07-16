@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "integration_test.h"
 
 void *
 thd_start(void *arg) {
@@ -75,8 +76,8 @@ TEST_BEGIN(test_subthread) {
 }
 TEST_END
 
-int
-main(void) {
+int thread_tcache_enabled(void)
+{
 	/* Run tests multiple times to check for bad interactions. */
 	return test(
 	    test_main_thread,

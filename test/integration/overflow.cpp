@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "integration_test.h"
 
 TEST_BEGIN(test_overflow) {
 	unsigned nlextents;
@@ -39,8 +40,7 @@ TEST_BEGIN(test_overflow) {
 }
 TEST_END
 
-int
-main(void) {
-	return test(
-	    test_overflow);
+int f_overflow(void)
+{
+	return test(test_overflow);
 }

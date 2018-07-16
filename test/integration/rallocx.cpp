@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "integration_test.h"
 
 static unsigned
 get_nsizes_impl(const char *cmd) {
@@ -234,8 +235,8 @@ TEST_BEGIN(test_overflow) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_rallocx(void)
+{
 	return test(
 	    test_grow_and_shrink,
 	    test_zero,

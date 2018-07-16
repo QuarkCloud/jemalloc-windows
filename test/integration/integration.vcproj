@@ -200,6 +200,34 @@
 				RelativePath=".\mallocx.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\overflow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\posix_memalign.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\rallocx.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\sdallocx.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\thread_arena.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\thread_tcache_enabled.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\xallocx.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Í·ÎÄ¼þ"

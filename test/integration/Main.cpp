@@ -23,6 +23,12 @@ void do_test_passed()
     f_test_aligned_alloc() ;
     f_test_allocated() ;
     f_test_extent() ; 
-
+    f_overflow() ;
+    f_test_posix_memalign() ;
+    f_test_rallocx() ;
+    f_test_sdallocx() ;
+    f_test_thread_arena() ;
+    thread_tcache_enabled() ;
+    f_test_xallocx() ;
 }
 

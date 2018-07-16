@@ -1,4 +1,5 @@
 #include "test/jemalloc_test.h"
+#include "integration_test.h"
 
 #define MAXALIGN (((size_t)1) << 22)
 #define NITER 3
@@ -47,8 +48,8 @@ TEST_BEGIN(test_alignment_and_size) {
 }
 TEST_END
 
-int
-main(void) {
+int f_test_sdallocx(void)
+{
 	return test_no_reentrancy(
 	    test_basic,
 	    test_alignment_and_size);
