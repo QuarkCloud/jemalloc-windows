@@ -2627,7 +2627,7 @@ JEMALLOC_API  void * je_mallocx(size_t size, int flags)
 
 	imalloc(&sopts, &dopts);
 	if (sopts.slow) {
-		uintptr_t args[3] = {size, flags};
+		uintptr_t args[3] = {(uintptr_t)size, (uintptr_t)flags};
 		hook_invoke_alloc(hook_alloc_mallocx, ret, (uintptr_t)ret,
 		    args);
 	}
@@ -2763,7 +2763,7 @@ JEMALLOC_API void * je_rallocx(void *ptr, size_t size, int flags)
 	old_usize = sz_index2size(alloc_ctx.szind);
 	assert(old_usize == isalloc(tsd_tsdn(tsd), ptr));
 
-	hook_ralloc_args_t hook_args = {false, {(uintptr_t)ptr, size, flags,0}};
+	hook_ralloc_args_t hook_args = {false, {(uintptr_t)ptr, (uintptr_t)size, (uintptr_t)flags,0}};
 	if (config_prof && opt_prof) {
 		usize = (alignment == 0) ?
 		    sz_s2u(size) : sz_sa2u(size, alignment);
@@ -2947,7 +2947,7 @@ je_xallocx(void *ptr, size_t size, size_t extra, int flags) {
 	}
 label_not_resized:
 	if (unlikely(!tsd_fast(tsd))) {
-		uintptr_t args[4] = {(uintptr_t)ptr, size, extra, flags};
+		uintptr_t args[4] = {(uintptr_t)ptr, (uintptr_t)size, (uintptr_t)extra, (uintptr_t)flags};
 		hook_invoke_expand(hook_expand_xallocx, ptr, old_usize,
 		    usize, (uintptr_t)usize, args);
 	}
@@ -3023,7 +3023,7 @@ je_dallocx(void *ptr, int flags) {
 		tsd_assert_fast(tsd);
 		ifree(tsd, ptr, tcache, false);
 	} else {
-		uintptr_t args_raw[3] = {(uintptr_t)ptr, flags};
+		uintptr_t args_raw[3] = {(uintptr_t)ptr, (uintptr_t)flags};
 		hook_invoke_dalloc(hook_dalloc_dallocx, ptr, args_raw);
 		ifree(tsd, ptr, tcache, true);
 	}
@@ -3087,7 +3087,7 @@ je_sdallocx(void *ptr, size_t size, int flags) {
 		tsd_assert_fast(tsd);
 		isfree(tsd, ptr, usize, tcache, false);
 	} else {
-		uintptr_t args_raw[3] = {(uintptr_t)ptr, size, flags};
+		uintptr_t args_raw[3] = {(uintptr_t)ptr, (uintptr_t)size, (uintptr_t)flags};
 		hook_invoke_dalloc(hook_dalloc_sdallocx, ptr, args_raw);
 		isfree(tsd, ptr, usize, tcache, true);
 	}

@@ -31,7 +31,7 @@ TEST_BEGIN(test_smoothstep_integral) {
 	    "Integral too small, even accounting for truncation");
 	assert_u64_le(sum, max, "Integral exceeds 1/2");
 	if (false) {
-		malloc_printf("%"FMTu64" ulps under 1/2 (limit %d)\n",
+		malloc_printf("%" FMTu64 " ulps under 1/2 (limit %d)\n",
 		    max - sum, SMOOTHSTEP_NSTEPS);
 	}
 }

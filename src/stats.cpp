@@ -1,3 +1,4 @@
+
 #define JEMALLOC_STATS_C_
 #include "jemalloc/internal/jemalloc_preamble.h"
 #include "jemalloc/internal/jemalloc_internal_includes.h"
@@ -7,6 +8,7 @@
 #include "jemalloc/internal/emitter.h"
 #include "jemalloc/internal/mutex.h"
 #include "jemalloc/internal/mutex_prof.h"
+#include "jemalloc/internal/malloc_io.h"
 
 const char *global_mutex_names[mutex_prof_num_global_mutexes] = {
 #define OP(mtx) #mtx,
@@ -1121,7 +1123,7 @@ stats_print_helper(emitter_t *emitter, bool merged, bool destroyed,
 	emitter_json_dict_end(emitter); /* Close "background_thread". */
 
 	emitter_table_printf(emitter, "Background threads: %zu, "
-	    "num_runs: %"FMTu64", run_interval: %"FMTu64" ns\n",
+	    "num_runs: %" FMTu64 ", run_interval: %" FMTu64 " ns\n",
 	    num_background_threads, background_thread_num_runs,
 	    background_thread_run_interval);
 

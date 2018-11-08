@@ -4,9 +4,13 @@
 #include <string.h>
 #include "integration_test.h"
 
+void do_test_failed();
+void do_test_passed();
+
 
 int main(int argc , char *argv[])
 {
+    do_test_passed();
     
     return 0 ;
 }

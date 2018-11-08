@@ -1067,8 +1067,8 @@ prof_tctx_dump_iter(prof_tctx_tree_t *tctxs, prof_tctx_t *tctx, void *opaque) {
 	case prof_tctx_state_dumping:
 	case prof_tctx_state_purgatory:
 		if (prof_dump_printf(arg->propagate_err,
-		    "  t%"FMTu64": %"FMTu64": %"FMTu64" [%"FMTu64": "
-		    "%"FMTu64"]\n", tctx->thr_uid, tctx->dump_cnts.curobjs,
+		    "  t%" FMTu64 ": %" FMTu64 ": %" FMTu64 " [%" FMTu64 ": "
+		    "%" FMTu64 "]\n", tctx->thr_uid, tctx->dump_cnts.curobjs,
 		    tctx->dump_cnts.curbytes, tctx->dump_cnts.accumobjs,
 		    tctx->dump_cnts.accumbytes)) {
 			return tctx;
@@ -1242,7 +1242,7 @@ prof_tdata_dump_iter(prof_tdata_tree_t *tdatas, prof_tdata_t *tdata,
 	}
 
 	if (prof_dump_printf(propagate_err,
-	    "  t%"FMTu64": %"FMTu64": %"FMTu64" [%"FMTu64": %"FMTu64"]%s%s\n",
+	    "  t%" FMTu64 ": %" FMTu64 ": %" FMTu64 " [%" FMTu64 ": %" FMTu64 "]%s%s\n",
 	    tdata->thr_uid, tdata->cnt_summed.curobjs,
 	    tdata->cnt_summed.curbytes, tdata->cnt_summed.accumobjs,
 	    tdata->cnt_summed.accumbytes,
@@ -1259,8 +1259,8 @@ prof_dump_header_impl(tsdn_t *tsdn, bool propagate_err,
 	bool ret;
 
 	if (prof_dump_printf(propagate_err,
-	    "heap_v2/%"FMTu64"\n"
-	    "  t*: %"FMTu64": %"FMTu64" [%"FMTu64": %"FMTu64"]\n",
+	    "heap_v2/%" FMTu64 "\n"
+	    "  t*: %" FMTu64 ": %" FMTu64 " [%" FMTu64 ": %" FMTu64 "]\n",
 	    ((uint64_t)1U << lg_prof_sample), cnt_all->curobjs,
 	    cnt_all->curbytes, cnt_all->accumobjs, cnt_all->accumbytes)) {
 		return true;
@@ -1300,7 +1300,7 @@ prof_dump_gctx(tsdn_t *tsdn, bool propagate_err, prof_gctx_t *gctx,
 		goto label_return;
 	}
 	for (i = 0; i < bt->len; i++) {
-		if (prof_dump_printf(propagate_err, " %#"FMTxPTR,
+		if (prof_dump_printf(propagate_err, " %#" FMTxPTR,
 		    (uintptr_t)bt->vec[i])) {
 			ret = true;
 			goto label_return;
@@ -1309,7 +1309,7 @@ prof_dump_gctx(tsdn_t *tsdn, bool propagate_err, prof_gctx_t *gctx,
 
 	if (prof_dump_printf(propagate_err,
 	    "\n"
-	    "  t*: %"FMTu64": %"FMTu64" [%"FMTu64": %"FMTu64"]\n",
+	    "  t*: %" FMTu64 ": %" FMTu64 " [%" FMTu64 ": %" FMTu64 "]\n",
 	    gctx->cnt_summed.curobjs, gctx->cnt_summed.curbytes,
 	    gctx->cnt_summed.accumobjs, gctx->cnt_summed.accumbytes)) {
 		ret = true;
@@ -1439,8 +1439,8 @@ prof_leakcheck(const prof_cnt_t *cnt_all, size_t leak_ngctx,
 		uint64_t curobjs = (uint64_t)round(((double)cnt_all->curobjs) *
 		    scale_factor);
 
-		malloc_printf("<jemalloc>: Leak approximation summary: ~%"FMTu64
-		    " byte%s, ~%"FMTu64" object%s, >= %zu context%s\n",
+		malloc_printf("<jemalloc>: Leak approximation summary: ~%" FMTu64 
+		    " byte%s, ~%" FMTu64 " object%s, >= %zu context%s\n",
 		    curbytes, (curbytes != 1) ? "s" : "", curobjs, (curobjs !=
 		    1) ? "s" : "", leak_ngctx, (leak_ngctx != 1) ? "s" : "");
 		malloc_printf(
@@ -1653,12 +1653,12 @@ prof_dump_filename(char *filename, char v, uint64_t vseq) {
 	if (vseq != VSEQ_INVALID) {
 	        /* "<prefix>.<pid>.<seq>.v<vseq>.heap" */
 		malloc_snprintf(filename, DUMP_FILENAME_BUFSIZE,
-		    "%s.%d.%"FMTu64".%c%"FMTu64".heap",
+		    "%s.%d.%" FMTu64 ".%c%" FMTu64 ".heap",
 		    opt_prof_prefix, prof_getpid(), prof_dump_seq, v, vseq);
 	} else {
 	        /* "<prefix>.<pid>.<seq>.<v>.heap" */
 		malloc_snprintf(filename, DUMP_FILENAME_BUFSIZE,
-		    "%s.%d.%"FMTu64".%c.heap",
+		    "%s.%d.%" FMTu64 ".%c.heap",
 		    opt_prof_prefix, prof_getpid(), prof_dump_seq, v);
 	}
 	prof_dump_seq++;

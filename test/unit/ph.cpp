@@ -47,7 +47,7 @@ node_print(const node_t *node, unsigned depth) {
 	for (i = 0; i < depth; i++) {
 		malloc_printf("\t");
 	}
-	malloc_printf("%2"FMTu64"\n", node->key);
+	malloc_printf("%2" FMTu64 "\n", node->key);
 
 	leftmost_child = phn_lchild_get(node_t, link, node);
 	if (leftmost_child == NULL) {

@@ -7,6 +7,7 @@ void do_test_passed() ;
 
 int main(int argc , char * argv[])
 { 
+    do_test_passed();
     return 0 ;
 }
 void do_test_failed()
