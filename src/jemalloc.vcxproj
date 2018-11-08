@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{513CC07A-23A1-4AC3-AD9F-672E6C45CD0D}</ProjectGuid>
+    <RootNamespace>jemalloc</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>15.0.27130.2020</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(QUARK_ROOT)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_USRDLL;_WINDLL;JEMALLOC_EXPORT;JEMALLOC_LOG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ShowIncludes>false</ShowIncludes>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(SolutionDir)win32\$(ProjectName)d.dll</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;JEMALLOC_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="arena.cpp" />
+    <ClCompile Include="atomic.cpp" />
+    <ClCompile Include="background_thread.cpp" />
+    <ClCompile Include="base.cpp" />
+    <ClCompile Include="bin.cpp" />
+    <ClCompile Include="bitmap.cpp" />
+    <ClCompile Include="ckh.cpp" />
+    <ClCompile Include="ctl.cpp" />
+    <ClCompile Include="div.cpp" />
+    <ClCompile Include="extent.cpp" />
+    <ClCompile Include="extent_dss.cpp" />
+    <ClCompile Include="extent_mmap.cpp" />
+    <ClCompile Include="hash.cpp" />
+    <ClCompile Include="hook.cpp" />
+    <ClCompile Include="jemalloc.cpp" />
+    <ClCompile Include="large.cpp" />
+    <ClCompile Include="log.cpp" />
+    <ClCompile Include="malloc_io.cpp" />
+    <ClCompile Include="mutex.cpp" />
+    <ClCompile Include="mutex_pool.cpp" />
+    <ClCompile Include="nstime.cpp" />
+    <ClCompile Include="pages.cpp" />
+    <ClCompile Include="prng.cpp" />
+    <ClCompile Include="prof.cpp" />
+    <ClCompile Include="rtree.cpp" />
+    <ClCompile Include="stats.cpp" />
+    <ClCompile Include="sz.cpp" />
+    <ClCompile Include="tcache.cpp" />
+    <ClCompile Include="test_hooks.cpp" />
+    <ClCompile Include="ticker.cpp" />
+    <ClCompile Include="tsd.cpp" />
+    <ClCompile Include="witness.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\jemalloc\compile.h" />
+    <ClInclude Include="..\include\jemalloc\defines.h" />
+    <ClInclude Include="..\include\jemalloc\extent_hooks.h" />
+    <ClInclude Include="..\include\jemalloc\internal\arena_externs.h" />
+    <ClInclude Include="..\include\jemalloc\internal\arena_inlines_a.h" />
+    <ClInclude Include="..\include\jemalloc\internal\arena_inlines_b.h" />
+    <ClInclude Include="..\include\jemalloc\internal\arena_stats.h" />
+    <ClInclude Include="..\include\jemalloc\internal\arena_structs_a.h" />
+    <ClInclude Include="..\include\jemalloc\internal\arena_structs_b.h" />
+    <ClInclude Include="..\include\jemalloc\internal\arena_types.h" />
+    <ClInclude Include="..\include\jemalloc\internal\assert.h" />
+    <ClInclude Include="..\include\jemalloc\internal\atomic.h" />
+    <ClInclude Include="..\include\jemalloc\internal\background_thread_externs.h" />
+    <ClInclude Include="..\include\jemalloc\internal\background_thread_inlines.h" />
+    <ClInclude Include="..\include\jemalloc\internal\background_thread_structs.h" />
+    <ClInclude Include="..\include\jemalloc\internal\base_externs.h" />
+    <ClInclude Include="..\include\jemalloc\internal\base_inlines.h" />
+    <ClInclude Include="..\include\jemalloc\internal\base_structs.h" />
+    <ClInclude Include="..\include\jemalloc\internal\base_types.h" />
+    <ClInclude Include="..\include\jemalloc\internal\bin.h" />
+    <ClInclude Include="..\include\jemalloc\internal\bin_stats.h" />
+    <ClInclude Include="..\include\jemalloc\internal\bitmap.h" />
+    <ClInclude Include="..\include\jemalloc\internal\bit_util.h" />
+    <ClInclude Include="..\include\jemalloc\internal\cache_bin.h" />
+    <ClInclude Include="..\include\jemalloc\internal\ckh.h" />
+    <ClInclude Include="..\include\jemalloc\internal\ctl.h" />
+    <ClInclude Include="..\include\jemalloc\internal\div.h" />
+    <ClInclude Include="..\include\jemalloc\internal\emitter.h" />
+    <ClInclude Include="..\include\jemalloc\internal\extent_dss.h" />
+    <ClInclude Include="..\include\jemalloc\internal\extent_externs.h" />
+    <ClInclude Include="..\include\jemalloc\internal\extent_inlines.h" />
+    <ClInclude Include="..\include\jemalloc\internal\extent_mmap.h" />
+    <ClInclude Include="..\include\jemalloc\internal\extent_structs.h" />
+    <ClInclude Include="..\include\jemalloc\internal\extent_types.h" />
+    <ClInclude Include="..\include\jemalloc\internal\hash.h" />
+    <ClInclude Include="..\include\jemalloc\internal\hook.h" />
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_decls.h" />
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_defs.h" />
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_externs.h" />
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_includes.h" />
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_inlines_a.h" />
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_inlines_b.h" />
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_inlines_c.h" />
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_macros.h" />
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_types.h" />
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_preamble.h" />
+    <ClInclude Include="..\include\jemalloc\internal\large_externs.h" />
+    <ClInclude Include="..\include\jemalloc\internal\log.h" />
+    <ClInclude Include="..\include\jemalloc\internal\malloc_io.h" />
+    <ClInclude Include="..\include\jemalloc\internal\mutex.h" />
+    <ClInclude Include="..\include\jemalloc\internal\mutex_pool.h" />
+    <ClInclude Include="..\include\jemalloc\internal\mutex_prof.h" />
+    <ClInclude Include="..\include\jemalloc\internal\nstime.h" />
+    <ClInclude Include="..\include\jemalloc\internal\pages.h" />
+    <ClInclude Include="..\include\jemalloc\internal\ph.h" />
+    <ClInclude Include="..\include\jemalloc\internal\prng.h" />
+    <ClInclude Include="..\include\jemalloc\internal\prof_externs.h" />
+    <ClInclude Include="..\include\jemalloc\internal\prof_inlines_a.h" />
+    <ClInclude Include="..\include\jemalloc\internal\prof_inlines_b.h" />
+    <ClInclude Include="..\include\jemalloc\internal\prof_structs.h" />
+    <ClInclude Include="..\include\jemalloc\internal\prof_types.h" />
+    <ClInclude Include="..\include\jemalloc\internal\ql.h" />
+    <ClInclude Include="..\include\jemalloc\internal\qr.h" />
+    <ClInclude Include="..\include\jemalloc\internal\rb.h" />
+    <ClInclude Include="..\include\jemalloc\internal\rtree.h" />
+    <ClInclude Include="..\include\jemalloc\internal\rtree_tsd.h" />
+    <ClInclude Include="..\include\jemalloc\internal\seq.h" />
+    <ClInclude Include="..\include\jemalloc\internal\size_classes.h" />
+    <ClInclude Include="..\include\jemalloc\internal\smoothstep.h" />
+    <ClInclude Include="..\include\jemalloc\internal\spin.h" />
+    <ClInclude Include="..\include\jemalloc\internal\stats.h" />
+    <ClInclude Include="..\include\jemalloc\internal\sz.h" />
+    <ClInclude Include="..\include\jemalloc\internal\tcache_externs.h" />
+    <ClInclude Include="..\include\jemalloc\internal\tcache_inlines.h" />
+    <ClInclude Include="..\include\jemalloc\internal\tcache_structs.h" />
+    <ClInclude Include="..\include\jemalloc\internal\tcache_types.h" />
+    <ClInclude Include="..\include\jemalloc\internal\test_hooks.h" />
+    <ClInclude Include="..\include\jemalloc\internal\ticker.h" />
+    <ClInclude Include="..\include\jemalloc\internal\tsd.h" />
+    <ClInclude Include="..\include\jemalloc\internal\tsd_detail.h" />
+    <ClInclude Include="..\include\jemalloc\internal\tsd_tls.h" />
+    <ClInclude Include="..\include\jemalloc\internal\tsd_types.h" />
+    <ClInclude Include="..\include\jemalloc\internal\util.h" />
+    <ClInclude Include="..\include\jemalloc\internal\witness.h" />
+    <ClInclude Include="..\include\jemalloc\jemalloc.h" />
+    <ClInclude Include="..\include\jemalloc\mangle.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\quark\qkc\qkc.vcxproj">
+      <Project>{a08041cf-81d7-4a5c-a1d1-216fa37d2d46}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

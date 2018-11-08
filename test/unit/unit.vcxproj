@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7D3AFA88-21B6-4678-92FB-4056A5978A7E}</ProjectGuid>
+    <RootNamespace>unit</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>15.0.27130.2020</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(QUARK_ROOT)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;JEMALLOC_UNIT_TEST;JEMALLOC_LOG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(SolutionDir)win32\$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="a0.cpp" />
+    <ClCompile Include="arena_reset.cpp" />
+    <ClCompile Include="atomic.cpp" />
+    <ClCompile Include="background_thread.cpp" />
+    <ClCompile Include="background_thread_enable.cpp" />
+    <ClCompile Include="base.cpp" />
+    <ClCompile Include="bitmap.cpp" />
+    <ClCompile Include="bit_util.cpp" />
+    <ClCompile Include="ckh.cpp" />
+    <ClCompile Include="decay.cpp" />
+    <ClCompile Include="div.cpp" />
+    <ClCompile Include="emitter.cpp" />
+    <ClCompile Include="extent_quantize.cpp" />
+    <ClCompile Include="fork.cpp" />
+    <ClCompile Include="hash.cpp" />
+    <ClCompile Include="hook.cpp" />
+    <ClCompile Include="junk.cpp" />
+    <ClCompile Include="junk_alloc.cpp" />
+    <ClCompile Include="junk_free.cpp" />
+    <ClCompile Include="junk_true.cpp" />
+    <ClCompile Include="log.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="mallctl.cpp" />
+    <ClCompile Include="malloc_io.cpp" />
+    <ClCompile Include="math.cpp" />
+    <ClCompile Include="mq.cpp" />
+    <ClCompile Include="mtx.cpp" />
+    <ClCompile Include="nstime.cpp" />
+    <ClCompile Include="opt_swap.cpp" />
+    <ClCompile Include="pack.cpp" />
+    <ClCompile Include="pages.cpp" />
+    <ClCompile Include="ph.cpp" />
+    <ClCompile Include="prng.cpp" />
+    <ClCompile Include="prof_accum.cpp" />
+    <ClCompile Include="prof_active.cpp" />
+    <ClCompile Include="prof_gdump.cpp" />
+    <ClCompile Include="prof_idump.cpp" />
+    <ClCompile Include="prof_reset.cpp" />
+    <ClCompile Include="prof_tctx.cpp" />
+    <ClCompile Include="prof_thread_name.cpp" />
+    <ClCompile Include="ql.cpp" />
+    <ClCompile Include="qr.cpp" />
+    <ClCompile Include="rb.cpp" />
+    <ClCompile Include="retained.cpp" />
+    <ClCompile Include="rtree.cpp" />
+    <ClCompile Include="seq.cpp" />
+    <ClCompile Include="SFMT.cpp" />
+    <ClCompile Include="size_classes.cpp" />
+    <ClCompile Include="slab.cpp" />
+    <ClCompile Include="smoothstep.cpp" />
+    <ClCompile Include="spin.cpp" />
+    <ClCompile Include="stats.cpp" />
+    <ClCompile Include="stats_print.cpp" />
+    <ClCompile Include="test_hooks.cpp" />
+    <ClCompile Include="ticker.cpp" />
+    <ClCompile Include="tsd.cpp" />
+    <ClCompile Include="witness.cpp" />
+    <ClCompile Include="zero.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="opt_swap.h" />
+    <ClInclude Include="unit_test.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\quark\qkc\qkc.vcxproj">
+      <Project>{a08041cf-81d7-4a5c-a1d1-216fa37d2d46}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\jemalloc.vcxproj">
+      <Project>{513cc07a-23a1-4ac3-ad9f-672e6c45cd0d}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\src\test.vcxproj">
+      <Project>{7612659e-0868-4733-8927-675dfc06d7d3}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

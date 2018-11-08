@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="头文件\internal">
+      <UniqueIdentifier>{d5eb17dd-67bb-4116-9a27-a146d1894354}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="arena.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="atomic.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="background_thread.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="base.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="bin.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="bitmap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ckh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ctl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="div.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="extent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="extent_dss.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="extent_mmap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="hash.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="hook.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="jemalloc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="large.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="log.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="malloc_io.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="mutex.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="mutex_pool.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="nstime.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="pages.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="prng.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="prof.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="rtree.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stats.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sz.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="tcache.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="test_hooks.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ticker.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="tsd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="witness.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\jemalloc\compile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\defines.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\extent_hooks.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\jemalloc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\mangle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\arena_externs.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\arena_inlines_a.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\arena_inlines_b.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\arena_stats.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\arena_structs_a.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\arena_structs_b.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\arena_types.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\assert.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\atomic.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\background_thread_externs.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\background_thread_inlines.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\background_thread_structs.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\base_externs.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\base_inlines.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\base_structs.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\base_types.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\bin.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\bin_stats.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\bit_util.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\bitmap.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\cache_bin.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\ckh.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\ctl.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\div.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\emitter.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\extent_dss.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\extent_externs.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\extent_inlines.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\extent_mmap.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\extent_structs.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\extent_types.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\hash.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\hook.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_decls.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_defs.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_externs.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_includes.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_inlines_a.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_inlines_b.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_inlines_c.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_macros.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_internal_types.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\jemalloc_preamble.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\large_externs.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\log.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\malloc_io.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\mutex.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\mutex_pool.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\mutex_prof.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\nstime.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\pages.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\ph.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\prng.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\prof_externs.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\prof_inlines_a.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\prof_inlines_b.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\prof_structs.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\prof_types.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\ql.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\qr.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\rb.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\rtree.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\rtree_tsd.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\seq.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\size_classes.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\smoothstep.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\spin.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\stats.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\sz.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\tcache_externs.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\tcache_inlines.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\tcache_structs.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\tcache_types.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\test_hooks.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\ticker.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\tsd.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\tsd_detail.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\tsd_tls.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\tsd_types.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\util.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\jemalloc\internal\witness.h">
+      <Filter>头文件\internal</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

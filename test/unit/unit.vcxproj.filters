@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="a0.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="arena_reset.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="atomic.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="background_thread.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="background_thread_enable.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="base.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="bit_util.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="bitmap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ckh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="decay.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="div.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="emitter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="extent_quantize.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fork.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="hash.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="hook.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="junk.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="junk_alloc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="junk_free.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="junk_true.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="log.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="mallctl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="malloc_io.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="math.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="mq.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="mtx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="nstime.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="opt_swap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="pack.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="pages.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ph.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="prng.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="prof_accum.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="prof_active.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="prof_gdump.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="prof_idump.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="prof_reset.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="prof_tctx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="prof_thread_name.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ql.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="qr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="rb.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="retained.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="rtree.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="seq.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SFMT.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="size_classes.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="slab.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="smoothstep.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="spin.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stats.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stats_print.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="test_hooks.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ticker.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="tsd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="witness.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="zero.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="opt_swap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="unit_test.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
