@@ -7,8 +7,8 @@ void do_test_passed() ;
 
 int main(int argc , char * argv[])
 { 
-    //do_test_passed();
-	f_test_decay();
+    do_test_passed();
+	//f_test_decay();
     return 0 ;
 }
 void do_test_failed()
