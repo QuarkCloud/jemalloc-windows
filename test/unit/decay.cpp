@@ -598,13 +598,18 @@ int f_test_decay()
     opt_dirty_decay_ms = 1000 ;
     opt_muzzy_decay_ms = 1000 ;
     opt_lg_tcache_max = 0 ;
-
+	/**
 	int result = test(
 	    test_decay_ticks,
 	    test_decay_ticker,
 	    test_decay_nonmonotonic,
 	    test_decay_now,
 	    test_decay_never);
+		*/
+
+	int result = test(
+		test_decay_ticker
+	);
 
 	//int result = test(test_decay_ticker);
 
