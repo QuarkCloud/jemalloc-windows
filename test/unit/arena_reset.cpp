@@ -193,7 +193,7 @@ TEST_END
 
 static bool
 arena_i_initialized(unsigned arena_ind, bool refresh) {
-	bool initialized;
+	bool initialized = false;
 	size_t mib[3];
 	size_t miblen, sz;
 

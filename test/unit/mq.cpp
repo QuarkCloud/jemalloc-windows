@@ -3,7 +3,7 @@
 #include "unit_test.h"
 
 #define NSENDERS	3
-#define NMSGS		10000
+#define NMSGS		1000
 
 
 typedef struct mq_msg_s mq_msg_t;
