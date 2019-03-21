@@ -23,7 +23,7 @@ int main(int argc , char *argv[])
 	//thread_tcache_enabled();
 	//f_test_xallocx();
 
-	//f_test_mallocx();
+	f_test_mallocx();
     return 0 ;
 }
 
