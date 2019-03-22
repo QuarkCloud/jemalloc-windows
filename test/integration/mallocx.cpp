@@ -231,5 +231,5 @@ int f_test_mallocx(void)
 	    test_alignment_and_size);
     */
 
-	return test(test_alignment_and_size);
+	return test(test_overflow, test_basic , test_alignment_and_size);
 }
